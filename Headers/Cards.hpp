@@ -9,8 +9,8 @@ private:
 	char num;
 public:
 	Cards(char suit, char num);
-	getSuit();
-	getNum();
-	getCard();
+	char getSuit();
+	char getNum();
+	char getCard();
 };
 #endif // !CARDS.HPP
