@@ -11,5 +11,6 @@ public:
 	Cards(char suit, char num);
 	getSuit();
 	getNum();
+	getCard();
 };
 #endif // !CARDS.HPP
