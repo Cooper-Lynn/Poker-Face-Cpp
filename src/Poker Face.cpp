@@ -1,6 +1,6 @@
 // Poker Face.cpp
 #include <iostream>
-#include "Class Bodies/Cards.cpp"
+#include "Cards.cpp"
 
 int main()
 {

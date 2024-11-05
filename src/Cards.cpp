@@ -1,4 +1,4 @@
-#include "Headers/Cards.hpp"
+#include "Cards.hpp"
 
 Cards::Cards(char suit, char num) {
 	this->suit = suit;
