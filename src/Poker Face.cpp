@@ -1,6 +1,7 @@
 // Poker Face.cpp
 #include <iostream>
 #include "Cards.cpp"
+#include "UserPlayer.cpp"
 
 
 int main()
@@ -19,6 +20,7 @@ int main()
         std::string playerName;
         std::cout<<"\nEnter your username\n";
         std::cin>>playerName;
+        UserPlayer userPlayer(playerName, 100) : userPlayer;
     }
 }
 
