@@ -16,10 +16,11 @@ class Player {
         Player(std::string name, int chips);
         virtual ~Player() = default;
         virtual std::string getName();
-        virtual int getChips();
-        virtual int changeChips();
-        virtual int incWins();
-        virtual int getWins();
+        virtual int getChips() const;
+        virtual void changeChips();
+        virtual void incWins();
+        virtual int getWins() const
+    ;
 
 };
 
