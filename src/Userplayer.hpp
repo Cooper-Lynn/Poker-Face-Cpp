@@ -21,3 +21,4 @@ class UserPlayer:public Player{
 ;
 
 #endif //USERPLAYER_HPP
+//need to change name to UserPlayer.hpp
