@@ -7,7 +7,7 @@
 
 #include "Player.hpp"
 
-class AIPlayer:public Player{
+class UserPlayer:public Player{
 private:
     std::string name;
     int chips;
@@ -19,10 +19,5 @@ public:
     void incWins() ;
     int getWins() const;
 };
-
-
-
-#endif //AIPLAYER_HPP
-
 
 #endif //USERPLAYER_HPP

@@ -4,5 +4,4 @@
 
 #include "UserPlayer.hpp"
 
-UserPlayer::UserPlayer(std::string name, int chips): Player(name, chips) {
-}
+{}
