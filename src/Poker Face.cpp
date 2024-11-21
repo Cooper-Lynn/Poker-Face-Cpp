@@ -12,7 +12,6 @@
 int main() {
     std::vector<std::string> suits = {"s", "h", "d", "c"}; // spades, hearts, diamonds, clubs
     std::vector<std::string> ranks = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"}; // Ace to King
-    std::pmr::vector<std::string> aiNames = {"Bert", "Ruben", "Chanel", "Dimitri", "Gary", };
 
     // Create the deck
     std::vector<std::array<std::string, 2>> deck;
@@ -28,12 +27,14 @@ int main() {
         std::cout<<"Menu\n";
         std::cout<<"1. Single player\n";
         std::cout<<"2. Multiplayer\n";
-        std::cout<<"3. Quit";
-        std::cout<<"Enter your choice: ";
+        std::cout<<"3. Quit\n";
+        std::cout<<"\nEnter your choice: ";
         std::cin>>option;
     }
 
     if (option==1) {
+
+        std::pmr::vector<std::string> aiNames = {"Bert", "Ruben", "Chanel", "Dimitri", "Gary", };
         std::string playerName;
         std::cout<<"\nEnter your username: \n";
         std::cin>>playerName;
@@ -43,15 +44,25 @@ int main() {
         std::cout<<"\nHow many players would you want to oppose?: ";
         std::cin>>numPlayer;
         std::vector<Player> players;
+        players.push_back(player1);
         for (auto i = 0; i < numPlayer; i++) {
-            players.emplace_back(i());
+            std::random_device rd;
+            std::mt19937 gen(rd());
+            std::uniform_int_distribution<> distrib(0, aiNames.size() - 1);
+            int randomIndex = distrib(gen);
+            players.push_back(AIPlayer(aiNames[randomIndex]));
+            aiNames.erase(aiNames.begin() + randomIndex);
 
+        }
+        for (auto &player : players) {
+            std::cout<<"Player: ";
+            std::cout<< player.getName();
         }
         if (option==2) {
             std::string playerName;
             std::cout<<"\nEnter your username: \n";
             std::cin>>playerName;
-            UserPlayer player1 (playerName, 100);
+            UserPlayer player1 (playerName);
             std::cout<<player1.getName();
         }
         if (option==3) {

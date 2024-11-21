@@ -13,4 +13,4 @@ public:
 	char getNum();
 	char getCard();
 };
-#endif // !CARDS.HPP
+#endif // _CARDS_HPP_

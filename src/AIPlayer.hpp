@@ -14,11 +14,12 @@ class AIPlayer:public Player{
     std::pmr::vector<std::array<std::pair<std::string, std::string>, 2>> playerHand;
   public:
     AIPlayer(std::string name);
-    std::string getName ()  ;
+    std::string getName ();
     int getChips() ;
     void changeChips(int newChips);
     void incWins() ;
     int getWins() ;
+  std::pmr::vector<std::array<std::pair<std::string, std::string>, 2>> getHand();
 };
 
 

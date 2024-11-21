@@ -4,10 +4,18 @@
 
 #include "Player.hpp"
 
-Player::Player(std::string name,int chips):name(name),chips(chips),wins (0) {};
+Player::Player(std::string name){};
 
-std::string Player::getName() {return name;};
-int Player::getChips() const {return chips;};
+std::string Player::getName() {return name;} ;
+int Player::getChips() {return chips;};
 int Player::getWins()  {return wins;};
+void Player::changeChips(int chipChange) {
+    this->chips += chipChange;
+}
+std::pmr::vector<std::array<std::pair<std::string, std::string>, 2>> Player::getHand() {
+    return playerHand;
+}
+
+
 void Player::incWins() {wins++;};
 

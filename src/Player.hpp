@@ -12,16 +12,16 @@ class Player {
         std::string name;
         int chips = 100;
         int wins = 0;
-        std::vector<std::array<std::pair<std::string, std::string>,2>> playerHand;
+        std::pmr::vector<std::array<std::pair<std::string, std::string>, 2>> playerHand;
     public:
-        Player(std::string name, int chips);
+        Player(std::string name);
         virtual ~Player() = default;
-        virtual std::string getName();
+        [[nodiscard]] virtual std::string getName();
         virtual int getChips() ;
-        virtual void changeChips();
+        virtual void changeChips(int chipChange);
         virtual void incWins();
         virtual int getWins();
-        virtual std::vector<std::array<std::pair<std::string, std::string>,2>> getHand();
+        virtual std::pmr::vector<std::array<std::pair<std::string, std::string>, 2>>getHand();
 
 };
 

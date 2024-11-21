@@ -17,11 +17,13 @@ private:
     std::pmr::vector<std::array<std::pair<std::string, std::string>, 2>> playerHand;
 public:
     UserPlayer(std::string name);
-    std::string getName() ;
-    int getChips() const;
+
+    std::string getName();
+    int getChips() ;
     void changeChips(int newChips);
     void incWins() ;
-    int getWins() const;
+    int getWins();
+    std::pmr::vector<std::array<std::pair<std::string, std::string>, 2>>getHand();
 };
 
 #endif //USERPLAYER_HPP
