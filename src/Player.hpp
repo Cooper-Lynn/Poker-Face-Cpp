@@ -9,15 +9,18 @@
 
 class Player {
     private:
-      std::string name;
-      int chips;
-      int wins;
+        std::string name;
+        int chips = 0;
+        int wins = 0;
     public:
-      std::string getName();
-      int getChips();
-      int changeChips();
-      int incWins();
-      int getWins();
+        Player(std::string name, int chips);
+        virtual ~Player() = default;
+        virtual std::string getName();
+        virtual int getChips() const;
+        virtual void changeChips();
+        virtual void incWins();
+        virtual int getWins() const
+    ;
 
 };
 
