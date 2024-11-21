@@ -10,13 +10,15 @@ class AIPlayer:public Player{
   private:
     std::string name;
     int chips;
+    int wins;
+    std::pmr::vector<std::array<std::pair<std::string, std::string>, 2>> playerHand;
   public:
-    AIPlayer(std::string name, int chips);
-    std::string getName () const ;
-    int getChips() const;
+    AIPlayer(std::string name);
+    std::string getName ()  ;
+    int getChips() ;
     void changeChips(int newChips);
     void incWins() ;
-    int getWins() const;
+    int getWins() ;
 };
 
 
