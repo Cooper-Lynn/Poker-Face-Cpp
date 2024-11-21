@@ -2,8 +2,8 @@
 // Created by coope on 12/11/2024.
 //
 #include "AIPlayer.hpp"
-AIPlayer::AIPlayer(std::string userName,): Player(userName, chips) {
-    this<-name = userName;
+AIPlayer::AIPlayer(std::string userName): Player(userName, chips) {
+    this->name = userName;
 };
 
 std::string AIPlayer::getName() {return name;};

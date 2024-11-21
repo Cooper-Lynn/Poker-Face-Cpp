@@ -9,8 +9,7 @@
 #include <random>
 
 
-int main()
-{
+int main() {
     std::vector<std::string> suits = {"s", "h", "d", "c"}; // spades, hearts, diamonds, clubs
     std::vector<std::string> ranks = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"}; // Ace to King
     std::pmr::vector<std::string> aiNames = {"Bert", "Ruben", "Chanel", "Dimitri", "Gary", };
@@ -47,16 +46,17 @@ int main()
         for (auto i = 0; i < numPlayer; i++) {
             players.emplace_back(i());
 
-    }
-    if (option==2) {
-        std::string playerName;
-        std::cout<<"\nEnter your username: \n";
-        std::cin>>playerName;
-        UserPlayer player1 (playerName, 100);
-        std::cout<<player1.getName();
-    }
-    if (option==3) {
-        return 0;
+        }
+        if (option==2) {
+            std::string playerName;
+            std::cout<<"\nEnter your username: \n";
+            std::cin>>playerName;
+            UserPlayer player1 (playerName, 100);
+            std::cout<<player1.getName();
+        }
+        if (option==3) {
+            return 0;
+        }
     }
 }
 

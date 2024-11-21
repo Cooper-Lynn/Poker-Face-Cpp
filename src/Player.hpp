@@ -10,7 +10,7 @@
 class Player {
     private:
         std::string name;
-        int chips = 0;
+        int chips = 100;
         int wins = 0;
         std::vector<std::array<std::pair<std::string, std::string>,2>> playerHand;
     public:

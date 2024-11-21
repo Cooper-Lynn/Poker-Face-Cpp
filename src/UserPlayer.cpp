@@ -4,7 +4,8 @@
 
 #include "UserPlayer.hpp"
 
-UserPlayer::UserPlayer(std::string userName,int chips): Player(userName, chips) {
+UserPlayer::UserPlayer(std::string userName): Player(userName, chips) {
+    this->name = userName;
 };
 
 std::string UserPlayer:: getName() {return name;};
