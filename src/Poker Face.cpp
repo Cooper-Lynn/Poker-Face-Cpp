@@ -1,12 +1,12 @@
 // Poker Face.cpp
 #include <iostream>
-#include "Cards.cpp"
-#include "UserPlayer.cpp"
-#include "AIPlayer.cpp"
+#include "UserPlayer.hpp"
+#include "AIPlayer.hpp"
 #include <vector>
 #include <array>
 #include <random>
 #include <utility>
+#include <memory>
 
 
 int main() {
@@ -43,20 +43,20 @@ int main() {
         int numPlayer;
         std::cout<<"\nHow many players would you want to oppose?: ";
         std::cin>>numPlayer;
-        std::vector<Player> players;
-        players.push_back(player1);
+        std::vector<std::unique_ptr<Player>> players;
+        players.push_back(std::make_unique<UserPlayer>(playerName));
         for (auto i = 0; i < numPlayer; i++) {
             std::random_device rd;
             std::mt19937 gen(rd());
             std::uniform_int_distribution<> distrib(0, aiNames.size() - 1);
             int randomIndex = distrib(gen);
-            players.push_back(AIPlayer(aiNames[randomIndex]));
+            players.push_back(std::make_unique<AIPlayer>(aiNames[randomIndex]));
             aiNames.erase(aiNames.begin() + randomIndex);
 
         }
         for (auto &player : players) {
             std::cout<<"Player: ";
-            std::cout<< player.getName();
+            std::cout<< player->getName()<<"\n";
         }
         if (option==2) {
             std::string playerName;

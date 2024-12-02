@@ -12,7 +12,8 @@
 
 class AIPlayer final : public Player {
 public:
-  explicit AIPlayer(std::string name); // Constructor
+  explicit AIPlayer(std::string name);
+  ~AIPlayer() override;
 
   [[nodiscard]] std::string getName() const override;
   [[nodiscard]] int getChips() const override;

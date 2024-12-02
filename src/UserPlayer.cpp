@@ -3,9 +3,15 @@
 //
 
 #include "UserPlayer.hpp"
+#include "Player.hpp"
+#include <string>
+#include <vector>
+#include <array>
 
 // Constructor: Pass userName to the base class constructor
 UserPlayer::UserPlayer(std::string userName) : Player(std::move(userName)) {}
+UserPlayer::~UserPlayer() = default;
+
 
 // Accessor methods
 std::string UserPlayer::getName() const {

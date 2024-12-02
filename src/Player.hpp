@@ -4,8 +4,9 @@
 
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
-
-
+#include <string>
+#include <vector>
+#include <array>
 
 class Player {
     protected:
@@ -14,9 +15,9 @@ class Player {
         int wins = 0;
         std::vector<std::array<std::pair<std::string, std::string>, 2>> playerHand;
     public:
-        explicit Player(std::string name);
+        explicit Player(std::string name): name(name), chips(100), wins(0){};
 
-        virtual ~Player() =0;
+        virtual ~Player() =default;
         virtual std::string getName() const=0;
         virtual int getChips() const =0;
         virtual void changeChips(int chipChange) = 0;

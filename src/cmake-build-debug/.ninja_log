@@ -1,3 +1,12 @@
 # ninja log v6
-102	811	7548362405334145	CMakeFiles/Poker_Face_C_.dir/Cards.cpp.obj	c4da1453765f9eee
+1540	3254	7548441522006710	CMakeFiles/Poker_Face_C_.dir/UserPlayer.cpp.obj	a37dba906e3bbc39
 414	1579	7548368019148711	CMakeFiles/Poker_Face_C_.dir/Cards.cpp.obj	c4da1453765f9eee
+1628	4650	7548441522889944	CMakeFiles/Poker_Face_C_.dir/Poker_Face.cpp.obj	20e67a22d681850d
+24	1259	7548442799315302	build.ninja	bbb52e72ab7e0ae
+4650	5098	7548441553100039	Poker_Face_C_.exe	84f5386444106398
+1032	3248	7548441517508067	CMakeFiles/Poker_Face_C_.dir/AIPlayer.cpp.obj	9ccdb0e4498390c5
+25	691	7548442799315302	build.ninja	bbb52e72ab7e0ae
+52	1788	7548442801106371	CMakeFiles/Poker_Face_C_.dir/AIPlayer.cpp.obj	9ccdb0e4498390c5
+62	1799	7548442801213661	CMakeFiles/Poker_Face_C_.dir/UserPlayer.cpp.obj	a37dba906e3bbc39
+73	2967	7548442801323359	CMakeFiles/Poker_Face_C_.dir/Poker_Face.cpp.obj	20e67a22d681850d
+2968	3597	7548442830258509	Poker_Face_C_.exe	84f5386444106398

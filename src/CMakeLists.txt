@@ -5,7 +5,4 @@ set(CMAKE_CXX_STANDARD 14)
 
 include_directories(.)
 
-add_executable(Poker_Face_C_
-        Cards.cpp
-        Cards.hpp
-    "Poker Face.cpp")
+add_executable(Poker_Face_C_ AIPlayer.cpp UserPlayer.cpp "Poker Face.cpp")
