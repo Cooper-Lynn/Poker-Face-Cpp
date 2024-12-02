@@ -16,6 +16,10 @@ int AIPlayer::getChips() const {return chips;};
 int AIPlayer::getWins() const  {return wins;};
 void AIPlayer::changeChips(int newChips) {chips = newChips;}
 void AIPlayer::incWins() {++wins;};
-std::vector<std::array<std::pair<std::string, std::string>, 2> > AIPlayer::getHand() const {
+std::vector<std::string> AIPlayer::getHand() const {
     return playerHand;
 }
+void AIPlayer::addCard(std::string card)  {
+    playerHand.push_back(card);
+}
+

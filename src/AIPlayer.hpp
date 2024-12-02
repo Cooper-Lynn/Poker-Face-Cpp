@@ -20,7 +20,8 @@ public:
   void changeChips(int newChips) override;
   void incWins() override;
   [[nodiscard]] int getWins() const override;
-  [[nodiscard]] std::vector<std::array<std::pair<std::string, std::string>, 2>> getHand() const override;
+  [[nodiscard]] std::vector<std::string> getHand() const override;
+  void addCard(std::string) ;
 };
 
 #endif // AIPLAYER_HPP

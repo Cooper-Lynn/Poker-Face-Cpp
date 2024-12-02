@@ -8,6 +8,8 @@
 #include <vector>
 #include <array>
 
+
+
 // Constructor: Pass userName to the base class constructor
 UserPlayer::UserPlayer(std::string userName) : Player(std::move(userName)) {}
 UserPlayer::~UserPlayer() = default;
@@ -36,6 +38,12 @@ void UserPlayer::changeChips(int chipChange) {
 }
 
 // Return the player's hand
-std::vector<std::array<std::pair<std::string, std::string>, 2>> UserPlayer::getHand() const {
+std::vector<std::string> UserPlayer::getHand() const {
     return playerHand;
+}
+
+void UserPlayer::addCard(std::string card) {
+
+    playerHand.push_back(card);
+
 }
