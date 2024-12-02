@@ -2,11 +2,11 @@
 #include <iostream>
 #include "Cards.cpp"
 #include "UserPlayer.cpp"
-#include "Player.cpp"
 #include "AIPlayer.cpp"
 #include <vector>
 #include <array>
 #include <random>
+#include <utility>
 
 
 int main() {
@@ -34,7 +34,7 @@ int main() {
 
     if (option==1) {
 
-        std::pmr::vector<std::string> aiNames = {"Bert", "Ruben", "Chanel", "Dimitri", "Gary", };
+        std::vector<std::string> aiNames = {"Bert", "Ruben", "Chanel", "Dimitri", "Gary", };
         std::string playerName;
         std::cout<<"\nEnter your username: \n";
         std::cin>>playerName;

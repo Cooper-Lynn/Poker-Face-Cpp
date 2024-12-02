@@ -4,17 +4,32 @@
 
 #include "UserPlayer.hpp"
 
-UserPlayer::UserPlayer(std::string userName): Player(userName) {
-    this->name = userName;
-};
+// Constructor: Pass userName to the base class constructor
+UserPlayer::UserPlayer(std::string userName) : Player(std::move(userName)) {}
 
-std::string UserPlayer:: getName() {return name;};
-int UserPlayer::getChips() {return chips;};
-int UserPlayer::getWins() {return wins;};
-void UserPlayer::incWins() {wins++;};
-void UserPlayer::changeChips(int chipChange) {
-    this->chips += chipChange;
+// Accessor methods
+std::string UserPlayer::getName() const {
+    return name; // name is inherited from the base class
 }
-std::pmr::vector<std::array<std::pair<std::string, std::string>, 2>> UserPlayer::getHand() {
+
+int UserPlayer::getChips() const {
+    return chips; // chips is inherited from the base class
+}
+
+int UserPlayer::getWins() const {
+    return wins; // wins is inherited from the base class
+}
+
+// Mutator methods
+void UserPlayer::incWins() {
+    ++wins; // Increment wins
+}
+
+void UserPlayer::changeChips(int chipChange) {
+    chips += chipChange; // Modify chip count
+}
+
+// Return the player's hand
+std::vector<std::array<std::pair<std::string, std::string>, 2>> UserPlayer::getHand() const {
     return playerHand;
 }

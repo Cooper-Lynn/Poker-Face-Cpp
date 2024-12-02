@@ -4,24 +4,22 @@
 
 #ifndef AIPLAYER_HPP
 #define AIPLAYER_HPP
-#include "Player.hpp"
 
-class AIPlayer:public Player{
-  private:
-    std::string name;
-    int chips;
-    int wins;
-    std::pmr::vector<std::array<std::pair<std::string, std::string>, 2>> playerHand;
-  public:
-    AIPlayer(std::string name);
-    std::string getName ();
-    int getChips() ;
-    void changeChips(int newChips);
-    void incWins() ;
-    int getWins() ;
-  std::pmr::vector<std::array<std::pair<std::string, std::string>, 2>> getHand();
+#include "Player.hpp"
+#include <vector>
+#include <array>
+#include <utility>
+
+class AIPlayer final : public Player {
+public:
+  explicit AIPlayer(std::string name); // Constructor
+
+  [[nodiscard]] std::string getName() const override;
+  [[nodiscard]] int getChips() const override;
+  void changeChips(int newChips) override;
+  void incWins() override;
+  [[nodiscard]] int getWins() const override;
+  [[nodiscard]] std::vector<std::array<std::pair<std::string, std::string>, 2>> getHand() const override;
 };
 
-
-
-#endif //AIPLAYER_HPP
+#endif // AIPLAYER_HPP
