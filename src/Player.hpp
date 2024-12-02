@@ -14,6 +14,7 @@ class Player {
         int chips = 100;
         int wins = 0;
         std::vector<std::string> playerHand;
+        std:: string tag;
     public:
         explicit Player(std::string name): name(name), chips(100), wins(0){};
 

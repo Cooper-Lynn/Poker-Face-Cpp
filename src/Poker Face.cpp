@@ -97,6 +97,11 @@ int main() {
             std::cout<< card;
         }
 
+        int starter = 0;
+
+
+
+
     }
 
 
