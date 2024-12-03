@@ -8,7 +8,8 @@
 #include <utility>
 #include <memory>
 
-std::vector<std::string> giveHands(std::vector<std::string> deck, int numOfPlayers) {
+std::vector<std::string>
+    giveHands(std::vector<std::string> &deck, int numOfPlayers) {
     std::vector<std::string> handsToGive;
     for (int i=0; i<numOfPlayers*2; i++) {
         std::random_device rd;
@@ -51,8 +52,13 @@ int main() {
         std::cout<<"\nEnter your username: \n";
         std::cin>>playerName;
         int numPlayer;
-        std::cout<<"\nHow many players would you want to oppose?: ";
+        std::cout<<"\nHow many players would you want to oppose? (Min 1): ";
         std::cin>>numPlayer;
+
+        while(numPlayer<1) {
+            std::cout<<"\nHow many players would you want to oppose? (Min 1): ";
+            std::cin>>numPlayer;
+        }
         std::vector<std::unique_ptr<Player>> players;
         players.push_back(std::make_unique<UserPlayer>(playerName));
         for (auto i = 0; i < numPlayer; i++) {
@@ -71,8 +77,8 @@ int main() {
             std::cout<< player->getName()<<"\n";
         }
 
-        std::vector<std::string>handsToGive =giveHands(deck, players.size());
 
+        std::vector<std::string >handsToGive =giveHands(deck, players.size());
 
 
         for (auto& player : players) {
