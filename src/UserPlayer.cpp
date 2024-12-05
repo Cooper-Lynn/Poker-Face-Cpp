@@ -11,7 +11,7 @@
 
 
 // Constructor: Pass userName to the base class constructor
-UserPlayer::UserPlayer(std::string userName) : Player(std::move(userName)) {}
+UserPlayer::UserPlayer(std::string& userName) : Player(std::move(userName)) {}
 UserPlayer::~UserPlayer() = default;
 
 
@@ -47,3 +47,4 @@ void UserPlayer::addCard(std::string card) {
     playerHand.push_back(card);
 
 }
+

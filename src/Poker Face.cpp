@@ -22,6 +22,55 @@ std::vector<std::string>
     return handsToGive;
 }
 
+std::pair<std::string, std::string> cardDetail(std::string& card) {
+    std::string first;
+    std::string second;
+    if(card.at(0) == 's') {
+
+        first = "Spades";
+    }
+    else if(card.at(0) == 'd') {
+
+        first = "Diamonds";
+    }
+    else if(card.at(0) == 'h') {
+
+        first = "Hearts";
+    }
+    else if(card.at(0) == 'c') {
+
+        first = "Clubs";
+    }
+
+    std::string number =card.substr(1);
+    if (number == "1") {
+        second = "Ace";
+    }
+    else if (number=="11") {
+        second = "Jack";
+    }
+    else if(number=="12") {
+        second = "Queen";
+    }
+    else if(number=="13") {
+        second = "King";
+    }
+    else {
+        second = number;
+    }
+
+    return {first, second};
+}
+
+std::vector<std::string> handDetail(std::vector<std::string>& hand) {
+    std::vector<std::string> handToShow;
+    for (auto& card : hand) {
+        auto[Suite, Rank] = cardDetail(card);
+        std::string cardToAddToHand = Rank + " of " + Suite+"\n";
+        handToShow.push_back(cardToAddToHand);
+    }
+    return handToShow;
+}
 
 int main() {
     std::vector<std::string> suits = {"s", "h", "d", "c"}; // spades, hearts, diamonds, clubs
@@ -47,12 +96,13 @@ int main() {
     }
 
     if (option==1) {
-        std::vector<std::string> aiNames = {"Bert", "Ruben", "Chanel", "Dimitri", "Gary", };
+        std::vector<std::string> aiNames = {"Bert", "Ruben", "Chanel", "Dimitri", "Gary","Steve"};
+
         std::string playerName;
         std::cout<<"\nEnter your username: \n";
         std::cin>>playerName;
         int numPlayer;
-        std::cout<<"\nHow many players would you want to oppose? (Min 1): ";
+        std::cout<<"\nHow many players would you want to oppose? (Min 1, Max 6): ";
         std::cin>>numPlayer;
 
         while(numPlayer<1) {
@@ -70,7 +120,9 @@ int main() {
             aiNames.erase(aiNames.begin() + randomIndex);
 
 
-
+        /*
+         *This Section lists out all the players in the game
+         */
         }
         for (auto &player : players) {
             std::cout<<"Player: ";
@@ -80,7 +132,9 @@ int main() {
 
         std::vector<std::string >handsToGive =giveHands(deck, players.size());
 
-
+        /*
+         *This Section gives all players their cards
+         */
         for (auto& player : players) {
             for (int i = 0; i < 2; ++i) {
                 if (!handsToGive.empty()) {
@@ -95,15 +149,21 @@ int main() {
             }
         }
 
-        for (const auto& card: handsToGive) {
-            std::cout<<card;
-        }
         std::vector<std::string> hand = players[0]->getHand();
-        for (const auto& card: hand) {
-            std::cout<< card;
+        /*
+        std::string Suite;
+        std::string Rank;
+        for ( auto& card : hand) {
+            auto[Suite, Rank] = cardDetail(card);
+            std::cout<<Rank<<" of "<<Suite<<std::endl;
+        }
+        */
+        std::vector<std::string> handToShow = handDetail(hand);
+        for (auto& cards : handToShow) {
+            std::cout<<cards;
         }
 
-        int starter = 0;
+        //int starter = 0;
 
 
 
@@ -124,8 +184,8 @@ int main() {
             std::string playerName;
             std::cout<<"\nEnter your username: \n";
             std::cin>>playerName;
-            UserPlayer player1 (playerName);
-            std::cout<<player1.getName();
+
+
         }
         else
             {

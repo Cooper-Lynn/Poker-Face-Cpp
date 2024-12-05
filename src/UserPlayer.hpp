@@ -8,7 +8,7 @@
 
 class UserPlayer final : public Player {
 public:
-    explicit UserPlayer(std::string name);
+    explicit UserPlayer(std::string& name);
     ~UserPlayer() override;
 
     [[nodiscard]] std::string getName() const override;
