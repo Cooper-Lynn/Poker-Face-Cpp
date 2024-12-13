@@ -8,6 +8,17 @@
 #include <utility>
 #include <memory>
 
+std::vector<std::string> createDeck(std::vector<std::string> &suits, std::vector<std::string> &ranks) {
+    std::vector<std::string> deck;
+    for (const auto &suit : suits) {
+        for (const auto &rank : ranks) {
+            deck.push_back(suit+rank);
+        }
+    }
+    return deck;
+}
+
+
 std::vector<std::string>
     giveHands(std::vector<std::string> &deck, int numOfPlayers) {
     std::vector<std::string> handsToGive;
@@ -78,11 +89,6 @@ int main() {
 
     // Create the deck
     std::vector<std::string>deck;
-    for (const auto &suit : suits) {
-        for (const auto &rank : ranks) {
-            deck.push_back(suit+rank);
-        }
-    }
 
 
     int option = 0;
@@ -97,6 +103,9 @@ int main() {
 
     if (option==1) {
         std::vector<std::string> aiNames = {"Bert", "Ruben", "Chanel", "Dimitri", "Gary","Steve"};
+        std::vector<std::string> riverCards;
+        int dealer_position = 0;
+        int chip_pot =0;
 
         std::string playerName;
         std::cout<<"\nEnter your username: \n";
@@ -120,9 +129,9 @@ int main() {
             aiNames.erase(aiNames.begin() + randomIndex);
 
 
-        /*
-         *This Section lists out all the players in the game
-         */
+            /*
+             *This Section lists out all the players in the game
+             */
         }
         for (auto &player : players) {
             std::cout<<"Player: ";
@@ -160,15 +169,39 @@ int main() {
         */
         std::vector<std::string> handToShow = handDetail(hand);
         for (auto& cards : handToShow) {
-            std::cout<<cards;
+            std::cout<<cards<<std::endl;
         }
-
         //int starter = 0;
 
 
+        /*
+         *This section works out the blinds for the game, whether there is only 2 players or more
+         *and takes into account if the blind position would go other the size of the array
+         */
 
-
-    }
+        if(players.size()==2) {
+            chip_pot +=15;
+            players[1]->changeChips(-10);
+            players[0]->changeChips(-5);
+        }
+        else {
+            if (dealer_position+1<players.size()) {
+                players[dealer_position+1]->changeChips(-5);
+                chip_pot+=15;
+            }
+            else {
+                players[0]->changeChips(-5);
+                players[1]->changeChips(-10);
+                chip_pot+=15;
+            }
+            if (dealer_position+2<players.size()) {
+                players[dealer_position+2]->changeChips(-10);
+            }
+            else {
+                players[0]->changeChips(-10);
+            }
+            dealer_position+=1;
+        }
 
 
 
@@ -188,10 +221,11 @@ int main() {
 
         }
         else
-            {
+        {
             option=0;
             return 0;
         }
+    }
 }
 
 
