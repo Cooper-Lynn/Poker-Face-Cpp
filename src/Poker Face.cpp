@@ -125,6 +125,7 @@ int main() {
         std::vector<std::string> aiNames = {"Bert", "Ruben", "Chanel", "Dimitri", "Gary","Steve"};
 
         int dealerPosition = 0;
+        int playerRoundChoice;
         int chipInput;
         int chipPot =0;
 
@@ -233,14 +234,28 @@ int main() {
         }
 
 
-        for(int i = 1; i <= players.size(); i++) {
-            if(players[(dealerPosition+i)%players.size()]==players[0]) {
+        for(int i = 3; i < players.size()+3; i++) {
+            if(players[(dealerPosition+i)%players.size()] == players[0]) {
+                std::cout<<"Player Options:\n 1. Check\n2. Raise\n3. Fold\n4. Quit Game\nEnter your choice: ";
+                std::cin>>playerRoundChoice;
+                if (playerRoundChoice == 1) {
+                }
+                else if (playerRoundChoice == 2) {
+                    std::cout<<"\nEnter how much you want to raise by (Remaining: "<<players[0]->getChips()<<"): ";
+                    std::cin>>chipInput;
+                    chipPot+=chipInput;
+                    players[0]->changeChips(-chipInput);
+                }
+                else {
+                    players[(dealerPosition + i)%players.size()]->changeChips(-10);
+                    chipPot+=10;
+                }
 
-                /*FROM HERE INITIAL BETTING*/
-                std::cout<<""
-                std::cin>>chipInput;
+            }
 
         }
+        std::cout<<chipPot;
+    }
 
 
 
