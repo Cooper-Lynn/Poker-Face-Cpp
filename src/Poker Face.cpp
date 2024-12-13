@@ -8,6 +8,12 @@
 #include <utility>
 #include <memory>
 
+
+/*
+ *Function to create a deck of cards to be used in the game
+ *@param suits is the suits in the deck, ranks is the ranks in the deck
+ *@return the complete deck
+ */
 std::vector<std::string> createDeck(std::vector<std::string> &suits, std::vector<std::string> &ranks) {
     std::vector<std::string> deck;
     for (const auto &suit : suits) {
@@ -18,6 +24,21 @@ std::vector<std::string> createDeck(std::vector<std::string> &suits, std::vector
     return deck;
 }
 
+/*
+ *Function to pick a random card from the deck
+ *@param, reference to the deck
+ *@
+ */
+
+std::string dealCard(std::vector<std::string> &deck) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distrib(0, deck.size()-1);
+    int randomIndex = distrib(gen);
+    std::string card = deck[randomIndex];
+    deck.erase(deck.begin() + randomIndex);
+    return card;
+}
 
 std::vector<std::string>
     giveHands(std::vector<std::string> &deck, int numOfPlayers) {
@@ -84,12 +105,6 @@ std::vector<std::string> handDetail(std::vector<std::string>& hand) {
 }
 
 int main() {
-    std::vector<std::string> suits = {"s", "h", "d", "c"}; // spades, hearts, diamonds, clubs
-    std::vector<std::string> ranks = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"}; // Ace to King
-
-    // Create the deck
-    std::vector<std::string>deck;
-
 
     int option = 0;
     while (!option) {
@@ -102,10 +117,16 @@ int main() {
     }
 
     if (option==1) {
-        std::vector<std::string> aiNames = {"Bert", "Ruben", "Chanel", "Dimitri", "Gary","Steve"};
+        std::vector<std::string> suits = {"s", "h", "d", "c"}; // spades, hearts, diamonds, clubs
+        std::vector<std::string> ranks = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"}; // Ace to King
+        // Create the deck
+        std::vector<std::string>deck = createDeck(suits, ranks);
         std::vector<std::string> riverCards;
-        int dealer_position = 0;
-        int chip_pot =0;
+        std::vector<std::string> aiNames = {"Bert", "Ruben", "Chanel", "Dimitri", "Gary","Steve"};
+
+        int dealerPosition = 0;
+        int chipInput;
+        int chipPot =0;
 
         std::string playerName;
         std::cout<<"\nEnter your username: \n";
@@ -180,30 +201,46 @@ int main() {
          */
 
         if(players.size()==2) {
-            chip_pot +=15;
+            chipPot +=15;
             players[1]->changeChips(-10);
             players[0]->changeChips(-5);
         }
         else {
-            if (dealer_position+1<players.size()) {
-                players[dealer_position+1]->changeChips(-5);
-                chip_pot+=15;
+            if (dealerPosition+1<players.size()) {
+                players[dealerPosition+1]->changeChips(-5);
+                chipPot+=15;
             }
             else {
                 players[0]->changeChips(-5);
                 players[1]->changeChips(-10);
-                chip_pot+=15;
+                chipPot+=15;
             }
-            if (dealer_position+2<players.size()) {
-                players[dealer_position+2]->changeChips(-10);
+            if (dealerPosition+2<players.size()) {
+                players[dealerPosition+2]->changeChips(-10);
             }
             else {
                 players[0]->changeChips(-10);
             }
-            dealer_position+=1;
+            dealerPosition+=1;
+        }
+
+        for (int i=0; i < 3; i++) {
+            std::string tempCard = dealCard(deck);
+            riverCards.push_back(tempCard);
+        }
+        for (auto &card : riverCards) {
+            std::cout<<card<<std::endl;
         }
 
 
+        for(int i = 1; i <= players.size(); i++) {
+            if(players[(dealerPosition+i)%players.size()]==players[0]) {
+
+                /*FROM HERE INITIAL BETTING*/
+                std::cout<<""
+                std::cin>>chipInput;
+
+        }
 
 
 
@@ -225,7 +262,7 @@ int main() {
             option=0;
             return 0;
         }
-    }
 }
+
 
 
