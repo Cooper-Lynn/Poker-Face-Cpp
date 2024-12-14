@@ -48,3 +48,17 @@ void UserPlayer::addCard(std::string card) {
 
 }
 
+void UserPlayer::clearHand() {
+    playerHand.clear();
+}
+
+void UserPlayer::setCurrentBet(int bet) {
+    currentBet = bet;
+}
+
+
+void UserPlayer::clearCurrentBet() {
+    currentBet = 0;
+}
+
+

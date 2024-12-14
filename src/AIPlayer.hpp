@@ -21,7 +21,10 @@ public:
   void incWins() override;
   [[nodiscard]] int getWins() const override;
   [[nodiscard]] std::vector<std::string> getHand() const override;
-  void addCard(std::string) ;
+  void addCard(std::string);
+  void clearHand();
+  void setCurrentBet(int bet);
+  void clearCurrentBet();
 };
 
 #endif // AIPLAYER_HPP

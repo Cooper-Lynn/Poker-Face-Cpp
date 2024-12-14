@@ -23,3 +23,18 @@ void AIPlayer::addCard(std::string card)  {
     playerHand.push_back(card);
 }
 
+void AIPlayer::clearHand() {
+    playerHand.clear();
+}
+
+void AIPlayer::setCurrentBet(int bet) {
+    currentBet = bet;
+}
+
+void AIPlayer::clearCurrentBet() {
+    currentBet = 0;
+}
+
+
+
+

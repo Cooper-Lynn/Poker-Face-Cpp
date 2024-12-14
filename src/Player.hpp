@@ -15,6 +15,7 @@ class Player {
         int wins = 0;
         std::vector<std::string> playerHand;
         std:: string tag;
+        int currentBet = 0;
     public:
         explicit Player(std::string name): name(name), chips(100), wins(0){};
 
@@ -26,6 +27,9 @@ class Player {
         virtual int getWins() const = 0;
         virtual std::vector<std::string>getHand() const =0;
         virtual void addCard(std::string) =0;
+        virtual void clearHand() = 0;
+        virtual void setCurrentBet() = 0;
+        virtual void clearCurrentBet()= 0;
 
 };
 

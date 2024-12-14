@@ -18,6 +18,9 @@ public:
     [[nodiscard]] int getWins() const override;
     std::vector<std::string> getHand() const;
     void addCard(std::string card);
+    void clearHand();
+    void setCurrentBet(int bet);
+    void clearCurrentBet();
 
 
 };
