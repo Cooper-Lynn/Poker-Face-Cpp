@@ -28,7 +28,7 @@ class Player {
         virtual std::vector<std::string>getHand() const =0;
         virtual void addCard(std::string) =0;
         virtual void clearHand() = 0;
-        virtual void setCurrentBet() = 0;
+        virtual void setCurrentBet(int bet) = 0;
         virtual void clearCurrentBet()= 0;
 
 };
