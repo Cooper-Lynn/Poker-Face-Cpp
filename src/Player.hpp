@@ -5,6 +5,7 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 #include <string>
+#include <utility>
 #include <vector>
 #include <array>
 
@@ -17,7 +18,7 @@ class Player {
         std:: string tag;
         int currentBet = 0;
     public:
-        explicit Player(std::string name): name(name), chips(100), wins(0){};
+        explicit Player(std::string name): name(std::move(name)), chips(100), wins(0){};
 
         virtual ~Player() =default;
         virtual std::string getName() const=0;
