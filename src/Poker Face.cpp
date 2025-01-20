@@ -2,6 +2,7 @@
 #include <iostream>
 #include "UserPlayer.hpp"
 #include "AIPlayer.hpp"
+#include "GameRunner.hpp"
 #include <vector>
 #include <array>
 #include <random>
