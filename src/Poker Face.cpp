@@ -178,6 +178,9 @@ int main() {
             std::cout<< player->getName()<<"\n";
         }
 
+        GameRunner gameRunner = GameRunner(1, players, deck);
+        gameRunner.sortBlinds();
+
 
         handsToGive =giveHands(deck, players.size());
 
@@ -209,35 +212,6 @@ int main() {
         }
         //int starter = 0;
 
-
-        /*
-         *This section works out the blinds for the game, whether there is only 2 players or more
-         *and takes into account if the blind position would go other the size of the array
-         */
-
-        if(players.size()==2) {
-            chipPot +=15;
-            players[1]->changeChips(-10);
-            players[0]->changeChips(-5);
-        }
-        else {
-            if (dealerPosition+1<players.size()) {
-                players[dealerPosition+1]->changeChips(-5);
-                chipPot+=15;
-            }
-            else {
-                players[0]->changeChips(-5);
-                players[1]->changeChips(-10);
-                chipPot+=15;
-            }
-            if (dealerPosition+2<players.size()) {
-                players[dealerPosition+2]->changeChips(-10);
-            }
-            else {
-                players[0]->changeChips(-10);
-            }
-            dealerPosition+=1;
-        }
 
         for (int i=0; i < 3; i++) {
             std::string tempCard = dealCard(deck);
