@@ -17,6 +17,7 @@ class Player {
         std::vector<std::string> playerHand;
         std:: string tag;
         int currentBet = 0;
+        int highestBet = 0;
     public:
         explicit Player(std::string name): name(std::move(name)), chips(100), wins(0){};
 
@@ -31,6 +32,9 @@ class Player {
         virtual void clearHand() = 0;
         virtual void setCurrentBet(int bet) = 0;
         virtual void clearCurrentBet()= 0;
+        virtual void clearHighestBet()=0;
+        virtual int getCurrentBet()=0;
+        virtual int getHighestBet()= 0;
 
 };
 
