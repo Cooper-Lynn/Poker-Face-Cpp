@@ -12,12 +12,19 @@
 class GameRunner {
 private:
 
+    bool roundFinished;
     int dealerPosition;
     int highestBet;
     int chipPot;
+    int chipInput;
+    int playerRoundChoice;
     std::vector<std::string> communityCards;
-    std::vector<std::string> allCards;
     std::vector<std::unique_ptr<Player>> players;
+    std::vector<std::string> currentDeck;
+    std::vector<std::string >handsToGive;
+    std::vector<std::string> handToShow;
+    std::vector<std::string> hand;
+
 
 public:
     GameRunner(int dealerPosition, std::vector<std::unique_ptr<Player>> &players, std::vector<std::string> &allCards);
@@ -30,7 +37,7 @@ public:
     int getDealerPosition();
     int getHighestBet();
     std::vector<std::string> getCommunityCards();
-    std::vector<std::string> getAllCards();
+    std::vector<std::string> getCurrentDeck();
     int getWinnerPos();
     std::string checkOrCall();
     std::vector<std::string> handDetail(std::vector<std::string>& hand);
