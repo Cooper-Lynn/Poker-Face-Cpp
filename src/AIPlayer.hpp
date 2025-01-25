@@ -25,6 +25,9 @@ public:
   void clearHand();
   void setCurrentBet(int bet);
   void clearCurrentBet();
+  int getCurrentBet() const;
+  int getHighestBet() const;
+
 };
 
 #endif // AIPLAYER_HPP

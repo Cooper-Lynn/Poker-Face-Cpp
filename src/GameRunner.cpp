@@ -175,10 +175,45 @@ void GameRunner::round1() {
         communityCards.push_back(tempCard);
     }
     while (!roundFinished) {
-        for(int i = (dealerPosition+3)%players.size(); i < players.size()+3; i++) {
-            if(players[i]->
-        }
+        for(int i = (dealerPosition+3)/players.size(); i < players.size()+3; i++) {
+            if(dynamic_cast<UserPlayer*>(players[i].get())) {
+                std::cout<<"Player Options:"
+                            "\n1. "<<checkOrCall()<<
+                            "\n2. Raise"
+                            "\n3. Fold"
+                            "\n4. Quit Game"
+                            "\nEnter your choice: ";
+                std::cin>>playerRoundChoice;
+                if (playerRoundChoice == 1) {
 
+                }
+                else if (playerRoundChoice == 2) {
+                    std::cout<<"\nEnter how much you want to raise by (Remaining: "<<players[0]->getChips()<<"): ";
+                    std::cin>>chipInput;
+                    chipPot+=chipInput;
+                    players[0]->changeChips(-chipInput);
+                    if (chipInput<highestBet) {
+                        highestBet=chipInput;
+                    }
+                }
+                else if (playerRoundChoice==3) {
+                    std::cout<<"You have folded";
+                }
+                else if (playerRoundChoice==4) {
+                    break;
+                }
+            }
+            else {
+                //ai decisions
+            }
+
+        }
+        for(auto &player : players) {
+            roundFinished = true;
+            if(player->getHighestBet()!=highestBet) {
+                roundFinished = false;
+            }
+        }
     }
     std::cout<<chipPot;
     handToShow = handDetail(communityCards);
@@ -186,7 +221,6 @@ void GameRunner::round1() {
     for (auto &card : handToShow) {
         std::cout<<card;
     }
-
 }
 
 void GameRunner::round2() {
