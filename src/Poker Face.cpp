@@ -181,6 +181,7 @@ int main() {
         GameRunner gameRunner = GameRunner(1, players, deck);
         gameRunner.sortBlinds();
 
+        gameRunner.round1();
 
         handsToGive =giveHands(deck, players.size());
 
