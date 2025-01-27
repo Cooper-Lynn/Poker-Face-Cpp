@@ -20,7 +20,11 @@ public:
     void addCard(std::string card);
     void clearHand();
     void setCurrentBet(int bet);
+    void setHighestBet(int bet);
     void clearCurrentBet();
+    void clearHighestBet() override;
+    int getCurrentBet() override;
+    int getHighestBet() override;
 
 
 };

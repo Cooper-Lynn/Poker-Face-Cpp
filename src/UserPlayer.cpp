@@ -53,12 +53,28 @@ void UserPlayer::clearHand() {
 }
 
 void UserPlayer::setCurrentBet(int bet) {
-    currentBet = bet;
+    currentBet += bet;
 }
-
+void UserPlayer::setHighestBet(int bet) {
+    highestBet = bet;
+}
 
 void UserPlayer::clearCurrentBet() {
     currentBet = 0;
 }
+
+void UserPlayer::clearHighestBet() {
+    highestBet=0;
+}
+
+int UserPlayer::getCurrentBet() {
+    return currentBet;
+}
+
+int UserPlayer::getHighestBet() {
+    return highestBet;
+}
+
+
 
 

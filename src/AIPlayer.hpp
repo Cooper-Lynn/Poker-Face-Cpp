@@ -24,9 +24,11 @@ public:
   void addCard(std::string);
   void clearHand();
   void setCurrentBet(int bet);
+  void setHighestBet(int bet);
   void clearCurrentBet();
-  int getCurrentBet() const;
-  int getHighestBet() const;
+  void clearHighestBet();
+  int getCurrentBet();
+  int getHighestBet();
 
 };
 

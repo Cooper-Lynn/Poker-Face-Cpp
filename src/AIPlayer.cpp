@@ -28,12 +28,31 @@ void AIPlayer::clearHand() {
 }
 
 void AIPlayer::setCurrentBet(int bet) {
-    currentBet = bet;
+    currentBet += bet;
+}
+
+void AIPlayer::setHighestBet(int bet) {
+    highestBet = bet;
 }
 
 void AIPlayer::clearCurrentBet() {
     currentBet = 0;
 }
+
+void AIPlayer::clearHighestBet() {
+    highestBet=0;
+}
+
+int AIPlayer::getHighestBet() {
+    return highestBet;
+}
+
+int AIPlayer::getCurrentBet() {
+    return currentBet;
+}
+
+
+
 
 
 
