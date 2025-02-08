@@ -8,15 +8,21 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <map>
 
 class HandReader{
     private:
       std::vector<std::string>playerHand;
       std::vector<std::string>communityCards;
+      std::string rankString;
+      std::vector<std::string> totalCards;
+      std::map<int,int> rankCount;
+      std::map<char,int> suitCount;
     public:
-      std::string getSuit();
-      std::string getRank();
-      int compareRanks();
-      std::string valueHand();
+      HandReader(std::vector<std::string>playerHand, std::vector<std::string>communityCards);
+      ~HandReader();
+      char getSuit(std::string &card);
+      int getRank(std::string &card);
+      int valueHand();
 };
 #endif //HANDREADER_HPP
