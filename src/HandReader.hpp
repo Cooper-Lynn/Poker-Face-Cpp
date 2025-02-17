@@ -23,6 +23,6 @@ class HandReader{
       ~HandReader();
       char getSuit(std::string &card);
       int getRank(std::string &card);
-      int valueHand();
+      std::pair<int, std::vector<std::string>> valueHand();
 };
 #endif //HANDREADER_HPP

@@ -7,10 +7,16 @@
 
 #include "Player.hpp"
 #include <vector>
+#include <memory>
 #include <array>
 #include <utility>
 
 class AIPlayer final : public Player {
+private:
+  double positionState;
+  double handState;
+  double potRatio;
+  double currentBet;
 public:
   explicit AIPlayer(std::string name);
   ~AIPlayer() override;
@@ -29,6 +35,10 @@ public:
   void clearHighestBet();
   int getCurrentBet();
   int getHighestBet();
+  double findHandState();
+  double findPosition(std::vector<std::unique_ptr<Player>> &players);
+  double findPotRatio(double pot);
+
 
 };
 

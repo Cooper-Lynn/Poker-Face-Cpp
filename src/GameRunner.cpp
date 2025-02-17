@@ -20,31 +20,27 @@ GameRunner::GameRunner(int dealerPosition, std::vector<std::unique_ptr<Player>> 
 
 GameRunner::~GameRunner(){};
 
-void GameRunner::sortBlinds(){
-  if(players.size()==2) {
-            chipPot +=15;
-            players[1]->changeChips(-10);
-            players[0]->changeChips(-5);
-        }
-        else {
-            if (dealerPosition+1<players.size()) {
-                players[dealerPosition+1]->changeChips(-5);
-                chipPot+=15;
-            }
-            else {
-                players[0]->changeChips(-5);
-                players[1]->changeChips(-10);
-                chipPot+=15;
-            }
-            if (dealerPosition+2<players.size()) {
-                players[dealerPosition+2]->changeChips(-10);
-            }
-            else {
-                players[0]->changeChips(-10);
-            }
-            dealerPosition+=1;
-        }
-  }
+void GameRunner::sortBlinds() {
+    int numPlayers = players.size();
+
+    if (numPlayers < 2) return;
+
+    chipPot += 15;
+    if (numPlayers == 2) {
+        players[dealerPosition]->changeChips(-5);
+        players[(dealerPosition + 1) % numPlayers]->changeChips(-10);
+    }
+    else {
+        int smallBlindPos = (dealerPosition + 1) % numPlayers;
+        int bigBlindPos = (dealerPosition + 2) % numPlayers;
+
+        players[smallBlindPos]->changeChips(-5);
+        players[bigBlindPos]->changeChips(-10);
+    }
+
+
+    dealerPosition = (dealerPosition + 1) % numPlayers;
+}
 
 std::vector<std::string> GameRunner::handDetail(std::vector<std::string> &hand){
   std::vector<std::string> handToShow;
@@ -171,7 +167,11 @@ void GameRunner::round1() {
     for (auto& cards : handToShow) {
         std::cout<<cards<<std::endl;
     }
+    this->sortBlinds();
 
+    for (int i=0 ; i<players.size(); i++){
+        players[i]->setCurrentPosition((i - dealerPosition + players.size()) % players.size());
+    }
 
     while (!roundFinished) {
         for(int count = 0, i = (dealerPosition + 3) % players.size(); count < players.size(); count++, i = (i + 1) % players.size()) {

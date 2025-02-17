@@ -51,6 +51,27 @@ int AIPlayer::getCurrentBet() {
     return currentBet;
 }
 
+void Player::setCurrentPosition(int position) {
+    currentPosition = position;
+}
+
+
+double AIPlayer::findPosition(std::vector<std::unique_ptr<Player>> &players) {
+    positionState = currentPosition/players.size();
+    return positionState;
+}
+
+double AIPlayer::findHandState() {
+
+}
+
+void Player::updateCommunityHand(std::vector<std::string>& communityHand) {
+    this->communityHand = communityHand;
+}
+
+
+
+
 
 
 
