@@ -18,6 +18,7 @@ class HandReader{
       std::vector<std::string> totalCards;
       std::map<int,int> rankCount;
       std::map<char,int> suitCount;
+      std::vector<std::string> returnCards;
     public:
       HandReader(std::vector<std::string>playerHand, std::vector<std::string>communityCards);
       ~HandReader();

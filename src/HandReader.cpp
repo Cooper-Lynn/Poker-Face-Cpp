@@ -19,7 +19,11 @@ int HandReader::getRank(std::string &card){
   return std::stoi(rankString);
 }
 
-int HandReader::valueHand(){
+std::pair<int, std::vector<std::string>> HandReader::valueHand(){
+  returnCards.clear();
+  rankCount.clear();
+  suitCount.clear();
+
   totalCards = communityCards;
   totalCards.insert(totalCards.end(), playerHand.begin(), playerHand.end());
   for (auto& card : totalCards){
@@ -28,53 +32,98 @@ int HandReader::valueHand(){
         rankCount[rank]++;
         suitCount[suit]++;
     }
+
   bool flush=false, straight = false;
   int consecutive= 1, fourKind= 0, threeKind= 0, pairs = 0;
   std::vector<int> ranks;
 
-  for (auto& [suit, count] : suitCount){
-      if (count>5){
-        flush = true;
-        break;
-      }
-  }
   for (auto& [rank, count] : rankCount){
-      ranks.push_back(rank);
+    ranks.push_back(rank);
   }
   std::sort(ranks.begin(), ranks.end());
 
   for (int i= 1; i < ranks.size(); i++){
     if (ranks[i] == ranks[i-1]+1){
       consecutive++;
-      if (consecutive > 5){
-            straight = true;
+      if (consecutive >= 5){
+        straight = true;
+        for (auto& card: totalCards) {
+          returnCards.push_back(card);
+        }
       }
     }
     else{
-          consecutive = 1;
+      consecutive = 1;
+    }
+  }
+
+
+  for (auto& [suit, count] : suitCount){
+      if (count>=5){
+        flush = true;
+        for (auto& card: totalCards) {
+          if (getSuit(card)==suit && returnCards.size()<=5) {
+            returnCards.push_back(card);
+          }
+        }
+        if(straight) {
+          return std::make_pair(10, returnCards);
+        }
+        return std::make_pair(6, returnCards);
       }
   }
-  for (auto& [rank, count] : rankCount){
-    if (count==4){
-        fourKind++;
+  if(straight) {
+    return std::make_pair(5, returnCards);
+  }
+
+  for (auto& [rank, count] : rankCount) {
+    if (count==4) {
+      fourKind++;
+      for(auto& card: totalCards) {
+        if (getRank(card) == rank){
+          returnCards.push_back(card);
+        }
+      }
     }
-    if (count ==3){
-        threeKind++;
+
+    if (count ==3) {
+      threeKind++;
+      for(auto& card: totalCards) {
+        if (getRank(card) == rank){
+          returnCards.push_back(card);
+        }
+      }
     }
-    if (count ==2){
-        pairs++;
+
+    if (count ==2) {
+      pairs++;
+      for(auto& card: totalCards){
+        if (getRank(card) == rank){
+          returnCards.push_back(card);
+        }
+      }
     }
   }
-  if (flush && straight) return 10; // Straight Flush
-        if (fourKind) return 8;        // Four of a Kind
-        if (threeKind && pairs) return 7; // Full House
-        if (flush) return 6;              // Flush
-        if (straight) return 5;           // Straight
-        if (threeKind) return 4;       // Three of a Kind
-        if (pairs >= 2) return 3;         // Two Pair
-        if (pairs == 1) return 2;         // One Pair
-        return 1;                         // High Card
 
+          //if (flush && straight) std::pair(10,returnCards);     // Straight Flush
 
+          if (fourKind) return std::make_pair(8,returnCards);        // Four of a Kind
+          if (threeKind && pairs) return std::make_pair(7,returnCards); // Full House
+          //if (flush) return std::make_pair(6, returnCards);              // Flush
+          //if (straight) return std::make_pair(5, returnCards);           // Straight
+          if (threeKind) return std::make_pair(4,returnCards);       // Three of a Kind
+          if (pairs >= 2) return std::make_pair(3,returnCards);         // Two Pair
+          if (pairs == 1) return std::make_pair(2,returnCards);         // One Pair
 
+          // High Card
+          if (returnCards.empty()) {
+              for (auto& card: totalCards) {
+                if (getRank(card) == rankCount.rbegin()->first) {
+                  returnCards.push_back(card);
+                  break;
+                }
+              }
+              return std::make_pair(1, returnCards);
+            }
 }
+
