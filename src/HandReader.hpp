@@ -19,6 +19,10 @@ class HandReader{
       std::map<int,int> rankCount;
       std::map<char,int> suitCount;
       std::vector<std::string> returnCards;
+      std::vector<std::string> tempConsecCards;
+      std::vector<std::string> pairReturnCards;
+      std::vector<std::string> tripReturnCards;
+      std::vector<std::string> quadReturnCards;
     public:
       HandReader(std::vector<std::string>playerHand, std::vector<std::string>communityCards);
       ~HandReader();
