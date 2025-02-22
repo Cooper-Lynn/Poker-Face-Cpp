@@ -16,10 +16,117 @@ char HandReader::getSuit(std::string &card){
 
 int HandReader::getRank(std::string &card){
   rankString = card.substr(1);
+  if (rankString == "1") {
+    rankString = "14";
+  }
   return std::stoi(rankString);
 }
 
-std::pair<int, std::vector<std::string>> HandReader::valueHand(){
+
+bool HandReader::isRoyalFlush(std::vector<std::string> &cards) {
+
+  if (cards.size()<5) return false;
+
+  char constantSuit = getSuit(cards[0]);
+  for (auto& card : cards) {
+    if (getSuit(card) != constantSuit) return false;
+  }
+
+  std::vector<int> ranks;
+  for (auto& card : cards) {
+    ranks.push_back(getRank(card));
+  }
+  std::sort(ranks.begin(), ranks.end(), std::greater<int>());
+  return std::equal(ranks.begin(), ranks.begin()+5, royalRanks.begin());
+}
+
+bool HandReader::isStraightFlush() {
+  flushRanks.clear();
+  if (!isFlush(flushCards)) return false;
+
+  for (auto& card : flushCards) {
+    flushRanks.push_back(getRank(card));
+  }
+
+  std::sort(flushRanks.begin(), flushRanks.end());
+
+  if (!isStraight(flushRanks)) {
+    return false;
+  }
+  straightFlushCards = straightCards;
+  return true;
+}
+
+
+/*
+ * this helper function is used to determine the best flush in a hand
+ * flush is when the hand contains 5 cards of same suit
+ */
+bool HandReader::isFlush(std::vector<std::string>& flushCards){
+
+  for(auto& [suit, cards] : suitToCard) {
+    if (cards.size() >=5) {
+
+      flushCards = cards;
+
+      std::sort(flushCards.begin(), flushCards.end(),
+          [this](std::string& card1, std::string& card2) {
+                  return getRank(card1) < getRank(card2);
+                });
+      return true;
+    }
+  }
+  return false;
+}
+
+/*
+ * this helper function is used to determine if there is 5 consecutive cards
+ */
+bool HandReader::isStraight(std::vector<int>& ranks){
+  if(ranks.size()<5) return false;
+
+  std::vector<int> compareRanks = ranks;
+
+  if (ranks.back() == 14) {
+    compareRanks.insert(compareRanks.begin, 1);
+  }
+
+  int consecutive = 1;
+
+  for (int i = 1; i < compareRanks.size(); i++) {
+
+    if (compareRanks[i] == compareRanks[i-1] + 1) {
+      consecutive++;
+
+
+      if (consecutive == 5) {
+        int startRank = compareRanks[i]-4;
+        int endRank = compareRanks[i];
+
+        if (startRank == 1) {
+          endRank = 5;
+          startRank = 14;
+        }
+
+        straightCards.clear();
+        for (auto& card: totalCards) {
+          int rank = getRank(card);
+          if ((rank >= startRank && rank <= endRank)||
+            (rank == 14 && rank <= 5)) {
+            straightCards.push_back(card);
+          }
+        }
+        return true;
+      }
+    } else if (compareRanks[i] != compareRanks[i-1]) {
+      consecutive = 1;
+    }
+  }
+  return false;
+
+}
+
+void HandReader::countCards(std::vector<std::string> &totalCards) {
   returnCards.clear();
   rankCount.clear();
   suitCount.clear();
@@ -28,14 +135,22 @@ std::pair<int, std::vector<std::string>> HandReader::valueHand(){
   tripReturnCards.clear();
   quadReturnCards.clear();
 
+  for (auto& card : totalCards){
+    int rank = getRank(card);
+    char suit = getSuit(card);
+    rankCount[rank]++;
+    suitCount[suit]++;
+  }
+
+}
+
+std::pair<int, std::vector<std::string>> HandReader::valueHand() {
   totalCards = communityCards;
   totalCards.insert(totalCards.end(), playerHand.begin(), playerHand.end());
-  for (auto& card : totalCards){
-        int rank = getRank(card);
-        char suit = getSuit(card);
-        rankCount[rank]++;
-        suitCount[suit]++;
-    }
+
+  countCards(totalCards);
+
+
 
   bool flush=false, straight = false;
   int consecutive= 1, fourKind= 0, threeKind= 0, pairs = 0;
@@ -46,77 +161,54 @@ std::pair<int, std::vector<std::string>> HandReader::valueHand(){
   }
   std::sort(ranks.begin(), ranks.end());
 
+  for(auto& card : totalCards) {
+    suitToCard[getSuit(card)].push_back(card);
+  }
+
   for (auto& [rank, count] : rankCount) {
-      if (count==4) {
-        fourKind++;
-        for(auto& card: totalCards) {
-          if (getRank(card) == rank){
-            quadReturnCards.push_back(card);
-          }
-        }
-      }
-
-      if (count ==3) {
-        threeKind++;
-        for(auto& card: totalCards) {
-          if (getRank(card) == rank){
-            tripReturnCards.push_back(card);
-          }
-        }
-      }
-
-      if (count ==2) {
-        pairs++;
-        for(auto& card: totalCards){
-          if (getRank(card) == rank){
-            pairReturnCards.push_back(card);
-          }
+    if (count==4) {
+      fourKind++;
+      for(auto& card: totalCards) {
+        if (getRank(card) == rank){
+          quadReturnCards.push_back(card);
         }
       }
     }
 
-  for (int i= 1; i < ranks.size(); i++){
-    if (ranks[i] == ranks[i-1]+1){
-      consecutive++;
-      for (auto& card: totalCards) {
-        if (getRank(card) == ranks[i]){
-          tempConsecCards.push_back(card);
-        }
-      }
-
-      if (consecutive == 5){
-        straight = true;
-        for (auto& card: totalCards) {
-          returnCards.push_back(card);
+    if (count ==3) {
+      threeKind++;
+      for(auto& card: totalCards) {
+        if (getRank(card) == rank){
+          tripReturnCards.push_back(card);
         }
       }
     }
-    else{
-      consecutive = 1;
-      tempConsecCards.clear();
+
+    if (count ==2) {
+      pairs++;
+      for(auto& card: totalCards){
+        if (getRank(card) == rank){
+          pairReturnCards.push_back(card);
+        }
+      }
     }
   }
 
+  if (isFlush(flushCards)) {
+    if(isRoyalFlush(flushCards)) {
+      return std::make_pair(10, std::vector<std::string>(flushCards.end()-5, flushCards.end()));
+    }
+    if (isStraightFlush()) {
+      return std::make_pair(9, straightFlushCards);
+    }
 
-  for (auto& [suit, count] : suitCount){
-      if (count>=5){
-        flush = true;
-        for (auto& card: totalCards) {
-          if (getSuit(card)==suit && returnCards.size()<=5) {
-            returnCards.push_back(card);
-          }
-        }
-        if(straight) {
-          return std::make_pair(10, returnCards);
-        }
-        return std::make_pair(6, returnCards);
-      }
+    return std::make_pair(6, flushCards);
+
   }
-  if(straight) {
+  if (isStraight(ranks)) {
     return std::make_pair(5, returnCards);
   }
 
-  //if (flush && straight) std::pair(10,returnCards);     // Straight Flush
 
   if (fourKind) return std::make_pair(8,quadReturnCards);        // Four of a Kind
 
@@ -126,8 +218,6 @@ std::pair<int, std::vector<std::string>> HandReader::valueHand(){
     return std::make_pair(7,returnCards); // Full House
   }
 
-          //if (flush) return std::make_pair(6, returnCards);              // Flush
-          //if (straight) return std::make_pair(5, returnCards);           // Straight
   if (threeKind) return std::make_pair(4,tripReturnCards);       // Three of a Kind
   if (pairs >= 2) return std::make_pair(3,pairReturnCards);         // Two Pair
   if (pairs == 1) return std::make_pair(2,pairReturnCards);         // One Pair
@@ -138,9 +228,10 @@ std::pair<int, std::vector<std::string>> HandReader::valueHand(){
       if (getRank(card) == rankCount.rbegin()->first) {
         returnCards.push_back(card);
         break;
-        }
+      }
     }
     return std::make_pair(1, returnCards);
   }
 }
+
 

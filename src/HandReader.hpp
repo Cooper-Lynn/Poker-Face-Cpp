@@ -9,20 +9,43 @@
 #include <utility>
 #include <vector>
 #include <map>
+#include <unordered_map>
 
 class HandReader{
     private:
-      std::vector<std::string>playerHand;
-      std::vector<std::string>communityCards;
       std::string rankString;
-      std::vector<std::string> totalCards;
+
       std::map<int,int> rankCount;
       std::map<char,int> suitCount;
+      std::unordered_map<char,std::vector<std::string>> suitToCard;
+
+      char flushSuit;
+      int flushConsecutive =0;
+      bool isRoyal;
+      bool flush;
+      bool straight;
+
+      std::vector<std::string> totalCards;
+      std::vector<std::string>playerHand;
+      std::vector<std::string>communityCards;
       std::vector<std::string> returnCards;
+      std::vector<std::string> flushCards;
       std::vector<std::string> tempConsecCards;
       std::vector<std::string> pairReturnCards;
       std::vector<std::string> tripReturnCards;
       std::vector<std::string> quadReturnCards;
+      std::vector<std::string> tempStraightFlush;
+      std::vector<std::string> straightFlushCards;
+      std::vector<std::string> straightCards;
+      std::vector<int> royalRanks = {14, 13, 12, 11, 10};
+      std::vector<int> flushRanks;
+
+      bool isRoyalFlush(std::vector<std::string> &cards);
+      bool isStraightFlush() ;
+      bool isFlush(std::vector<std::string>& flushCards) ;
+      bool isStraight(std::vector<int>& ranks) ;
+      void countCards(std::vector<std::string>& totalCards);
+
     public:
       HandReader(std::vector<std::string>playerHand, std::vector<std::string>communityCards);
       ~HandReader();
