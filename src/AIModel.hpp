@@ -14,9 +14,9 @@
 class AIModel {
 private:
     std::vector<std::vector<double>> qTable;
-    double alpha = 0.01;
-    double gamma = 0.95;
-    double epsilon = 0.1;
+    double alpha;
+    double gamma;
+    double epsilon;
     std::mt19937 rng;
     int games_played;
     int getStateID(std::vector<double>& state);
@@ -30,7 +30,9 @@ public:
     int selectAction(std::vector<double>& state, bool training = false);
     void save(std::string& filename);
     void load(std::string& filename);
-
+    double getLearningRate();
+    double getDiscount();
+    double getExploration();
 };
 
 

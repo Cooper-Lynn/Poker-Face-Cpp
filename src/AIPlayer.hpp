@@ -5,9 +5,12 @@
 #ifndef AIPLAYER_HPP
 #define AIPLAYER_HPP
 
+#include <AIModel.hpp>
+
 #include "Player.hpp"
 #include <vector>
 #include <memory>
+#include <random>
 #include <array>
 #include <utility>
 
@@ -16,12 +19,13 @@ private:
   double positionState;
   double handState;
   double potRatio;
-  double currentBet;
   int predictedWorth;
   int evaluatedWorth;
+  std::mt19937 rng;
+  AIModel aiModel;
 
 public:
-  explicit AIPlayer(std::string name);
+  explicit AIPlayer(std::string name) ;
   ~AIPlayer() override;
 
   [[nodiscard]] std::string getName() const override;

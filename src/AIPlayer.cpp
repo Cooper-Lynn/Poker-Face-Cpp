@@ -7,7 +7,9 @@
 #include <vector>
 #include <array>
 
-AIPlayer::AIPlayer(std::string userName): Player(std::move( userName)) {}
+AIPlayer::AIPlayer(std::string userName): Player(std::move(userName)), aiModel(0.01, 0.95, 0.1) {
+}
+
 AIPlayer::~AIPlayer() = default;
 
 
@@ -67,11 +69,18 @@ double AIPlayer::findHandState() {
     predictedWorth = handReader.predictWorth();
 
 
+    if (predictedWorth > evaluatedWorth) {
+        return predictedWorth/10;
+    }
+    return evaluatedWorth/10;
+
+
 
 
 }
 
 double AIPlayer::findPotRatio(double pot) {
+    getChips();
 
 }
 
@@ -82,6 +91,23 @@ void Player::updateCommunityHand(std::vector<std::string>& communityHand) {
 
 std::vector<std::string> Player::getCommunityHand() {
     return communityHand;
+}
+
+void Player::setHighestBet(int bet) {
+    highestBet = bet;
+}
+
+void Player::setHighestPlayedBet(int bet) {
+    highestPlayedBet = bet;
+}
+
+
+int Player::getHighestPlayedBet() {
+    return highestPlayedBet;
+}
+
+void Player::setPot(int pot) {
+    currentPot = pot;
 }
 
 

@@ -199,8 +199,8 @@ void GameRunner::round1() {
                     chipPot+=chipInput;
                     players[i]->changeChips(-chipInput);
                     players[i]->setCurrentBet(chipInput);
-                    if (chipInput>highestBet) {
-                        highestBet=chipInput;
+                    if (chipInput>players[i]->getHighestBet()) {
+                        players[i]->setHighestBet(chipInput);
                     }
                 }
                 else if (playerRoundChoice==3) {
@@ -219,6 +219,8 @@ void GameRunner::round1() {
                 std::cout<<chipPot;
             }
 
+            players[i]->setPot(chipPot);
+            players[i]->setHighestPlayedBet(highestBet);
         }
         for(auto &player : players) {
             roundFinished = true;

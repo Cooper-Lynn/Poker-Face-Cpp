@@ -148,7 +148,7 @@ void HandReader::countCards(std::vector<std::string> &totalCards) {
   std::sort(ranks.begin(), ranks.end());
 }
 
-std::pair<int, std::vector<std::string>> HandReader::valueHand() {
+std::pair<double, std::vector<std::string>> HandReader::valueHand() {
   totalCards = communityCards;
   totalCards.insert(totalCards.end(), playerHand.begin(), playerHand.end());
 
@@ -227,6 +227,7 @@ std::pair<int, std::vector<std::string>> HandReader::valueHand() {
     }
     return std::make_pair(1, returnCards);
   }
+
 }
 
 
@@ -240,7 +241,7 @@ void HandReader::updateHands(std::vector<std::string> playerCards, std::vector<s
 
 
 
-int HandReader::predictWorth() {
+double HandReader::predictWorth() {
   totalCards = communityCards;
   totalCards.insert(totalCards.end(), playerHand.begin(), playerHand.end());
   countCards(totalCards);
@@ -321,6 +322,7 @@ int HandReader::predictWorth() {
   }
 
 
+  return 0;
 }
 
 

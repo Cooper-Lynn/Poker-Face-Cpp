@@ -61,9 +61,9 @@ class HandReader{
       ~HandReader();
       char getSuit(std::string &card);
       int getRank(std::string &card);
-      std::pair<int, std::vector<std::string>> valueHand();
+      std::pair<double, std::vector<std::string>> valueHand();
       void updateHands(std::vector<std::string> playerCards, std::vector<std::string> communityCards);
-      int predictWorth();
+      double predictWorth();
 
 };
 #endif //HANDREADER_HPP

@@ -59,3 +59,17 @@ void AIModel::learn(std::vector<double> &state, int action, double reward,std::v
 }
 
 
+
+double AIModel::getLearningRate() {
+    return alpha;
+}
+
+double AIModel::getDiscount() {
+     return gamma;
+ }
+
+double AIModel::getExploration() {
+    return epsilon;
+}
+
+

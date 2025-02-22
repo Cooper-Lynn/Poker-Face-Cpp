@@ -76,7 +76,7 @@ std::pair<std::string, std::string> cardDetail(std::string& card) {
     }
 
     std::string number =card.substr(1);
-    if (number == "1") {
+    if (number == "1" || number =="14") {
         second = "Ace";
     }
     else if (number=="11") {
