@@ -10,6 +10,8 @@ HandReader::HandReader(std::vector<std::string>playerHand, std::vector<std::stri
     this->communityCards = communityCards;
 }
 
+
+
 char HandReader::getSuit(std::string &card){
   return card[0];
 }
@@ -32,10 +34,6 @@ bool HandReader::isRoyalFlush(std::vector<std::string> &cards) {
     if (getSuit(card) != constantSuit) return false;
   }
 
-  std::vector<int> ranks;
-  for (auto& card : cards) {
-    ranks.push_back(getRank(card));
-  }
   std::sort(ranks.begin(), ranks.end(), std::greater<int>());
   return std::equal(ranks.begin(), ranks.begin()+5, royalRanks.begin());
 }
@@ -66,9 +64,7 @@ bool HandReader::isFlush(std::vector<std::string>& flushCards){
 
   for(auto& [suit, cards] : suitToCard) {
     if (cards.size() >=5) {
-
       flushCards = cards;
-
       std::sort(flushCards.begin(), flushCards.end(),
           [this](std::string& card1, std::string& card2) {
                   return getRank(card1) < getRank(card2);
@@ -85,7 +81,7 @@ bool HandReader::isFlush(std::vector<std::string>& flushCards){
 bool HandReader::isStraight(std::vector<int>& ranks){
   if(ranks.size()<5) return false;
 
-  std::vector<int> compareRanks = ranks;
+  compareRanks = ranks;
 
   if (ranks.back() == 14) {
     compareRanks.insert(compareRanks.begin, 1);
@@ -142,6 +138,14 @@ void HandReader::countCards(std::vector<std::string> &totalCards) {
     suitCount[suit]++;
   }
 
+  for(auto& card : totalCards) {
+    suitToCard[getSuit(card)].push_back(card);
+  }
+
+  for (auto& [rank, count] : rankCount){
+    ranks.push_back(rank);
+  }
+  std::sort(ranks.begin(), ranks.end());
 }
 
 std::pair<int, std::vector<std::string>> HandReader::valueHand() {
@@ -152,18 +156,9 @@ std::pair<int, std::vector<std::string>> HandReader::valueHand() {
 
 
 
-  bool flush=false, straight = false;
-  int consecutive= 1, fourKind= 0, threeKind= 0, pairs = 0;
+
+  int fourKind= 0, threeKind= 0, pairs = 0;
   std::vector<int> ranks;
-
-  for (auto& [rank, count] : rankCount){
-    ranks.push_back(rank);
-  }
-  std::sort(ranks.begin(), ranks.end());
-
-  for(auto& card : totalCards) {
-    suitToCard[getSuit(card)].push_back(card);
-  }
 
   for (auto& [rank, count] : rankCount) {
     if (count==4) {
@@ -233,5 +228,105 @@ std::pair<int, std::vector<std::string>> HandReader::valueHand() {
     return std::make_pair(1, returnCards);
   }
 }
+
+
+
+
+void HandReader::updateHands(std::vector<std::string> playerCards, std::vector<std::string> communityCards) {
+  this->playerHand = playerCards;
+  this->communityCards = communityCards;
+}
+
+
+
+
+int HandReader::predictWorth() {
+  totalCards = communityCards;
+  totalCards.insert(totalCards.end(), playerHand.begin(), playerHand.end());
+  countCards(totalCards);
+
+  for(auto& [suit, cards] : suitToCard) {
+    flushCards = cards;
+    std::sort(flushCards.begin(), flushCards.end(),
+          [this](std::string& card1, std::string& card2) {
+            return getRank(card1) < getRank(card2);
+      });
+    if (flushCards.size() == totalCards.size()) {
+      return predFlush = true;
+    }
+  }
+
+  compareRanks = ranks;
+
+  if (ranks.back() == 14) {
+    compareRanks.insert(compareRanks.begin, 1);
+  }
+
+  consecutive = 1;
+
+  for (int i = 1; i < compareRanks.size(); i++) {
+
+    if (compareRanks[i] == compareRanks[i-1] + 1) {
+      consecutive++;
+
+      if (consecutive == totalCards.size()) {
+        int startRank = compareRanks[i]-totalCards.size()+1;
+        int endRank = compareRanks[i];
+
+        if (startRank == 1) {
+          endRank = 1+totalCards.size();
+          startRank = 14;
+        }
+
+        straightCards.clear();
+        for (auto& card: totalCards) {
+          int rank = getRank(card);
+          if ((rank >= startRank && rank <= endRank)||
+            (rank == 14 && rank <= 1+totalCards.size())) {
+            straightCards.push_back(card);
+            }
+        }
+        straight = true;
+      }
+    } else if (compareRanks[i] != compareRanks[i-1]) {
+      consecutive = 1;
+    }
+  }
+
+  if (straight && flush ) {
+    predStraightFlush = true;
+  }
+
+  int predRoyalCount = 0;
+  for (auto [rank, count] : rankCount) {
+    if (rank >=10 && count ==1) {
+      predRoyalCount++;
+    }
+  }
+  if ((predRoyalCount == totalCards.size()) && flush) {
+    predRoyal = true;
+  }
+
+  if (predRoyal) {
+    return 10;
+  }
+  if( straight && flush ) {
+    return 9;
+  }
+  if (flush) {
+    return 6;
+  }
+  if (straight) {
+    return 5;
+  }
+
+
+}
+
+
+
+
+
+
 
 
