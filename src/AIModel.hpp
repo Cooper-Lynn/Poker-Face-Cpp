@@ -13,19 +13,24 @@
 
 class AIModel {
 private:
-  std::vector<std::vector<double>> qTable;
-  double alpha = 0.01;
-  double gamma = 0.95;
-  double epsilon = 0.1;
-  std::mt19937 rng;
-  int games_played;
+    std::vector<std::vector<double>> qTable;
+    double alpha = 0.01;
+    double gamma = 0.95;
+    double epsilon = 0.1;
+    std::mt19937 rng;
+    int games_played;
+    int getStateID(std::vector<double>& state);
+    double simHand(std::vector<double>& state, int action);
 public:
-  AIModel();
-  ~AIModel();
-  void quickTrain(int episodes);
-  void learn(const std::vector<double>& state, int action, double reward,
-               const std::vector<double>& next_state);
-  int selectAction()
+    AIModel(double learn, double discount, double explore);
+    ~AIModel();
+    void quickTrain(int episodes);
+    void learn(std::vector<double>& state, int action, double reward,
+                std::vector<double>& nextState);
+    int selectAction(std::vector<double>& state, bool training = false);
+    void save(std::string& filename);
+    void load(std::string& filename);
+
 };
 
 

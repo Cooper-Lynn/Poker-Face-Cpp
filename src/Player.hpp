@@ -8,6 +8,7 @@
 #include <utility>
 #include <vector>
 #include <array>
+#include "HandReader.hpp"
 
 class Player {
     protected:
@@ -16,12 +17,15 @@ class Player {
         int wins = 0;
         std::vector<std::string> playerHand;
         std::vector<std::string> communityHand;
+        std::pair<int, std::vector<std::string>> evaluatedHand;
         std:: string tag;
         int currentBet = 0;
         int highestBet = 0;
         int currentPosition;
+        HandReader handReader;
     public:
-        explicit Player(std::string name): name(std::move(name)), chips(100), wins(0){};
+        explicit Player(std::string name): name(std::move(name)), chips(100), wins(0), handReader(playerHand, communityHand) {
+        };
 
         virtual ~Player() =default;
         virtual std::string getName() const=0;
@@ -39,6 +43,7 @@ class Player {
         virtual int getHighestBet()= 0;
         virtual void setCurrentPosition(int position) = 0;
         virtual void updateCommunityHand(std::vector<std::string>& communityHand) = 0;
+        virtual std::vector<std::string> getCommunityHand() = 0;
 
 };
 

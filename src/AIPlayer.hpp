@@ -17,6 +17,9 @@ private:
   double handState;
   double potRatio;
   double currentBet;
+  int predictedWorth;
+  int evaluatedWorth;
+
 public:
   explicit AIPlayer(std::string name);
   ~AIPlayer() override;
