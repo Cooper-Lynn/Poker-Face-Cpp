@@ -58,8 +58,15 @@ void Player::setCurrentPosition(int position) {
 }
 
 
-double AIPlayer::findPosition(std::vector<std::unique_ptr<Player>> &players) {
-    ;
+double AIPlayer::findPositionState(std::vector<std::unique_ptr<Player>> &players) {
+    double distance;
+    for(int i = dealerPosition; i < players.size()+i; ++i) {
+        if (i % players.size() == currentPosition) {
+            distance = static_cast<double>(i);
+        }
+    }
+
+    return (distance/players.size());
 }
 
 double AIPlayer::findHandState() {
@@ -74,13 +81,15 @@ double AIPlayer::findHandState() {
     }
     return evaluatedWorth/10;
 
-
-
-
 }
 
-double AIPlayer::findPotRatio(double pot) {
-    getChips();
+double AIPlayer::findPotRatio() {
+    int tempRatioBetPot;
+    int tempRatioBetReserve;
+
+    tempRatioBetReserve = 1-(currentBet/getChips());
+    tempRatioBetPot = currentBet/currentPot;
+
 
 }
 
@@ -100,7 +109,6 @@ void Player::setHighestBet(int bet) {
 void Player::setHighestPlayedBet(int bet) {
     highestPlayedBet = bet;
 }
-
 
 int Player::getHighestPlayedBet() {
     return highestPlayedBet;

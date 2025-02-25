@@ -21,6 +21,12 @@ private:
     int games_played;
     int getStateID(std::vector<double>& state);
     double simHand(std::vector<double>& state, int action);
+    enum actions {
+        CALL,
+        CHECK,
+        RAISE,
+        FOLD,
+    };
 public:
     AIModel(double learn, double discount, double explore);
     ~AIModel();

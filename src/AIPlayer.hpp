@@ -43,8 +43,8 @@ public:
   int getCurrentBet();
   int getHighestBet();
   double findHandState();
-  double findPosition(std::vector<std::unique_ptr<Player>> &players);
-  double findPotRatio(double pot);
+  double findPositionState(std::vector<std::unique_ptr<Player>> &players);
+  double findPotRatio();
 
 
 };

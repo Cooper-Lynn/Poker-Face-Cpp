@@ -154,9 +154,6 @@ std::pair<double, std::vector<std::string>> HandReader::valueHand() {
 
   countCards(totalCards);
 
-
-
-
   int fourKind= 0, threeKind= 0, pairs = 0;
   std::vector<int> ranks;
 

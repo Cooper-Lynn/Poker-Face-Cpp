@@ -22,6 +22,7 @@ class Player {
         int currentBet = 0;
         int highestBet = 0;
         int highestPlayedBet = 0;
+        int dealerPosition;
         int currentPosition;
         int currentPot;
         HandReader handReader;
