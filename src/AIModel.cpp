@@ -139,12 +139,22 @@ double AIModel::simHand(std::vector<double> &state, int action) {
      }
      else if (action == 1) { //RAISE
          if (handStrength > 0.6) {
-            return 1.0;
+             return 1.0;
          }
-         else if (handStrength > 0.2) {
-            return 0.3;
+         else if (handStrength > 0.4 && potRatio>0.5) {
+             return 0.5;
+         }
+         else if (handStrength > 0.3 && potRatio>0.4) {
+             return 0.3;
+         }
+         else if (handStrength > 0.3 && position > 0.4) {
+             return 0.2;
          }
 
+
+
+     }
+     else {
 
      }
 
