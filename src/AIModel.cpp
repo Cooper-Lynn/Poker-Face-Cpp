@@ -5,6 +5,7 @@
 #include "AIModel.hpp"
 
 #include <algorithm>
+#include <fstream>
 
 
  AIModel::AIModel(double learn, double discount, double explore) {
@@ -71,5 +72,9 @@ double AIModel::getDiscount() {
 double AIModel::getExploration() {
     return epsilon;
 }
+
+void AIModel::save(std::string& filename) {
+
+ }
 
 

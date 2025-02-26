@@ -21,6 +21,12 @@ private:
   double potRatio;
   int predictedWorth;
   int evaluatedWorth;
+  double RatioBetReserve;
+  double RatioHighPot;
+  double RatioHighReserve;
+  int relativePosition;
+  double validPot;
+  double validChips;
   std::mt19937 rng;
   AIModel aiModel;
 

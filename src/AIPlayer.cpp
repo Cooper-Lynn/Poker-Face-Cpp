@@ -59,14 +59,9 @@ void Player::setCurrentPosition(int position) {
 
 
 double AIPlayer::findPositionState(std::vector<std::unique_ptr<Player>> &players) {
-    double distance;
-    for(int i = dealerPosition; i < players.size()+i; ++i) {
-        if (i % players.size() == currentPosition) {
-            distance = static_cast<double>(i);
-        }
-    }
+    relativePosition = (currentPosition - dealerPosition + players.size() ) % players.size();
 
-    return (distance/players.size());
+    return static_cast<double>(relativePosition) / players.size();
 }
 
 double AIPlayer::findHandState() {
@@ -77,19 +72,26 @@ double AIPlayer::findHandState() {
 
 
     if (predictedWorth > evaluatedWorth) {
-        return predictedWorth/10;
+        return static_cast<double>(predictedWorth)/10;
     }
-    return evaluatedWorth/10;
+    return static_cast<double>(evaluatedWorth)/10;
 
 }
 
 double AIPlayer::findPotRatio() {
-    int tempRatioBetPot;
-    int tempRatioBetReserve;
+    RatioBetReserve = 0;
+    RatioHighPot = 0;
+    RatioHighReserve = 0;
 
-    tempRatioBetReserve = 1-(currentBet/getChips());
-    tempRatioBetPot = currentBet/currentPot;
+    //used as validation to prevent division by 0
+    validChips = std::max(getChips(), 1);
+    validPot = std::max(currentPot, 1);
 
+    RatioBetReserve = 1-(static_cast<double>(currentBet)/validChips);
+    RatioHighPot = 1-(static_cast<double>(highestPlayedBet)/validPot);
+    RatioHighReserve = 1-(static_cast<double>(highestPlayedBet)/validChips);
+
+    return (0.5*RatioBetReserve)+(0.3*RatioHighPot)+(0.2*RatioHighReserve);
 
 }
 
