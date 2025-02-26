@@ -17,12 +17,15 @@ private:
     double alpha;
     double gamma;
     double epsilon;
+    double explorationRate;
     std::mt19937 rng;
     int games_played;
+    int position;
+    int handStrength;
+    int potRatio;
     int getStateID(std::vector<double>& state);
     double simHand(std::vector<double>& state, int action);
     enum actions {
-        CALL,
         CHECK,
         RAISE,
         FOLD,
