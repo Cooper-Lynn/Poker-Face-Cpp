@@ -260,6 +260,7 @@ std::pair<double, std::vector<std::string>> HandReader::valueHand() {
 void HandReader::updateHands(std::vector<std::string> playerCards, std::vector<std::string> communityCards) {
   this->playerHand = playerCards;
   this->communityCards = communityCards;
+  skipStrength.clear();
 }
 
 

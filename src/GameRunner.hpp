@@ -18,22 +18,30 @@ private:
     int chipPot;
     int chipInput;
     int playerRoundChoice;
+    double highestStrength;
+    double tempStrength;
+    double tieStrength;
+    double tieBreaker;
+    bool tieBroken;
+    std::string tempLeaderName;
+
     std::vector<std::string> communityCards;
     std::vector<std::unique_ptr<Player>> players;
     std::vector<std::string> currentDeck;
     std::vector<std::string >handsToGive;
     std::vector<std::string> handToShow;
     std::vector<std::string> hand;
+    std::vector<std::unique_ptr<Player>> playerTies;
 
 
 public:
     GameRunner(int dealerPosition, std::vector<std::unique_ptr<Player>> &players, std::vector<std::string> &allCards);
     ~GameRunner();
+    bool bettingCycle();
     void sortBlinds();
     void round1();
-    void round2();
-    void round3();
-    void round4();
+    void midRounds();
+    void finalRound();
     int getDealerPosition();
     int getHighestBet();
     std::vector<std::string> getCommunityCards();

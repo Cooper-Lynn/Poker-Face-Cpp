@@ -57,8 +57,6 @@ class HandReader{
       bool isStraight(std::vector<int>& ranks) ;
       void countCards(std::vector<std::string>& totalCards);
 
-
-
     public:
       HandReader(std::vector<std::string>playerHand, std::vector<std::string>communityCards);
       ~HandReader();

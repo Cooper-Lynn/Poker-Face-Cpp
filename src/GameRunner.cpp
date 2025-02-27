@@ -6,6 +6,7 @@
 #include <iostream>
 #include <vector>
 #include <random>
+#include <algorithm>
 #include "Player.hpp"
 #include "UserPlayer.hpp"
 #include "AIPlayer.hpp"
@@ -146,6 +147,68 @@ std::vector<std::string> GameRunner::getCommunityCards() {
     return communityCards;
 }
 
+bool GameRunner::bettingCycle() {
+    for(int count = 0, i = (dealerPosition+1) % players.size(); count < players.size(); count++, i = (i + 1) % players.size()) {
+
+        if(dynamic_cast<UserPlayer*>(players[i].get())) {
+            std::cout<<"Remaining Chips: "<<players[i]->getChips();
+            std::cout<<"\nCurrent Pot: "<<chipPot<<std::endl;
+            std::cout<<"Player Options in Game Runner:"
+                "\n1. "<<checkOrCall()<<
+                "\n2. Raise"
+                "\n3. Fold"
+                "\n4. Quit Game"
+                "\nEnter your choice: ";
+
+            std::cin>>playerRoundChoice;
+
+            if (playerRoundChoice == 1) {
+                chipInput = highestBet-players[i]->getCurrentBet();
+                chipPot+=chipInput;
+                players[i]->changeChips(chipInput);
+                players[i]->setCurrentBet(chipInput);
+            }
+            else if (playerRoundChoice == 2) {
+                std::cout<<"\nEnter how much you want to raise by (Remaining: "<<players[0]->getChips()<<"): ";
+                std::cin>>chipInput;
+                chipPot+=chipInput;
+                players[i]->changeChips(-chipInput);
+                players[i]->setCurrentBet(chipInput);
+                if (chipInput>players[i]->getHighestBet()) {
+                    players[i]->setHighestBet(chipInput);
+                }
+            }
+            else if (playerRoundChoice==3) {
+                std::cout<<"You have folded";
+            }
+            else if (playerRoundChoice==4) {
+                break;
+            }
+        }
+
+        else {
+            chipPot+=30;
+            players[i]->changeChips(-30);
+            if (30>highestBet) {
+                highestBet=chipInput;
+            }
+            std::cout<<chipPot;
+        }
+
+    }
+
+    for(auto &player : players) {
+        player->setPot(chipPot);
+        player->setHighestPlayedBet(highestBet);
+        roundFinished = true;
+        if(player->getHighestBet()!=highestBet) {
+            roundFinished = false;
+        }
+    }
+    return roundFinished;
+}
+
+
 void GameRunner::round1() {
     handsToGive = giveHands(currentDeck, players.size());
     for (auto& player : players) {
@@ -174,60 +237,8 @@ void GameRunner::round1() {
     }
 
     while (!roundFinished) {
-        for(int count = 0, i = (dealerPosition + 3) % players.size(); count < players.size(); count++, i = (i + 1) % players.size()) {
-            if(dynamic_cast<UserPlayer*>(players[i].get())) {
-                std::cout<<"Remaining Chips: "<<players[i]->getChips();
-                std::cout<<"\nCurrent Pot: "<<chipPot<<std::endl;
-                std::cout<<"Player Options in Game Runner:"
-                            "\n1. "<<checkOrCall()<<
-                            "\n2. Raise"
-                            "\n3. Fold"
-                            "\n4. Quit Game"
-                            "\nEnter your choice: ";
-
-                std::cin>>playerRoundChoice;
-
-                if (playerRoundChoice == 1) {
-                    chipInput = highestBet-players[i]->getCurrentBet();
-                    chipPot+=chipInput;
-                    players[i]->changeChips(chipInput);
-                    players[i]->setCurrentBet(chipInput);
-                }
-                else if (playerRoundChoice == 2) {
-                    std::cout<<"\nEnter how much you want to raise by (Remaining: "<<players[0]->getChips()<<"): ";
-                    std::cin>>chipInput;
-                    chipPot+=chipInput;
-                    players[i]->changeChips(-chipInput);
-                    players[i]->setCurrentBet(chipInput);
-                    if (chipInput>players[i]->getHighestBet()) {
-                        players[i]->setHighestBet(chipInput);
-                    }
-                }
-                else if (playerRoundChoice==3) {
-                    std::cout<<"You have folded";
-                }
-                else if (playerRoundChoice==4) {
-                    break;
-                }
-            }
-            else {
-                chipPot+=30;
-                players[i]->changeChips(-30);
-                if (30>highestBet) {
-                    highestBet=chipInput;
-                }
-                std::cout<<chipPot;
-            }
-
-            players[i]->setPot(chipPot);
-            players[i]->setHighestPlayedBet(highestBet);
-        }
-        for(auto &player : players) {
-            roundFinished = true;
-            if(player->getHighestBet()!=highestBet) {
-                roundFinished = false;
-            }
-        }
+        roundFinished = false;
+        bettingCycle();
     }
 
     for (int i=0; i < 3; i++) {
@@ -243,10 +254,99 @@ void GameRunner::round1() {
     }
 }
 
-void GameRunner::round2() {
-    std::string tempCard = dealCard(currentDeck);
-    communityCards.push_back(tempCard);
+void GameRunner::midRounds() {
+    roundFinished = false;
+
+    while(!roundFinished) {
+        bettingCycle();
+    }
+
+    std::cout<<"End of Round 2\n";
+    std::cout<<chipPot;
+    handToShow = handDetail(communityCards);
+    std::cout<<"\nCommunity Cards: "<<std::endl;
+
+    for (auto &card : handToShow) {
+        std::cout<<card;
+    }
 }
+
+void GameRunner::finalRound() {
+    roundFinished = false;
+
+    while(!roundFinished) {
+        bettingCycle();
+    }
+
+
+
+    highestStrength = 0;
+
+    for(auto &player : players) {
+        std::vector<std::string> theHand = player->getHand();
+        handToShow = handDetail(theHand);
+        std::cout<<"Player Name: "<<player->getName()<<std::endl;
+        std::cout<<"Hand: ";
+        for (auto &card : handToShow) {
+            std::cout<<card;
+        }
+    }
+
+    tempLeaderName = "";
+    tieStrength = 0;
+
+    for (auto &player : players) {
+        tempStrength = player->getHandStrength();
+        if (tempStrength>highestStrength && tempStrength > tieStrength) {
+            tempLeaderName = player->getName();
+            tieStrength = 0;
+            playerTies.clear();
+        }
+        if (tempStrength == highestStrength) {
+            playerTies.push_back(player);
+            tieStrength = tempStrength;
+        }
+    }
+
+    tieBreaker = 0;
+    tieBroken = false;
+    while (tieBroken) {
+        if (playerTies.size()==0) {
+            for (auto &player : playerTies) {
+                auto result = player->tieBreaker(tieStrength);
+                if (result.first > tieBreaker) {
+                    tieBreaker = result.first;
+                    tempLeaderName = player->getName();
+                    tieStrength = 0;
+                    tieBroken = true;
+
+                }
+                if (result.first == tieBreaker && tieBreaker != 0) {
+                    tieStrength = result.first;
+                    tieBroken = false;
+                }
+                else {
+                    auto tieBrokePlayer = std::find_if(playerTies.begin(), playerTies.end(),
+                    [&player](std::unique_ptr<Player>& p) {
+                        return p.get() == player.get(); // Or some other comparison
+                    });
+
+                    if (tieBrokePlayer != playerTies.end()) {
+                        playerTies.erase(tieBrokePlayer);
+                    }
+                }
+            }
+        }
+    }
+
+    handToShow = handDetail(communityCards);
+    std::cout<<"\nCommunity Cards: "<<std::endl;
+
+    for (auto &card : handToShow) {
+        std::cout<<card;
+    }
+}
+
 
 
 

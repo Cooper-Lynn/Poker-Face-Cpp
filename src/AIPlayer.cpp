@@ -120,6 +120,14 @@ void Player::setPot(int pot) {
     currentPot = pot;
 }
 
+std::vector<double> Player::getHandStrength() {
+    handStrength.clear();
+    handReader.updateHands(playerHand, communityHand);
+    handStrength = handReader.valueHand();
+    return handStrength;
+}
+
+
 
 
 
