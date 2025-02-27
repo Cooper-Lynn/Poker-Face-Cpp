@@ -17,7 +17,9 @@ class Player {
         int wins = 0;
         std::vector<std::string> playerHand;
         std::vector<std::string> communityHand;
-        std::pair<int, std::vector<std::string>> evaluatedHand;
+        std::pair<double, std::vector<std::string>> evaluatedHand;
+        std::vector<std::string> valuedHand;
+        double handStrength;
         std:: string tag;
         int currentBet = 0;
         int highestBet = 0;
@@ -26,6 +28,7 @@ class Player {
         int currentPosition;
         int currentPot;
         HandReader handReader;
+
     public:
         explicit Player(std::string name): name(std::move(name)), chips(100), wins(0), handReader(playerHand, communityHand) {
         };
@@ -51,6 +54,9 @@ class Player {
         virtual void setCurrentPosition(int position) = 0;
         virtual void updateCommunityHand(std::vector<std::string>& communityHand) = 0;
         virtual std::vector<std::string> getCommunityHand() = 0;
+        virtual double getHandStrength() = 0;
+        virtual std::vector<std::string> getValuedHand() = 0;
+        virtual std::pair<double, std::vector<std::string>> tieBreaker(double matching) = 0;
 
 };
 
