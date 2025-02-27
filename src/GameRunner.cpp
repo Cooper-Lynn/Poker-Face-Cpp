@@ -327,8 +327,8 @@ void GameRunner::finalRound() {
                 }
                 else {
                     auto tieBrokePlayer = std::find_if(playerTies.begin(), playerTies.end(),
-                    [&player](std::unique_ptr<Player>& p) {
-                        return p.get() == player.get(); // Or some other comparison
+                    [&player](std::unique_ptr<Player>& playerToRemove) {
+                        return playerToRemove->getName() == player->getName(); //
                     });
 
                     if (tieBrokePlayer != playerTies.end()) {
