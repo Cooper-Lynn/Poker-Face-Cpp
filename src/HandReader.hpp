@@ -22,10 +22,11 @@ class HandReader{
       char flushSuit;
       int flushConsecutive =0;
       int consecutive =1;
+      double handStrength;
+
       bool isRoyal;
       bool flush;
       bool straight;
-
       bool predFlush;
       bool predStraight;
       bool predStraightFlush;
@@ -47,6 +48,8 @@ class HandReader{
       std::vector<int> flushRanks;
       std::vector<int> compareRanks;
       std::vector<int> ranks;
+      std::vector<double> skipStrength;
+
 
       bool isRoyalFlush(std::vector<std::string> &cards);
       bool isStraightFlush() ;
@@ -64,6 +67,7 @@ class HandReader{
       std::pair<double, std::vector<std::string>> valueHand();
       void updateHands(std::vector<std::string> playerCards, std::vector<std::string> communityCards);
       double predictWorth();
+      std::pair<double, std::vector<std::string>> tieBreaker(double matching);
 
 };
 #endif //HANDREADER_HPP
