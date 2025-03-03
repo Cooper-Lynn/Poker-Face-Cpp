@@ -120,12 +120,25 @@ void Player::setPot(int pot) {
     currentPot = pot;
 }
 
-std::vector<double> Player::getHandStrength() {
-    handStrength.clear();
+double Player::getHandStrength() {
+    handStrength = 0;
     handReader.updateHands(playerHand, communityHand);
-    handStrength = handReader.valueHand();
+    auto result = handReader.valueHand();
+    handStrength = result.first;
+    valuedHand = result.second;
     return handStrength;
 }
+
+std::vector<std::string> Player::getValuedHand() {
+    return valuedHand;
+}
+
+std::pair<double, std::vector<std::string> > Player::tieBreaker(double matching) {
+    handReader.updateHands(playerHand, communityHand);
+    auto result = handReader.tieBreaker(matching);
+    return result;
+}
+
 
 
 

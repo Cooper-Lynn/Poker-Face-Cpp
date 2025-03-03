@@ -83,7 +83,7 @@ void AIModel::save(std::string& filename) {
 int AIModel::getStateID(std::vector<double> &state) {
      position = state[0] * 2;
      handStrength = state[1] * 9;
-     potRatio = state[3] * 4;
+     potRatio = state[2] * 4;
 
      return position + (handStrength * 3) + (potRatio * 30);
 
@@ -121,7 +121,7 @@ int AIModel::selectAction(std::vector<double> &state, bool training) {
 double AIModel::simHand(std::vector<double> &state, int action) {
      position = state[0];
      handStrength = state[1];
-     potRatio = state[3];
+     potRatio = state[2];
 
      if (action == 2) { //FOLD
          if (handStrength < 0.2) {
