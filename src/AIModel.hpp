@@ -24,6 +24,7 @@ private:
     int position;
     int handStrength;
     int potRatio;
+    std::string fileName = "aiModel.dat";
     int getStateID(std::vector<double>& state);
     double simHand(std::vector<double>& state, int action);
     enum actions {
@@ -38,8 +39,8 @@ public:
     void learn(std::vector<double>& state, int action, double reward,
                 std::vector<double>& nextState);
     int selectAction(std::vector<double>& state, bool training = false);
-    void save(std::string& filename);
-    void load(std::string& filename);
+    void saveFile();
+    void loadFile();
     double getLearningRate();
     double getDiscount();
     double getExploration();

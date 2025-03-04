@@ -58,7 +58,7 @@ void AIModel::learn(std::vector<double> &state, int action, double reward,std::v
 
 
      if (games_played % 100 == 0) {
-         save("aiModel.dat");
+         saveFile();
      }
 }
 
@@ -76,9 +76,55 @@ double AIModel::getExploration() {
     return epsilon;
 }
 
-void AIModel::save(std::string& filename) {
+void AIModel::saveFile() {
+     std::ofstream file(fileName, std::ios::binary);
+     if (!file.is_open()) {
+         std::cerr << "Could not open file for saving: " << fileName << std::endl;
+         return;
+     }
+
+     file.write(reinterpret_cast<char*>(&alpha), sizeof(alpha));
+     file.write(reinterpret_cast<char*>(&gamma), sizeof(gamma));
+     file.write(reinterpret_cast<char*>(&epsilon), sizeof(epsilon));
+
+     int rows = qTable.size();
+     int cols = qTable[0].size();
+
+     file.write(reinterpret_cast<char*>(&rows), sizeof(rows));
+     file.write(reinterpret_cast<char*>(&cols), sizeof(cols));
+
+     for (auto& row : qTable) {
+         file.write(reinterpret_cast<char*>(row.data()), cols * sizeof(double));
+     }
+
+     file.close();
 
 }
+
+void AIModel::loadFile() {
+     std::ifstream file(fileName, std::ios::binary);
+     if (!file.is_open()) {
+         std::cerr << "Could not open file for loading: " << fileName << std::endl;
+         return;
+     }
+
+     file.read(reinterpret_cast<char*>(&alpha), sizeof(alpha));
+     file.read(reinterpret_cast<char*>(&gamma), sizeof(gamma));
+     file.read(reinterpret_cast<char*>(&epsilon), sizeof(epsilon));
+
+     size_t rows, cols;
+     file.read(reinterpret_cast<char*>(&rows), sizeof(rows));
+     file.read(reinterpret_cast<char*>(&cols), sizeof(cols));
+
+     qTable.resize(rows, std::vector<double>(cols));
+
+     for (auto& row : qTable) {
+         file.read(reinterpret_cast<char*>(row.data()), cols * sizeof(double));
+     }
+
+     file.close();
+}
+
 
 int AIModel::getStateID(std::vector<double> &state) {
      position = static_cast<int>(state[0] * 5);
@@ -176,7 +222,7 @@ double AIModel::simHand(std::vector<double> &state, int action) {
      }
 
      // Add slight randomness to encourage exploration
-     return baseReward + (((double)rand() / RAND_MAX) - 0.5) * 0.1;
+     return baseReward + ((static_cast<double>(rand()) / RAND_MAX) - 0.5) * 0.1;
 
 }
 
