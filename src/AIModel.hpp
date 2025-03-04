@@ -18,6 +18,7 @@ private:
     double gamma;
     double epsilon;
     double explorationRate;
+    double baseReward;
     std::mt19937 rng;
     int games_played;
     int position;

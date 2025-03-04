@@ -15,7 +15,7 @@
     std::random_device rd;
     rng = std::mt19937(rd());
 
-    qTable.resize(150, std::vector<double>(3, 0.0));
+    qTable.resize(250, std::vector<double>(3, 0.0));
 }
 
 void AIModel::quickTrain(int episodes = 5000) {
@@ -81,11 +81,11 @@ void AIModel::save(std::string& filename) {
 }
 
 int AIModel::getStateID(std::vector<double> &state) {
-     position = state[0] * 2;
-     handStrength = state[1] * 9;
-     potRatio = state[2] * 4;
+     position = static_cast<int>(state[0] * 5);
+     handStrength = static_cast<int>(state[1] * 10);
+     potRatio = static_cast<int>(state[2] * 5);
 
-     return position + (handStrength * 3) + (potRatio * 30);
+     return position + (handStrength * 5) + (potRatio * 50);
 
 }
 
@@ -123,40 +123,60 @@ double AIModel::simHand(std::vector<double> &state, int action) {
      handStrength = state[1];
      potRatio = state[2];
 
-     if (action == 2) { //FOLD
-         if (handStrength < 0.2) {
-             return 0.1;
-         }
-         else if (handStrength > 0.5) {
-             return -1.0;
-         }
-         else {
-             if (position < 0.3 && potRatio < 0.3) {
-                 return 0.05;
+     switch(action) {
+         case 2: // FOLD
+             if (handStrength < 0.2) {
+                 baseReward = 0.1;
+                 }
+             else if (handStrength > 0.4) {
+                baseReward = -1.0;
              }
-             return -0.3;
-         }
+             else if (position < 0.3 && potRatio < 0.3) {
+                baseReward = 0.05;
+             }
+             else {
+                 baseReward = -0.3;
+             }
+
+         break;
+
+         case 1: // RAISE
+             if (handStrength > 0.6) {
+                 baseReward = 1.0;
+             }
+             else if (handStrength > 0.4 && potRatio>0.5) {
+                 baseReward = 0.5;
+             }
+             else if (handStrength > 0.3 && potRatio>0.4) {
+                 baseReward = 0.3;
+             }
+             else if (handStrength > 0.3 && position > 0.4) {
+                 baseReward = 0.2;
+             }
+             else {
+                 baseReward = -1.0;
+             }
+
+             break;
+
+         case 0: // CALL/CHECK
+             if (handStrength > 0.3) {
+                 baseReward = 0.4;
+             }
+             else if (handStrength >0.2 ) {
+                 baseReward = 0.2;
+             }
+             else if (handStrength < 0.3 && (potRatio>0.4 || position>0.4)) {
+                 baseReward = 0.4;
+             }
+             else {
+
+             }
+             break;
      }
-     else if (action == 1) { //RAISE
-         if (handStrength > 0.6) {
-             return 1.0;
-         }
-         else if (handStrength > 0.4 && potRatio>0.5) {
-             return 0.5;
-         }
-         else if (handStrength > 0.3 && potRatio>0.4) {
-             return 0.3;
-         }
-         else if (handStrength > 0.3 && position > 0.4) {
-             return 0.2;
-         }
 
-
-
-     }
-     else {
-
-     }
+     // Add slight randomness to encourage exploration
+     return baseReward + (((double)rand() / RAND_MAX) - 0.5) * 0.1;
 
 }
 
