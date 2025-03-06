@@ -77,24 +77,32 @@ double AIModel::getExploration() {
 }
 
 void AIModel::saveFile() {
-     std::ofstream file(fileName, std::ios::binary);
+     std::ofstream file(fileName);
      if (!file.is_open()) {
          std::cerr << "Could not open file for saving: " << fileName << std::endl;
          return;
      }
 
-     file.write(reinterpret_cast<char*>(&alpha), sizeof(alpha));
-     file.write(reinterpret_cast<char*>(&gamma), sizeof(gamma));
-     file.write(reinterpret_cast<char*>(&epsilon), sizeof(epsilon));
+     file<<std::to_string(alpha)<<std::endl;
+     file<<std::to_string(gamma)<<std::endl;
+     file<<std::to_string(epsilon)<<std::endl;
 
      int rows = qTable.size();
      int cols = qTable[0].size();
 
-     file.write(reinterpret_cast<char*>(&rows), sizeof(rows));
-     file.write(reinterpret_cast<char*>(&cols), sizeof(cols));
+     file<<std::to_string(rows)<<std::endl;
+     file<<std::to_string(cols)<<std::endl;
 
      for (auto& row : qTable) {
-         file.write(reinterpret_cast<char*>(row.data()), cols * sizeof(double));
+         for (int i = 0; i < cols; i++) {
+             file << std::to_string(row[i]);
+
+             if (i < cols - 1) {
+                 file << ",";
+             }
+         }
+         file << std::endl;
+
      }
 
      file.close();
@@ -102,24 +110,52 @@ void AIModel::saveFile() {
 }
 
 void AIModel::loadFile() {
-     std::ifstream file(fileName, std::ios::binary);
+     std::ifstream file(fileName);
      if (!file.is_open()) {
          std::cerr << "Could not open file for loading: " << fileName << std::endl;
          return;
      }
 
-     file.read(reinterpret_cast<char*>(&alpha), sizeof(alpha));
-     file.read(reinterpret_cast<char*>(&gamma), sizeof(gamma));
-     file.read(reinterpret_cast<char*>(&epsilon), sizeof(epsilon));
+     std::string line;
 
-     size_t rows, cols;
-     file.read(reinterpret_cast<char*>(&rows), sizeof(rows));
-     file.read(reinterpret_cast<char*>(&cols), sizeof(cols));
+     std::getline(file, line);
+     alpha = std::stod(line);
+
+     std::getline(file, line);
+     gamma = std::stod(line);
+
+     std::getline(file, line);
+     epsilon = std::stod(line);
+
+     std::getline(file, line);
+     int rows = std::stoi(line);
+
+     std::getline(file, line);
+     int cols = std::stoi(line);
 
      qTable.resize(rows, std::vector<double>(cols));
 
-     for (auto& row : qTable) {
-         file.read(reinterpret_cast<char*>(row.data()), cols * sizeof(double));
+     for (int r = 0; r < rows; r++) {
+         if (!std::getline(file, line)) {
+             std::cerr << "Error reading Q-table row " << r << std::endl;
+             break;
+         }
+
+         std::vector<std::string> values;
+         size_t pos = 0;
+         std::string token;
+         std::string delimiter = ",";
+
+         while ((pos = line.find(delimiter)) != std::string::npos) {
+             token = line.substr(0, pos);
+             values.push_back(token);
+             line.erase(0, pos + delimiter.length());
+         }
+         values.push_back(line);
+
+         for (int c = 0; c < cols && c < values.size(); c++) {
+             qTable[r][c] = std::stod(values[c]);
+         }
      }
 
      file.close();
