@@ -161,28 +161,39 @@ bool GameRunner::bettingCycle() {
                 "\nEnter your choice: ";
 
             std::cin>>playerRoundChoice;
+            switch(playerRoundChoice) {
+                case 1:
+                    chipInput = highestBet-players[i]->getCurrentBet();
+                    if (chipInput >= players[i]->getChips()) {
+                        std::cout<<"Incorrect amount of chips available";
+                        break;
+                    }
+                    chipPot+=chipInput;
+                    players[i]->changeChips(chipInput);
+                    players[i]->setCurrentBet(chipInput);
+                    break;
 
-            if (playerRoundChoice == 1) {
-                chipInput = highestBet-players[i]->getCurrentBet();
-                chipPot+=chipInput;
-                players[i]->changeChips(chipInput);
-                players[i]->setCurrentBet(chipInput);
-            }
-            else if (playerRoundChoice == 2) {
-                std::cout<<"\nEnter how much you want to raise by (Remaining: "<<players[0]->getChips()<<"): ";
-                std::cin>>chipInput;
-                chipPot+=chipInput;
-                players[i]->changeChips(-chipInput);
-                players[i]->setCurrentBet(chipInput);
-                if (chipInput>players[i]->getHighestBet()) {
-                    players[i]->setHighestBet(chipInput);
-                }
-            }
-            else if (playerRoundChoice==3) {
-                std::cout<<"You have folded";
-            }
-            else if (playerRoundChoice==4) {
-                break;
+                case 2 :
+                    std::cout<<"\nEnter how much you want to raise by (Remaining: "<<players[i]->getChips()<<"): ";
+                    std::cin>>chipInput;
+                    if (chipInput >= players[i]->getChips()) {
+                        std::cout<<"Incorrect amount of chips available";
+                        break;
+                    }
+                    chipPot+=chipInput;
+                    players[i]->changeChips(-chipInput);
+                    players[i]->setCurrentBet(chipInput);
+                    if (chipInput>players[i]->getHighestBet()) {
+                        players[i]->setHighestBet(chipInput);
+                    }
+                    break;
+
+                case 3 :
+                    std::cout<<"You have folded";
+                    break;
+
+                default:
+                    break;
             }
         }
 
