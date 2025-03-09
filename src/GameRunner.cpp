@@ -150,7 +150,7 @@ std::vector<std::string> GameRunner::getCommunityCards() {
 bool GameRunner::bettingCycle() {
     for(int count = 0, i = (dealerPosition+1) % players.size(); count < players.size(); count++, i = (i + 1) % players.size()) {
 
-        if(dynamic_cast<UserPlayer*>(players[i].get())) {
+        if(dynamic_cast<UserPlayer*>(players[i].get()) && players[i]->getChips()!=0) {
             std::cout<<"Remaining Chips: "<<players[i]->getChips();
             std::cout<<"\nCurrent Pot: "<<chipPot<<std::endl;
             std::cout<<"Player Options in Game Runner:"
@@ -195,7 +195,9 @@ bool GameRunner::bettingCycle() {
             std::cout<<chipPot;
         }
 
+
     }
+
 
     for(auto &player : players) {
         player->setPot(chipPot);
@@ -205,6 +207,7 @@ bool GameRunner::bettingCycle() {
             roundFinished = false;
         }
     }
+
     return roundFinished;
 }
 

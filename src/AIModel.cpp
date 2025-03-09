@@ -53,6 +53,7 @@ void AIModel::learn(std::vector<double> &state, int action, double reward,std::v
 
     double maxNextQ = *std::max_element(qTable[nextStateID].begin(), qTable[nextStateID].end());
 
+     //Bellman equation
      qTable[stateID][action] += alpha * (reward +gamma * maxNextQ - qTable[stateID][action]);
      games_played++;
 
