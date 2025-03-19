@@ -10,6 +10,7 @@ HandReader::HandReader(std::vector<std::string>playerHand, std::vector<std::stri
     this->communityCards = communityCards;
 }
 
+HandReader::~HandReader() = default;
 
 
 char HandReader::getSuit(std::string &card){
@@ -84,7 +85,7 @@ bool HandReader::isStraight(std::vector<int>& ranks){
   compareRanks = ranks;
 
   if (ranks.back() == 14) {
-    compareRanks.insert(compareRanks.begin, 1);
+    compareRanks.insert(compareRanks.begin(), 1);
   }
 
   int consecutive = 1;
@@ -285,7 +286,7 @@ double HandReader::predictWorth() {
   compareRanks = ranks;
 
   if (ranks.back() == 14) {
-    compareRanks.insert(compareRanks.begin, 1);
+    compareRanks.insert(compareRanks.begin(), 1);
   }
 
   consecutive = 1;

@@ -75,7 +75,7 @@ int UserPlayer::getHighestBet() {
     return highestBet;
 }
 
-double Player::getHandStrength() {
+double UserPlayer::getHandStrength() {
     handStrength = 0;
     handReader.updateHands(playerHand, communityHand);
     auto result = handReader.valueHand();
@@ -84,15 +84,40 @@ double Player::getHandStrength() {
     return handStrength;
 }
 
-std::vector<std::string> Player::getValuedHand() {
+std::vector<std::string> UserPlayer::getValuedHand() {
     return valuedHand;
 }
 
-std::pair<double, std::vector<std::string> > Player::tieBreaker(double matching) {
+std::pair<double, std::vector<std::string> > UserPlayer::tieBreaker(double matching) {
     handReader.updateHands(playerHand, communityHand);
     auto result = handReader.tieBreaker(matching);
     return result;
 }
+
+void UserPlayer::setPot(int pot) {
+    currentPot = pot;
+}
+
+void UserPlayer::setHighestPlayedBet(int bet) {
+    highestPlayedBet = bet;
+}
+
+int UserPlayer::getHighestPlayedBet() {
+    return highestPlayedBet;
+}
+
+void UserPlayer::setCurrentPosition(int position) {
+    currentPosition = position;
+}
+
+void UserPlayer::updateCommunityHand(std::vector<std::string>& communityHand) {
+    this->communityHand = communityHand;
+}
+
+std::vector<std::string> UserPlayer::getCommunityHand() {
+    return communityHand;
+}
+
 
 
 

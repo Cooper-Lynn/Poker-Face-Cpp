@@ -18,6 +18,9 @@
     qTable.resize(250, std::vector<double>(3, 0.0));
 }
 
+AIModel::~AIModel() = default;
+
+
 void AIModel::quickTrain(int episodes = 5000) {
     std::cout<<"Running quick training for " <<episodes<<" episodes"<<std::endl;
     std::uniform_real_distribution<double> dist(0.0, 1.0);

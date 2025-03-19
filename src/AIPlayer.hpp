@@ -44,13 +44,22 @@ public:
   void clearHand();
   void setCurrentBet(int bet);
   void setHighestBet(int bet);
+  void setHighestPlayedBet(int bet);
   void clearCurrentBet();
   void clearHighestBet();
+  void setPot(int pot);
   int getCurrentBet();
   int getHighestBet();
+  int getHighestPlayedBet();
   double findHandState();
   double findPositionState(std::vector<std::unique_ptr<Player>> &players);
   double findPotRatio();
+  void setCurrentPosition(int position);
+  void updateCommunityHand(std::vector<std::string> &communityHand);
+  std::vector<std::string>getCommunityHand();
+  std::vector<std::string> getValuedHand();
+  double getHandStrength();
+  std::pair<double, std::vector<std::string>> tieBreaker(double matching);
 
 
 };

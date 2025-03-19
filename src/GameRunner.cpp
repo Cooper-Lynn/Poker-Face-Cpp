@@ -317,14 +317,14 @@ void GameRunner::finalRound() {
             playerTies.clear();
         }
         if (tempStrength == highestStrength) {
-            playerTies.push_back(player);
+            playerTies.push_back(std::move(player));
             tieStrength = tempStrength;
         }
     }
 
     tieBreaker = 0;
     tieBroken = false;
-    while (tieBroken) {
+    while (!tieBroken) {
         if (playerTies.size()==0) {
             for (auto &player : playerTies) {
                 auto result = player->tieBreaker(tieStrength);

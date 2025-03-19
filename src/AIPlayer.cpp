@@ -53,7 +53,7 @@ int AIPlayer::getCurrentBet() {
     return currentBet;
 }
 
-void Player::setCurrentPosition(int position) {
+void AIPlayer::setCurrentPosition(int position) {
     currentPosition = position;
 }
 
@@ -96,31 +96,28 @@ double AIPlayer::findPotRatio() {
 }
 
 
-void Player::updateCommunityHand(std::vector<std::string>& communityHand) {
+void AIPlayer::updateCommunityHand(std::vector<std::string>& communityHand) {
     this->communityHand = communityHand;
 }
 
-std::vector<std::string> Player::getCommunityHand() {
+std::vector<std::string> AIPlayer::getCommunityHand() {
     return communityHand;
 }
 
-void Player::setHighestBet(int bet) {
-    highestBet = bet;
-}
 
-void Player::setHighestPlayedBet(int bet) {
+void AIPlayer::setHighestPlayedBet(int bet) {
     highestPlayedBet = bet;
 }
 
-int Player::getHighestPlayedBet() {
+int AIPlayer::getHighestPlayedBet() {
     return highestPlayedBet;
 }
 
-void Player::setPot(int pot) {
+void AIPlayer::setPot(int pot) {
     currentPot = pot;
 }
 
-double Player::getHandStrength() {
+double AIPlayer::getHandStrength() {
     handStrength = 0;
     handReader.updateHands(playerHand, communityHand);
     auto result = handReader.valueHand();
@@ -129,15 +126,16 @@ double Player::getHandStrength() {
     return handStrength;
 }
 
-std::vector<std::string> Player::getValuedHand() {
+std::vector<std::string> AIPlayer::getValuedHand() {
     return valuedHand;
 }
 
-std::pair<double, std::vector<std::string> > Player::tieBreaker(double matching) {
+std::pair<double, std::vector<std::string> > AIPlayer::tieBreaker(double matching) {
     handReader.updateHands(playerHand, communityHand);
     auto result = handReader.tieBreaker(matching);
     return result;
 }
+
 
 
 
