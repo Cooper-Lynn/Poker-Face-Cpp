@@ -14,67 +14,60 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="StartButton">
+   <widget class="QSplitter" name="splitter">
     <property name="geometry">
      <rect>
-      <x>490</x>
-      <y>240</y>
-      <width>281</width>
-      <height>41</height>
+      <x>650</x>
+      <y>50</y>
+      <width>471</width>
+      <height>391</height>
      </rect>
     </property>
-    <property name="text">
-     <string>Start Game</string>
+    <property name="orientation">
+     <enum>Qt::Orientation::Vertical</enum>
     </property>
-   </widget>
-   <widget class="startButton" name="QuitButton">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>330</y>
-      <width>281</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Quit Game</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="MainLabel">
-    <property name="geometry">
-     <rect>
-      <x>560</x>
-      <y>40</y>
-      <width>151</width>
-      <height>91</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>24</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Poker Face</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="MainMenuLabel">
-    <property name="geometry">
-     <rect>
-      <x>560</x>
-      <y>145</y>
-      <width>141</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>20</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Main Menu</string>
-    </property>
+    <widget class="QLabel" name="MainLabel">
+     <property name="font">
+      <font>
+       <pointsize>24</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Poker Face</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="MainMenuLabel">
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Main Menu</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="StartButton">
+     <property name="minimumSize">
+      <size>
+       <width>361</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Start Game</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="QuitButton">
+     <property name="minimumSize">
+      <size>
+       <width>361</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Quit Game</string>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -83,19 +76,12 @@
      <x>0</x>
      <y>0</y>
      <width>1929</width>
-     <height>33</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>startButton</class>
-   <extends>QPushButton</extends>
-   <header>buttonHandler.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

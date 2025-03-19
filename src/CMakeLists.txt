@@ -19,7 +19,7 @@ include_directories(${CMAKE_SOURCE_DIR})
 
 # Define the main executable
 add_executable(Poker_Face_C_
-        "Poker Face.cpp"
+        PokerFace.cpp
         AIPlayer.cpp
         UserPlayer.cpp
         GameRunner.cpp
@@ -27,6 +27,7 @@ add_executable(Poker_Face_C_
         AIModel.cpp
         PokerFaceView/untitled/mainwindow.ui
         PokerFaceView/untitled/mainwindow.cpp
+        MainGui.cpp
 
 )
 
@@ -37,7 +38,7 @@ target_link_libraries(Poker_Face_C_ PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(testQt
             MANUAL_FINALIZATION
-            "Poker Face.cpp"
+            PokerFace.cpp
             AIPlayer.cpp
             UserPlayer.cpp
             GameRunner.cpp
@@ -48,7 +49,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     )
 else()
     add_executable(testQt
-            "Poker Face.cpp"
+            PokerFace.cpp
             AIPlayer.cpp
             UserPlayer.cpp
             GameRunner.cpp
