@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QLabel>
 #include <QPushButton>
+#include <QWidget>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -19,6 +20,12 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void findStartQuitChild();
+    void findMenuLabels();
+    void viewGameSetUp();
+
+
+signals:
+    void startGameSignal();
 
 private slots:
     void on_StartButton_clicked();
@@ -29,6 +36,8 @@ private:
     Ui::MainWindow *ui;
     QPushButton *startButton;
     QPushButton *quitButton;
+    QLabel *TitleLabel;
+    QLabel *MenuLabel;
 
 };
 #endif // MAINWINDOW_H

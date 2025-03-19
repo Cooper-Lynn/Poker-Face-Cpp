@@ -15,7 +15,11 @@ private:
     QApplication *a;
     MainWindow *mainWindow;
     PokerFace& pokerFace;
-;
+
+private slots:
+    void onStartGameReqeust();
+    void startConfirmed();
+
 public:
     MainGui(int argc, char *argv[], PokerFace& main);
     ~MainGui();

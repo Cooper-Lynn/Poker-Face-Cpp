@@ -24,3 +24,14 @@ int MainGui::startGUI() {
     return a->exec();
 }
 
+void MainGui::onStartGameReqeust() {
+    pokerFace.gameStarted();
+}
+
+void MainGui::startConfirmed() {
+    mainWindow->setWindowTitle("PokerFace");
+    mainWindow->viewGameSetUp();
+}
+
+
+

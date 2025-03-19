@@ -24,6 +24,13 @@ void MainWindow::on_StartButton_clicked()
         startButton->hide();
         quitButton->hide();
     }
+
+    if (MenuLabel && TitleLabel) {
+        MenuLabel->hide();
+        TitleLabel->hide();
+    }
+
+    emit startGameSignal();
 }
 
 
@@ -40,9 +47,18 @@ void MainWindow::findStartQuitChild() {
 
 }
 
+void MainWindow::findMenuLabels() {
+    TitleLabel = this->findChild<QLabel*>("MainLabel");
+    MenuLabel = this->findChild<QLabel*>("MainMenuLabel");
+}
+
 
 void MainWindow::on_QuitButton_clicked()
 {
     exit(0);
+}
+
+void MainWindow::viewGameSetUp() {
+
 }
 

@@ -23,7 +23,7 @@ PokerFace::PokerFace() {
  *@param suits is the suits in the deck, ranks is the ranks in the deck
  *@return the complete deck
  */
-std::vector<std::string> createDeck(std::vector<std::string> &suits, std::vector<std::string> &ranks) {
+std::vector<std::string> PokerFace::createDeck(std::vector<std::string> &suits, std::vector<std::string> &ranks) {
     std::vector<std::string> deck;
     for (const auto &suit: suits) {
         for (const auto &rank: ranks) {
@@ -39,7 +39,7 @@ std::vector<std::string> createDeck(std::vector<std::string> &suits, std::vector
  *@
  */
 
-std::string dealCard(std::vector<std::string> &deck) {
+std::string PokerFace::dealCard(std::vector<std::string> &deck) {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> distrib(0, deck.size() - 1);
@@ -50,7 +50,7 @@ std::string dealCard(std::vector<std::string> &deck) {
 }
 
 std::vector<std::string>
-giveHands(std::vector<std::string> &deck, int numOfPlayers) {
+PokerFace::giveHands(std::vector<std::string> &deck, int numOfPlayers) {
     std::vector<std::string> handsToGive;
     for (int i = 0; i < numOfPlayers * 2; i++) {
         std::random_device rd;
@@ -63,7 +63,7 @@ giveHands(std::vector<std::string> &deck, int numOfPlayers) {
     return handsToGive;
 }
 
-std::pair<std::string, std::string> cardDetail(std::string &card) {
+std::pair<std::string, std::string> PokerFace::cardDetail(std::string &card) {
     std::string first;
     std::string second;
     if (card.at(0) == 's') {
@@ -92,7 +92,7 @@ std::pair<std::string, std::string> cardDetail(std::string &card) {
     return {first, second};
 }
 
-std::vector<std::string> handDetail(std::vector<std::string> &hand) {
+std::vector<std::string> PokerFace::handDetail(std::vector<std::string> &hand) {
     std::vector<std::string> handToShow;
     for (auto &card: hand) {
         auto [Suite, Rank] = cardDetail(card);
@@ -102,12 +102,13 @@ std::vector<std::string> handDetail(std::vector<std::string> &hand) {
     return handToShow;
 }
 
-std::string checkOrCall(int maxBet) {
+std::string PokerFace::checkOrCall(int maxBet) {
     if (!maxBet) return "Check";
     return "Call";
 }
 
-void gameStarted() {
+void PokerFace::gameStarted() {
+
     int option = 0;
     while (!option) {
         std::cout << "Menu\n";
