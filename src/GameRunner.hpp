@@ -5,6 +5,7 @@
 #ifndef GAMERUNNER_HPP
 #define GAMERUNNER_HPP
 #include <memory>
+#include <random>
 #include "Player.hpp"
 #include "UserPlayer.hpp"
 #include "AIPlayer.hpp"
@@ -23,6 +24,7 @@ private:
     double tieStrength;
     double tieBreaker;
     bool tieBroken;
+
     std::string tempLeaderName;
 
     std::vector<std::string> communityCards;
