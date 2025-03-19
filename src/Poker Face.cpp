@@ -8,6 +8,8 @@
 #include <random>
 #include <utility>
 #include <memory>
+#include <QApplication>
+#include <PokerFaceView/untitled/mainwindow.h>
 
 
 /*
@@ -110,7 +112,10 @@ std::string checkOrCall(int maxBet) {
 
 }
 
-int main() {
+int main(int argc, char *argv[]) {
+    QApplication a(argc, argv);
+    MainWindow mainWindow;
+    mainWindow.show();
 
     int option = 0;
     while (!option) {
@@ -283,7 +288,7 @@ int main() {
         else
         {
             option=0;
-            return 0;
+            return a.exec();
         }
 }
 

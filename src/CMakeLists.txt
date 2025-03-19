@@ -25,8 +25,9 @@ add_executable(Poker_Face_C_
         GameRunner.cpp
         HandReader.cpp
         AIModel.cpp
-        PokerFaceView/untitled/mainwindow.cpp
         PokerFaceView/untitled/mainwindow.ui
+        PokerFaceView/untitled/mainwindow.cpp
+
 )
 
 # Link Qt to the main executable

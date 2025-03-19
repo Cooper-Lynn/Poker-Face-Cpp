@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="StartButton">
     <property name="geometry">
      <rect>
       <x>490</x>
@@ -27,7 +27,7 @@
      <string>Start Game</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="startButton" name="QuitButton">
     <property name="geometry">
      <rect>
       <x>490</x>
@@ -38,6 +38,42 @@
     </property>
     <property name="text">
      <string>Quit Game</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="MainLabel">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>40</y>
+      <width>151</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>24</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Poker Face</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="MainMenuLabel">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>145</y>
+      <width>141</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Main Menu</string>
     </property>
    </widget>
   </widget>
@@ -53,6 +89,13 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>startButton</class>
+   <extends>QPushButton</extends>
+   <header>buttonHandler.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
