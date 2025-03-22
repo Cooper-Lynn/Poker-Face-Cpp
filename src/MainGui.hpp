@@ -20,6 +20,7 @@ private:
     std::unique_ptr<MainWindow> mainWindow;
     PokerFace& pokerFace;
     std::unique_ptr<GameBaseView> gameView;
+    GameRunner* gameRunner = nullptr;
 
 private slots:
     void onStartGameRequest();
@@ -32,6 +33,7 @@ public:
     void startGameView();
     void passUserInputToPoker(std::vector<std::string> &userInput);
 
+    void setGameRunnerPointer(GameRunner &gameRunner);
 };
 
 

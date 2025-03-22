@@ -107,150 +107,77 @@ std::string PokerFace::checkOrCall(int maxBet) {
     return "Call";
 }
 
-void PokerFace::gameStarted(std::vector<std::string> userInputSetup) {
+void PokerFace::gameStarted(std::vector<std::string> userInputSetup, MainGui *gui) {
 
 
-        std::vector<std::string> suits = {"s", "h", "d", "c"}; // spades, hearts, diamonds, clubs
-        std::vector<std::string> ranks = {
-            "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"
-        }; // Ace to King
-        // Create the deck
-        std::vector<std::string> deck = createDeck(suits, ranks);
-        std::vector<std::string> riverCards;
-        std::vector<std::string> aiNames = {"Bert", "Ruben", "Chanel", "Dimitri", "Gary", "Steve"};
-        std::vector<std::string> handToShow;
-        std::vector<std::string> hand;
-        std::vector<std::unique_ptr<Player> > players;
-        std::vector<std::string> handsToGive;
-        std::string playerName;
+    std::vector<std::string> suits = {"s", "h", "d", "c"}; // spades, hearts, diamonds, clubs
+    std::vector<std::string> ranks = {
+        "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"
+    }; // Ace to King
+    // Create the deck
+    std::vector<std::string> deck = createDeck(suits, ranks);
+    std::vector<std::string> riverCards;
+    std::vector<std::string> aiNames = {"Bert", "Ruben", "Chanel", "Dimitri", "Gary", "Steve"};
+    std::vector<std::string> handToShow;
+    std::vector<std::string> hand;
+    std::vector<std::unique_ptr<Player> > players;
+    std::vector<std::string> handsToGive;
+    std::string playerName;
 
 
-        int dealerPosition = 0;
-        int maxBet = 0;
-        int playerRoundChoice;
-        int chipInput;
-        int chipPot = 0;
-        int round;
-        int numPlayer;
+    int dealerPosition = 0;
+    int maxBet = 0;
+    int playerRoundChoice;
+    int chipInput;
+    int chipPot = 0;
+    int round;
+    int numPlayer;
+
+    mainGui = gui;
 
 
 
-
-        playerName = userInputSetup[0];
-
-
-        numPlayer = std::stoi(userInputSetup[1]);
-
-        std::cout << "Within PokerFace.cpp" << std::endl;
-        std::cout << "Player Name: " << playerName << std::endl;
-        std::cout << "Number of Players: " << numPlayer << std::endl;
-
-        players.push_back(std::make_unique<UserPlayer>(playerName));
-        for (auto i = 0; i < numPlayer; i++) {
-            std::random_device rd;
-            std::mt19937 gen(rd());
-            std::uniform_int_distribution<> distrib(0, aiNames.size() - 1);
-            int randomIndex = distrib(gen);
-            players.push_back(std::make_unique<AIPlayer>(aiNames[randomIndex]));
-            aiNames.erase(aiNames.begin() + randomIndex);
-        }
+    playerName = userInputSetup[0];
 
 
-        /*
-         *This Section lists out all the players in the game
-         */
+    numPlayer = std::stoi(userInputSetup[1]);
 
-        for (auto &player: players) {
-            std::cout << "Player: ";
-            std::cout << player->getName() << "\n";
-        }
+    std::cout << "Within PokerFace.cpp" << std::endl;
+    std::cout << "Player Name: " << playerName << std::endl;
+    std::cout << "Number of Players: " << numPlayer << std::endl;
 
-        GameRunner gameRunner = GameRunner(1, players, deck);
-
-        passGameRunner(gameRunner);
-
-        gameRunner.sortBlinds();
-
-        gameRunner.round1();
-
-        handsToGive = giveHands(deck, players.size());
-
-
-        /*
-         *This Section gives all players their cards
-         *
-         */
-
-        for (auto &player: players) {
-            for (int i = 0; i < 2; ++i) {
-                if (!handsToGive.empty()) {
-                    // Add the first card to the player's hand
-                    player->addCard(handsToGive.front());
-                    // Remove the card from the deck
-                    handsToGive.erase(handsToGive.begin());
-                } else {
-                    std::cerr << "Error: Not enough cards to distribute." << std::endl;
-                    break;
-                }
-            }
-        }
-
-
-        hand = players[0]->getHand();
-        handToShow = handDetail(hand);
-        for (auto &cards: handToShow) {
-            std::cout << cards << std::endl;
-        }
-        //int starter = 0;
-
-
-        for (int i = 0; i < 3; i++) {
-            std::string tempCard = dealCard(deck);
-            riverCards.push_back(tempCard);
-        }
-
-        /*
-         *
-         */
-
-        for (int i = 3; i < players.size() + 3; i++) {
-            if (players[(dealerPosition + i) % players.size()] == players[0]) {
-                std::cout << "Player Options:"
-                        "\n1. " << checkOrCall(maxBet) <<
-                        "\n2. Raise"
-                        "\n3. Fold"
-                        "\n4. Quit Game"
-                        "\nEnter your choice: ";
-                std::cin >> playerRoundChoice;
-                if (playerRoundChoice == 1) {
-                } else if (playerRoundChoice == 2) {
-                    std::cout << "\nEnter how much you want to raise by (Remaining: " << players[0]->getChips() <<
-                            "): ";
-                    std::cin >> chipInput;
-                    chipPot += chipInput;
-                    players[0]->changeChips(-chipInput);
-                    if (chipInput < maxBet) maxBet = chipInput;
-                } else if (playerRoundChoice == 3) {
-                    std::cout << "You have folded";
-                } else if (playerRoundChoice == 4) {
-                    break;
-                } else {
-                    players[(dealerPosition + i) % players.size()]->changeChips(-10);
-                    chipPot += 10;
-                }
-            }
-        }
-        std::cout << chipPot;
-        handToShow = handDetail(riverCards);
-        std::cout << "Community Cards: " << std::endl << std::endl;
-        for (auto &card: handToShow) {
-            std::cout << card;
-        }
+    players.push_back(std::make_unique<UserPlayer>(playerName));
+    for (auto i = 0; i < numPlayer; i++) {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> distrib(0, aiNames.size() - 1);
+        int randomIndex = distrib(gen);
+        players.push_back(std::make_unique<AIPlayer>(aiNames[randomIndex]));
+        aiNames.erase(aiNames.begin() + randomIndex);
     }
 
 
-void PokerFace::passGameRunner(GameRunner &gameRunner) {
+    /*
+     *This Section lists out all the players in the game
+     */
 
+    for (auto &player: players) {
+        std::cout << "Player: ";
+        std::cout << player->getName() << "\n";
+    }
+
+    GameRunner gameRunner = GameRunner(1, players, deck);
+
+    passGameRunner(gameRunner);
+
+    gameRunner.sortBlinds();
+
+}
+
+
+void PokerFace::passGameRunner(const GameRunner& gameRunner) {
+    std::cout<<"passing game runner"<<std::endl;
+    mainGui->setGameRunnerPointer(&gameRunner);
 }
 
 

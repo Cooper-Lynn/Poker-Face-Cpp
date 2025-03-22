@@ -28,4 +28,5 @@ std::vector<std::string> GameBaseView::allowUserSetup() {
 
 void GameBaseView::passUserInput(std::vector<std::string> &userInput) {
     mainGui->passUserInputToPoker(userInput);
+    userInitialiser->hide();
 }

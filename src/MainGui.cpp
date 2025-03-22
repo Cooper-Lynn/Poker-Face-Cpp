@@ -65,8 +65,12 @@ void MainGui::startGameView() {
 
 void MainGui::passUserInputToPoker(std::vector<std::string> &userInput) {
     qDebug() <<"Within MainGui";
-    pokerFace.gameStarted(userInput);
+    pokerFace.gameStarted(userInput, this);
 
+}
+
+void MainGui::setGameRunnerPointer(GameRunner& gameRunner) {
+    this->gameRunner = &gameRunner;
 }
 
 
