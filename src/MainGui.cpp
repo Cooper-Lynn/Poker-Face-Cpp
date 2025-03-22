@@ -6,12 +6,15 @@
 #include <PokerFaceView/untitled/gameview.h>
 #include <QApplication>
 #include <PokerFaceView/untitled/mainwindow.h>
+#include <memory>
 #include <QPushButton>
 
 
 MainGui::MainGui(int argc, char *argv[], PokerFace& main) : pokerFace(main) {
     this->a = new QApplication(argc, argv);
-    this->mainWindow = new MainWindow();;
+    this->mainWindow = std::make_unique<MainWindow>();
+    QObject::connect(this->mainWindow.get(), &MainWindow::startGameSignal,
+                 this ,&MainGui::onStartGameRequest);
     startGUI();
 
 
@@ -20,25 +23,42 @@ MainGui::MainGui(int argc, char *argv[], PokerFace& main) : pokerFace(main) {
 MainGui::~MainGui() = default;
 
 int MainGui::startGUI() {
-    mainWindow->setWindowTitle("Main GUI");
+    mainWindow->setWindowTitle("Start Menu");
     mainWindow->show();
     return a->exec();
 }
 
-int MainGui::onStartGameRequest() {
+void MainGui::onStartGameRequest() {
 
-    mainWindow->destroyed();
-    this->gameView = new GameView();
+    mainWindow->hide();
+    startGameView();
+
+}
+
+
+
+void MainGui::startConfirmed() {
+    ;
+}
+
+void MainGui::startGameView() {
+    gameView = std::make_unique<GameBaseView>();
+    gameView->setWindowTitle("Poker Face");
+
+    gameView->showNormal();
+    gameView->activateWindow();
+    gameView->setWindowFlags(Qt::Window);
+
+    gameView->resize(1280, 720);
+    gameView->raise();
     gameView->show();
+    gameView->move(100, 100);
+
+    gameView->activateWindow();
+
     pokerFace.gameStarted();
-
-    return a->exec();
 }
 
-int MainGui::startConfirmed() {
-    return a->exec();
-
-}
 
 
 

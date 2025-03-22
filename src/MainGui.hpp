@@ -5,27 +5,31 @@
 #define MAINGUI_HPP
 
 #include <QApplication>
-#include <PokerFaceView/untitled/gameview.h>
+#include <PokerFaceView/untitled/GameBaseView.h>
 #include <PokerFaceView/untitled/mainwindow.h>
 #include "PokerFace.hpp"
 
 
 
-class MainGui {
+class MainGui : public QObject {
+
+    Q_OBJECT
+
 private:
     QApplication *a;
-    MainWindow *mainWindow;
+    std::unique_ptr<MainWindow> mainWindow;
     PokerFace& pokerFace;
-    GameView* gameView;
+    std::unique_ptr<GameBaseView> gameView;
 
 private slots:
-    int onStartGameRequest();
-    int startConfirmed();
+    void onStartGameRequest();
+    void startConfirmed();
 
 public:
     MainGui(int argc, char *argv[], PokerFace& main);
     ~MainGui();
     int startGUI();
+    void startGameView();
 
 };
 

@@ -110,13 +110,13 @@ std::string PokerFace::checkOrCall(int maxBet) {
 void PokerFace::gameStarted() {
 
     int option = 0;
-    while (!option) {
+    while (option) {
         std::cout << "Menu\n";
         std::cout << "1. Single player\n";
         std::cout << "2. Multiplayer\n";
         std::cout << "3. Quit\n";
         std::cout << "\nEnter your choice: ";
-        std::cin >> option;
+
     }
 
     if (option == 1) {

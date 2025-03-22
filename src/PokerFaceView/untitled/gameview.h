@@ -1,13 +1,13 @@
 #ifndef GAMEVIEW_H
 #define GAMEVIEW_H
 
-#include <QDialog>
+#include <QWidget>
 
 namespace Ui {
 class GameView;
 }
 
-class GameView : public QDialog
+class GameView : public QWidget
 {
     Q_OBJECT
 
