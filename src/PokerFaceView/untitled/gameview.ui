@@ -16,22 +16,19 @@
   <property name="windowOpacity">
    <double>0.000000000000000</double>
   </property>
-  <widget class="QGraphicsView" name="graphicsView">
+  <widget class="QLabel" name="gameBackground">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1280</width>
-     <height>720</height>
+     <width>1291</width>
+     <height>721</height>
     </rect>
    </property>
-   <property name="minimumSize">
-    <size>
-     <width>1280</width>
-     <height>720</height>
-    </size>
-   </property>
    <property name="whatsThis">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/res/GameBackround.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="text">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/res/GameBackround.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
