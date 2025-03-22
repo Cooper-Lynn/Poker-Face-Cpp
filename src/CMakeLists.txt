@@ -32,6 +32,7 @@ add_executable(Poker_Face_C_
         PokerFaceView/untitled/gameview.ui
         PokerFaceView/untitled/GameBackground.qrc
         PokerFaceView/untitled/gamebaseview.h PokerFaceView/untitled/gamebaseview.cpp PokerFaceView/untitled/gamebaseview.ui
+        PokerFaceView/untitled/userinputgameinitialiser.h PokerFaceView/untitled/userinputgameinitialiser.cpp PokerFaceView/untitled/userinputgameinitialiser.ui
 )
 
 # Link Qt to the main executable
