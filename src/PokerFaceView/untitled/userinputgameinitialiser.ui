@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>userInputGameInitialiser</class>
+ <widget class="QDialog" name="userInputGameInitialiser">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QDialogButtonBox" name="confirmOrQuitBox">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>240</y>
+     <width>341</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Orientation::Horizontal</enum>
+   </property>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Ok</set>
+   </property>
+   <property name="centerButtons">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="userNameLabel">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>40</y>
+     <width>121</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Enter Your Name</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="userNameInput">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>40</y>
+     <width>201</width>
+     <height>28</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="AINumberInput">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>90</y>
+     <width>201</width>
+     <height>28</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="aiNumberLabel">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>60</y>
+     <width>121</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Enter Number of 
+Players (1-6)</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="ageCheckLabel">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>120</y>
+     <width>121</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Are you older 
+than 18?</string>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="ageButtonGroup">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>130</y>
+     <width>171</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string/>
+   </property>
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <widget class="QCheckBox" name="ageConfirm">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>93</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Yes</string>
+    </property>
+    <property name="tristate">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="ageDeny">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>40</y>
+      <width>93</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>No</string>
+    </property>
+    <property name="tristate">
+     <bool>true</bool>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>confirmOrQuitBox</sender>
+   <signal>rejected()</signal>
+   <receiver>userInputGameInitialiser</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>confirmOrQuitBox</sender>
+   <signal>accepted()</signal>
+   <receiver>userInputGameInitialiser</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
