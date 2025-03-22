@@ -42,7 +42,10 @@ void MainGui::startConfirmed() {
 }
 
 void MainGui::startGameView() {
-    gameView = std::make_unique<GameBaseView>();
+
+    std::vector<std::string> userInputSetup;
+
+    gameView = std::make_unique<GameBaseView>(nullptr, this);
     gameView->setWindowTitle("Poker Face");
 
     gameView->showNormal();
@@ -55,8 +58,15 @@ void MainGui::startGameView() {
     gameView->move(100, 100);
 
     gameView->activateWindow();
+    userInputSetup = gameView->allowUserSetup();
 
-    pokerFace.gameStarted();
+
+}
+
+void MainGui::passUserInputToPoker(std::vector<std::string> &userInput) {
+    qDebug() <<"Within MainGui";
+    pokerFace.gameStarted(userInput);
+
 }
 
 

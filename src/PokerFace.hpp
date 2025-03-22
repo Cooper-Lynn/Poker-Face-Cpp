@@ -6,6 +6,8 @@
 #define POKERFACE_HPP
 
 #include <iostream>
+#include <MainGui.hpp>
+#include <MainGui.hpp>
 #include <vector>
 #include <string>
 #include <QObject>
@@ -25,15 +27,17 @@ private:
     };
 
 
+
 public:
     PokerFace();
-    void gameStarted();
+    void gameStarted(std::vector<std::string> userInputSetup);
     std::vector<std::string> createDeck(std::vector<std::string>& suits, std::vector<std::string>& ranks);
     std::string dealCard(std::vector<std::string>& deck);
     std::vector<std::string> giveHands(std::vector<std::string>& deck, int numOfPlayers);
     std::pair<std::string, std::string> cardDetail(std::string& card);
     std::vector<std::string> handDetail(std::vector<std::string>& hand);
     std::string checkOrCall(int maxBet);
+    void passGameRunner(GameRunner &gameRunner);
 
 
 };

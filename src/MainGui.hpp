@@ -30,6 +30,7 @@ public:
     ~MainGui();
     int startGUI();
     void startGameView();
+    void passUserInputToPoker(std::vector<std::string> &userInput);
 
 };
 

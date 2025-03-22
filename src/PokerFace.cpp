@@ -107,19 +107,9 @@ std::string PokerFace::checkOrCall(int maxBet) {
     return "Call";
 }
 
-void PokerFace::gameStarted() {
+void PokerFace::gameStarted(std::vector<std::string> userInputSetup) {
 
-    int option = 0;
-    while (option) {
-        std::cout << "Menu\n";
-        std::cout << "1. Single player\n";
-        std::cout << "2. Multiplayer\n";
-        std::cout << "3. Quit\n";
-        std::cout << "\nEnter your choice: ";
 
-    }
-
-    if (option == 1) {
         std::vector<std::string> suits = {"s", "h", "d", "c"}; // spades, hearts, diamonds, clubs
         std::vector<std::string> ranks = {
             "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"
@@ -134,6 +124,7 @@ void PokerFace::gameStarted() {
         std::vector<std::string> handsToGive;
         std::string playerName;
 
+
         int dealerPosition = 0;
         int maxBet = 0;
         int playerRoundChoice;
@@ -143,16 +134,16 @@ void PokerFace::gameStarted() {
         int numPlayer;
 
 
-        std::cout << "\nEnter your username: \n";
-        std::cin >> playerName;
 
-        std::cout << "\nHow many players would you want to oppose? (Min 1, Max 6): ";
-        std::cin >> numPlayer;
 
-        while (numPlayer < 1) {
-            std::cout << "\nHow many players would you want to oppose? (Min 1): ";
-            std::cin >> numPlayer;
-        }
+        playerName = userInputSetup[0];
+
+
+        numPlayer = std::stoi(userInputSetup[1]);
+
+        std::cout << "Within PokerFace.cpp" << std::endl;
+        std::cout << "Player Name: " << playerName << std::endl;
+        std::cout << "Number of Players: " << numPlayer << std::endl;
 
         players.push_back(std::make_unique<UserPlayer>(playerName));
         for (auto i = 0; i < numPlayer; i++) {
@@ -175,6 +166,9 @@ void PokerFace::gameStarted() {
         }
 
         GameRunner gameRunner = GameRunner(1, players, deck);
+
+        passGameRunner(gameRunner);
+
         gameRunner.sortBlinds();
 
         gameRunner.round1();
@@ -255,20 +249,13 @@ void PokerFace::gameStarted() {
     }
 
 
-    /**
-     *
-     * MULTIPLAYER SECTION
-     *
-     */
+void PokerFace::passGameRunner(GameRunner &gameRunner) {
 
-    if (option == 2) {
-        std::string playerName;
-        std::cout << "\nEnter your username: \n";
-        std::cin >> playerName;
-    } else {
-        option = 0;
-    }
-};
+}
+
+
+
+
 
 int main(int argc, char *argv[]) {
     PokerFace poker_face;
