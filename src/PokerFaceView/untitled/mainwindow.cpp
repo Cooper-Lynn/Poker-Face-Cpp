@@ -1,4 +1,8 @@
 #include "mainwindow.h"
+
+#include <iostream>
+
+
 #include "./ui_mainwindow.h"
 #include "QPushButton"
 #include <stdlib.h>
@@ -30,6 +34,8 @@ void MainWindow::on_StartButton_clicked()
         TitleLabel->hide();
     }
 
+    std::cout<<"Start button clicked"<<std::endl;
+
     emit startGameSignal();
 }
 
@@ -44,6 +50,7 @@ void MainWindow::findStartQuitChild() {
     if (!quitButton) {
         qDebug() << "Error: QuitButton not found!";
     }
+    
 
 }
 

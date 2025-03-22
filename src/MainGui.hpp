@@ -5,6 +5,7 @@
 #define MAINGUI_HPP
 
 #include <QApplication>
+#include <PokerFaceView/untitled/gameview.h>
 #include <PokerFaceView/untitled/mainwindow.h>
 #include "PokerFace.hpp"
 
@@ -15,10 +16,11 @@ private:
     QApplication *a;
     MainWindow *mainWindow;
     PokerFace& pokerFace;
+    GameView* gameView;
 
 private slots:
-    void onStartGameReqeust();
-    void startConfirmed();
+    int onStartGameRequest();
+    int startConfirmed();
 
 public:
     MainGui(int argc, char *argv[], PokerFace& main);

@@ -3,6 +3,7 @@
 //
 
 #include "MainGui.hpp"
+#include <PokerFaceView/untitled/gameview.h>
 #include <QApplication>
 #include <PokerFaceView/untitled/mainwindow.h>
 #include <QPushButton>
@@ -24,13 +25,19 @@ int MainGui::startGUI() {
     return a->exec();
 }
 
-void MainGui::onStartGameReqeust() {
+int MainGui::onStartGameRequest() {
+
+    mainWindow->destroyed();
+    this->gameView = new GameView();
+    gameView->show();
     pokerFace.gameStarted();
+
+    return a->exec();
 }
 
-void MainGui::startConfirmed() {
-    mainWindow->setWindowTitle("PokerFace");
-    mainWindow->viewGameSetUp();
+int MainGui::startConfirmed() {
+    return a->exec();
+
 }
 
 
