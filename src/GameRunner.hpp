@@ -44,6 +44,9 @@ public:
     void round1();
     void midRounds();
     void finalRound();
+
+    std::vector<std::unique_ptr<Player>> getPlayers();
+
     int getDealerPosition();
     int getHighestBet();
     std::vector<std::string> getCommunityCards();

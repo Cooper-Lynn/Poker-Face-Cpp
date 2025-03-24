@@ -361,7 +361,9 @@ void GameRunner::finalRound() {
     }
 }
 
-
+std::vector<std::unique_ptr<Player>> GameRunner::getPlayers() {
+    return std::move(players);
+}
 
 
 
