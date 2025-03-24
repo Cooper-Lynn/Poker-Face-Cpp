@@ -54,6 +54,9 @@ public:
     int getWinnerPos();
     std::string checkOrCall();
     std::vector<std::string> handDetail(std::vector<std::string>& hand);
+
+    void giveHandsToPlayers();
+
     std::pair<std::string, std::string> cardDetail(std::string& card);
     std::vector<std::string> giveHands(std::vector<std::string> &deck, int numOfPlayers);
     std::string dealCard(std::vector<std::string> &deck);

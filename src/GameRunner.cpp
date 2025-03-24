@@ -53,6 +53,23 @@ std::vector<std::string> GameRunner::handDetail(std::vector<std::string> &hand){
     return handToShow;
   }
 
+void GameRunner::giveHandsToPlayers() {
+    handsToGive = giveHands(currentDeck, players.size());
+    for (auto& player : players) {
+        for (int i = 0; i < 2; ++i) {
+            if (!handsToGive.empty()) {
+                // Add the first card to the player's hand
+                player->addCard(handsToGive.front());
+                // Remove the card from the deck
+                handsToGive.erase(handsToGive.begin());
+            } else {
+                std::cerr << "Error: Not enough cards to distribute." << std::endl;
+                break;
+            }
+        }
+    }
+}
+
 std::pair<std::string, std::string> GameRunner::cardDetail(std::string &card){
   std::string first;
     std::string second;
@@ -224,20 +241,6 @@ bool GameRunner::bettingCycle() {
 
 
 void GameRunner::round1() {
-    handsToGive = giveHands(currentDeck, players.size());
-    for (auto& player : players) {
-        for (int i = 0; i < 2; ++i) {
-            if (!handsToGive.empty()) {
-                // Add the first card to the player's hand
-                player->addCard(handsToGive.front());
-                // Remove the card from the deck
-                handsToGive.erase(handsToGive.begin());
-            } else {
-                std::cerr << "Error: Not enough cards to distribute." << std::endl;
-                break;
-            }
-        }
-    }
 
     hand = players[0]->getHand();
     handToShow = handDetail(hand);
@@ -250,10 +253,12 @@ void GameRunner::round1() {
         players[i]->setCurrentPosition((i - dealerPosition + players.size()) % players.size());
     }
 
+    /*
     while (!roundFinished) {
         roundFinished = false;
         bettingCycle();
     }
+    */
 
     for (int i=0; i < 3; i++) {
         std::string tempCard = dealCard(currentDeck);

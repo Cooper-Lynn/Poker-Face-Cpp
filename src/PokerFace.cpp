@@ -168,7 +168,7 @@ void PokerFace::gameStarted(std::vector<std::string> userInputSetup, MainGui *gu
 
     std::unique_ptr<GameRunner> gameRunner = std::make_unique<GameRunner>(1, players, deck);
     gameRunner->sortBlinds();
-
+    gameRunner->giveHandsToPlayers();
     passGameRunner(gameRunner);
 
 
@@ -186,6 +186,8 @@ void PokerFace::passGameRunner(std::unique_ptr<GameRunner>&gameRunner) {
 
 
 int main(int argc, char *argv[]) {
+    AIModel model(0.70 ,0.94 ,1);
+    model.quickTrain(50000);
     PokerFace poker_face;
     MainGui gui(argc, argv, poker_face);
     return 0;

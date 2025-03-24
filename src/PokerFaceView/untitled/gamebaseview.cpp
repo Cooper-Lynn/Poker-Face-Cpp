@@ -8,6 +8,8 @@
 #include <QImage>
 #include <iostream>
 #include <filesystem>
+#include <QFile>
+#include <QTextStream>
 
 GameBaseView::GameBaseView(QWidget *parent, MainGui *mainGui)
     : QWidget(parent)
@@ -43,6 +45,7 @@ void GameBaseView::setGameRunner(GameRunner& gameRunner){
 
 void GameBaseView::updateHiddenView() {
     updateCardBackPositions();
+    updateAIGui();
     updatePlayerGui();
 }
 
@@ -69,15 +72,22 @@ void GameBaseView::updateCardBackPositions() {
     for (auto& player : players) {
 
         if(dynamic_cast<AIPlayer*>(player.get())) {
-            std::cout<<"AIPlayer "<<player->getName()<<"\n";
-            QImage card1("BackOfCard90p.png");
-            QImage card2("BackOfCard90p.png");
+            QLabel* cardLabel = new QLabel(this);
+            QLabel* cardLabel2 = new QLabel(this);
+            QPixmap cardPixmap("src/PokerFaceView/untitled/playingCards/BackOfCard90p.png");
+            QPixmap cardPixmap2("src/PokerFaceView/untitled/playingCards/BackOfCard90p.png");
+            cardLabel->setPixmap(cardPixmap);
+            cardLabel2->setPixmap(cardPixmap2);
             auto pixelPair = aiPlayerCardPositions[i];
-            qPaint.drawImage(pixelPair.first, pixelPair.second, card1);
-            qPaint.drawImage(pixelPair.first+5, pixelPair.second+5, card2);
-
+            cardLabel->setGeometry(pixelPair.first, pixelPair.second, cardPixmap.width(), cardPixmap.height());
+            cardLabel2->setGeometry(pixelPair.first+5, pixelPair.second+5, cardPixmap.width(), cardPixmap.height());
+            cardLabel->show();
+            cardLabel2->show();
+            cardLabels.push_back(cardLabel);
+            cardLabels.push_back(cardLabel2);
+            std::cout<<"AIPlayer "<<player->getName()<<"\n";
+            i++;
         }
-        i++;
     }
 }
 
@@ -91,7 +101,51 @@ void GameBaseView::updateCardShownPositions() {
 }
 
 void GameBaseView::updatePlayerGui() {
+    for (auto& player : players) {
+        if(dynamic_cast<UserPlayer*>(player.get())) {
+            QLabel* playerNameLabel = new QLabel(this);
+            playerNameLabel->setGeometry(631, 480, 50, 30);
+            playerNameLabel->setText(player->getName().data());
+            playerNameLabel->show();
 
+            userHand = player->getHand();
+
+        }
+
+        std::cout<<userHand.size()<<"\n";
+        std::cout<<userHand[0]<<"\n";
+        std::cout<<userHand[1]<<"\n";
+
+        QLabel* playerCardLabel = new QLabel(this);
+        QLabel* playerCardLabel2 = new QLabel(this);
+
+
+        QPixmap cardPixmap((("src/PokerFaceView/untitled/playingCards/"+userHand[0]+".png").data()));
+        QPixmap cardPixmap2((("src/PokerFaceView/untitled/playingCards/"+userHand[1]+".png").data()));
+
+        playerCardLabel->setPixmap(cardPixmap);
+        playerCardLabel2->setPixmap(cardPixmap2);
+        playerCardLabel->setGeometry(530, 543, cardPixmap.width(), cardPixmap.height());
+        playerCardLabel2->setGeometry(660, 543, cardPixmap.width(), cardPixmap.height());
+        playerCardLabel->show();
+        playerCardLabel2->show();
+
+    }
+}
+
+void GameBaseView::updateAIGui() {
+    int i = 0;
+    for (auto& player : players) {
+
+        if(dynamic_cast<AIPlayer*>(player.get())) {
+            QLabel* nameLabel = new QLabel(this);
+            auto pixelPair = aiPlayerNamePositions[i];
+            nameLabel->setText(player->getName().data());
+            nameLabel->setGeometry(pixelPair.first, pixelPair.second, 50, 30);
+            nameLabel->show();
+            i++;
+        }
+    }
 }
 
 
