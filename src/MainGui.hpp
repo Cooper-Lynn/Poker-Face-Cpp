@@ -33,7 +33,7 @@ public:
     void startGameView();
     void passUserInputToPoker(std::vector<std::string> &userInput);
 
-    void setGameRunnerPointer(GameRunner &gameRunner);
+    void setGameRunnerPointer(GameRunner* gameRunner);
 };
 
 

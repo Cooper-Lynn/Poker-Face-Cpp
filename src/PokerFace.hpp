@@ -37,7 +37,7 @@ public:
     std::pair<std::string, std::string> cardDetail(std::string& card);
     std::vector<std::string> handDetail(std::vector<std::string>& hand);
     std::string checkOrCall(int maxBet);
-    void passGameRunner(const GameRunner &gameRunner);
+    void passGameRunner(std::unique_ptr<GameRunner>& gameRunner);
 
 
 };

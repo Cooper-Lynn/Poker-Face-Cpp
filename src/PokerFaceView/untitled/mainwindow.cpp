@@ -29,11 +29,6 @@ void MainWindow::on_StartButton_clicked()
         quitButton->hide();
     }
 
-    if (MenuLabel && TitleLabel) {
-        MenuLabel->hide();
-        TitleLabel->hide();
-    }
-
     std::cout<<"Start button clicked"<<std::endl;
 
     emit startGameSignal();

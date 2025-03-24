@@ -69,8 +69,9 @@ void MainGui::passUserInputToPoker(std::vector<std::string> &userInput) {
 
 }
 
-void MainGui::setGameRunnerPointer(GameRunner& gameRunner) {
-    this->gameRunner = &gameRunner;
+void MainGui::setGameRunnerPointer(GameRunner* gameRunner) {
+    std::cout << "Setting GameRunnerPointer" << std::endl;
+    this->gameRunner = gameRunner;
 }
 
 

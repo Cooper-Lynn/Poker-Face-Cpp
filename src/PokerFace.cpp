@@ -166,18 +166,19 @@ void PokerFace::gameStarted(std::vector<std::string> userInputSetup, MainGui *gu
         std::cout << player->getName() << "\n";
     }
 
-    GameRunner gameRunner = GameRunner(1, players, deck);
+    std::unique_ptr<GameRunner> gameRunner = std::make_unique<GameRunner>(1, players, deck);
+    gameRunner->sortBlinds();
 
     passGameRunner(gameRunner);
 
-    gameRunner.sortBlinds();
+
 
 }
 
 
-void PokerFace::passGameRunner(const GameRunner& gameRunner) {
+void PokerFace::passGameRunner(std::unique_ptr<GameRunner>&gameRunner) {
     std::cout<<"passing game runner"<<std::endl;
-    mainGui->setGameRunnerPointer(&gameRunner);
+    mainGui->setGameRunnerPointer(gameRunner.get());
 }
 
 
