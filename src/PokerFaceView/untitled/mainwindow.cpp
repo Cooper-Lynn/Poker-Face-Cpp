@@ -45,8 +45,6 @@ void MainWindow::findStartQuitChild() {
     if (!quitButton) {
         qDebug() << "Error: QuitButton not found!";
     }
-    
-
 }
 
 void MainWindow::findMenuLabels() {
