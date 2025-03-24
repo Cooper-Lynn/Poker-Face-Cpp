@@ -24,7 +24,7 @@ private:
     int position;
     int handStrength;
     int potRatio;
-    std::string fileName = "aiModel.csv";
+    std::string fileName = "src/aiModel.csv";
     int getStateID(std::vector<double>& state);
     double simHand(std::vector<double>& state, int action);
     enum actions {

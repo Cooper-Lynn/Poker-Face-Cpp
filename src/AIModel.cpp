@@ -14,7 +14,11 @@
     epsilon = explore;
     std::random_device rd;
     rng = std::mt19937(rd());
-
+    try {
+        loadFile();
+    }catch(...) {
+        std::cerr << "Error loading file" << std::endl;
+    }
     qTable.resize(250, std::vector<double>(3, 0.0));
 }
 
@@ -42,6 +46,8 @@ void AIModel::quickTrain(int episodes = 5000) {
         };
 
         learn(state, action, reward, nextState);
+
+        std::max(epsilon * 0.999, 0.05);
 
         if ((episode + 1) % 100 == 0) {
             std::cout << "Training episode " << episode + 1 << "/" << episodes << "\n";
@@ -180,7 +186,7 @@ int AIModel::selectAction(std::vector<double> &state, bool training) {
      int stateID = getStateID(state);
 
      if (training) {
-         explorationRate = getExploration();
+         explorationRate = std::max(getExploration() * 0.999, 0.005);
      }
      else {
          explorationRate = getExploration() * 0.1;
