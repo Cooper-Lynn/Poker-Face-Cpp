@@ -186,8 +186,8 @@ void PokerFace::passGameRunner(std::unique_ptr<GameRunner>&gameRunner) {
 
 
 int main(int argc, char *argv[]) {
-    AIModel model(0.70 ,0.94 ,1);
-    model.quickTrain(50000);
+    AIModel model(0.09 ,0.94 ,1);
+    model.quickTrain(500000);
     PokerFace poker_face;
     MainGui gui(argc, argv, poker_face);
     return 0;
