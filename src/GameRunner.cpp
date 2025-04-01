@@ -221,6 +221,20 @@ bool GameRunner::bettingCycle() {
 
         else {
             int action = players[i]->getAction(players);
+            switch(action) {
+                case 1:
+                    std::cout<<"You have raised";
+                    break;
+                case 2:
+                    std::cout<<"You have folded";
+                    break;
+                case 3:
+                    std::cout<<"You have call/check";
+                    break;
+                default:
+                    std::cout<<"You have folded";
+                    break;
+            }
             chipPot+=30;
             players[i]->changeChips(-30);
             if (30>highestBet) {

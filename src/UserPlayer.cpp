@@ -118,6 +118,9 @@ std::vector<std::string> UserPlayer::getCommunityHand() {
     return communityHand;
 }
 
+int UserPlayer::getAction(std::vector<std::unique_ptr<Player> > &players) {
+    return 0;
+}
 
 
 

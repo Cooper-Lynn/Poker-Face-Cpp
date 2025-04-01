@@ -34,6 +34,7 @@ public:
     std::vector<std::string> getValuedHand();
     std::vector<std::string> getCommunityHand();
     std::pair<double, std::vector<std::string>> tieBreaker(double matching);
+    int getAction(std::vector<std::unique_ptr<Player>> &players);
 
 
 };
