@@ -186,7 +186,7 @@ int AIModel::selectAction(std::vector<double> &state, bool training) {
      int stateID = getStateID(state);
 
      if (training) {
-         explorationRate = std::max(getExploration() * 0.999, 0.005);
+         explorationRate = std::max(getExploration() * 0.99999, 0.005);
      }
      else {
          explorationRate = getExploration() * 0.1;
@@ -265,6 +265,9 @@ double AIModel::simHand(std::vector<double> &state, int action) {
 
              }
              break;
+         default:
+             baseReward = -0.5; // Penalise unknown action.
+         break;
      }
 
      // Add slight randomness to encourage exploration

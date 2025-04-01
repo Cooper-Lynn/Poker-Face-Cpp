@@ -133,7 +133,7 @@ std::string GameRunner::dealCard(std::vector<std::string> &deck) {
     return card;
 }
 
-std::vector<std::string> GameRunner::createDeck(std::vector<std::string> &suits, std::vector<std::string> &ranks) {
+std::vector<std::string> GameRunner::createDeck() {
     std::vector<std::string> deck;
     for (const auto &suit : suits) {
         for (const auto &rank : ranks) {
@@ -142,6 +142,11 @@ std::vector<std::string> GameRunner::createDeck(std::vector<std::string> &suits,
     }
     return deck;
 }
+
+void GameRunner::setCurrentDeck(std::vector<std::string> &newDeck) {
+    currentDeck = newDeck;
+}
+
 
 std::string GameRunner::checkOrCall() {
     if (!highestBet) return "Check";
@@ -330,7 +335,7 @@ void GameRunner::finalRound() {
     tieBreaker = 0;
     tieBroken = false;
     while (!tieBroken) {
-        if (playerTies.size()==0) {
+        if (playerTies.size()!=0) {
             for (auto &player : playerTies) {
                 auto result = player->tieBreaker(tieStrength);
                 if (result.first > tieBreaker) {
@@ -369,6 +374,8 @@ void GameRunner::finalRound() {
 std::vector<std::unique_ptr<Player>> GameRunner::getPlayers() {
     return std::move(players);
 }
+
+
 
 
 

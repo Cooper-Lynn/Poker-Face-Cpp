@@ -34,6 +34,10 @@ private:
     std::vector<std::string> handToShow;
     std::vector<std::string> hand;
     std::vector<std::unique_ptr<Player>> playerTies;
+    std::vector<std::string> suits = {"s", "h", "d", "c"};
+    std::vector<std::string> ranks = {
+        "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"
+    };
 
 
 public:
@@ -56,11 +60,13 @@ public:
     std::vector<std::string> handDetail(std::vector<std::string>& hand);
 
     void giveHandsToPlayers();
+    void setCurrentDeck(std::vector<std::string> &newDeck);
 
     std::pair<std::string, std::string> cardDetail(std::string& card);
     std::vector<std::string> giveHands(std::vector<std::string> &deck, int numOfPlayers);
     std::string dealCard(std::vector<std::string> &deck);
-    std::vector<std::string> createDeck(std::vector<std::string> &suits, std::vector<std::string> &ranks);
+    std::vector<std::string> createDeck();
+
 
 
 };

@@ -17,6 +17,12 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 # Include directories (for your source files)
 include_directories(${CMAKE_SOURCE_DIR})
 
+# Enable testing
+include(CTest)
+
+# Add Catch2 (if using the header-only version, no need to compile separately)
+add_executable(tests PokerTests.cpp)
+
 # Define the main executable
 add_executable(Poker_Face_C_
         PokerFace.cpp
