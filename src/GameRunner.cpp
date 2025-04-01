@@ -11,14 +11,7 @@
 #include "UserPlayer.hpp"
 #include "AIPlayer.hpp"
 
-GameRunner::GameRunner(int dealerPosition,
-                         std::vector<std::unique_ptr<Player>> players,
-                         std::vector<std::string> currentDeck)
-    : dealerPosition(dealerPosition),
-      players(std::move(players)),
-      currentDeck(std::move(currentDeck)),
-      highestBet(0),
-      chipPot(0){
+GameRunner::GameRunner(int dealerPosition, std::vector<std::unique_ptr<Player>> &players, std::vector<std::string> &currentDeck){
   this->dealerPosition = dealerPosition;
   this->players = std::move(players);
   this->currentDeck = std::move(currentDeck);

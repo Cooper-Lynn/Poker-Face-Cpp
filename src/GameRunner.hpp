@@ -41,9 +41,7 @@ private:
 
 
 public:
-    GameRunner(int dealerPosition,
-                         std::vector<std::unique_ptr<Player>> players,
-                         std::vector<std::string> currentDeck);
+    GameRunner(int dealerPosition, std::vector<std::unique_ptr<Player>> &players, std::vector<std::string> &currentDeck);
     ~GameRunner();
     bool bettingCycle();
     void sortBlinds();

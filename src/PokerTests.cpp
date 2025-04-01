@@ -12,7 +12,7 @@ TEST_CASE("GameRunner, Card Detail gives correct card details", "[CARD LOGIC]") 
     std::string name = "player1";
     players.push_back(std::make_unique<UserPlayer>(name));
     std::vector<std::string> currentDeck;
-    GameRunner game_runner(1, std::move(players), std::move(currentDeck));
+    GameRunner game_runner(1, players, currentDeck);
     std::string card = "s1";
     std::pair<std::string, std::string> result = game_runner.cardDetail(card);
 
@@ -27,7 +27,7 @@ TEST_CASE("GameRunner, Hand Detail gives correct hand details", "[CARD LOGIC]") 
     players.push_back(std::make_unique<UserPlayer>(name));
 
     std::vector<std::string> currentDeck;
-    std::unique_ptr<GameRunner> gameRunner = std::make_unique<GameRunner>(1, std::move(players), std::move(currentDeck));
+    std::unique_ptr<GameRunner> gameRunner = std::make_unique<GameRunner>(1, players, currentDeck);
     std::string card = "s1";
     std::string card2 = "d13";
 
@@ -47,13 +47,14 @@ TEST_CASE("GameRunner, Give 2 cards to a player using .giveHandsToPlayer", "[CAR
     std::string name = "player1";
     players.push_back(std::make_unique<UserPlayer>(name));
 
-    GameRunner game_runner(1, std::move(players), std::move(currentDeck));
+    GameRunner game_runner(1, players, currentDeck);
     currentDeck = game_runner.createDeck();
     game_runner.setCurrentDeck(currentDeck);
 
     game_runner.giveHandsToPlayers();
+    players = game_runner.getPlayers();
 
-    std::vector<std::string> playerHand; //=  players[0]->getHand();
+    std::vector<std::string> playerHand =  players[0]->getHand();
 
     REQUIRE(playerHand.size() == 2);
 }
