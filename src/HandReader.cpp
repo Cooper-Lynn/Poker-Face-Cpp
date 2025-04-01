@@ -89,6 +89,7 @@ bool HandReader::isStraight(std::vector<int>& ranks){
   }
 
   int consecutive = 1;
+  std::sort(compareRanks.begin(), compareRanks.end());
 
   for (int i = 1; i < compareRanks.size(); i++) {
 
@@ -156,7 +157,6 @@ std::pair<double, std::vector<std::string>> HandReader::valueHand() {
   countCards(totalCards);
 
   int fourKind= 0, threeKind= 0, pairs = 0;
-  std::vector<int> ranks;
 
   for (auto& [rank, count] : rankCount) {
     if (count==4) {

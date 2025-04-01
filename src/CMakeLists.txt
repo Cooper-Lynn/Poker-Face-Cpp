@@ -17,12 +17,6 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 # Include directories (for your source files)
 include_directories(${CMAKE_SOURCE_DIR})
 
-# Enable testing
-include(CTest)
-
-# Add Catch2 (if using the header-only version, no need to compile separately)
-add_executable(tests PokerTests.cpp)
-
 # Define the main executable
 add_executable(Poker_Face_C_
         PokerFace.cpp
@@ -54,3 +48,23 @@ install(TARGETS Poker_Face_C_
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(Poker_Face_C_)
 endif()
+
+# ========== Catch2 Unit Tests ==========
+
+# Define the test executable
+add_executable(tests PokerTests.cpp
+
+        AIPlayer.cpp
+        UserPlayer.cpp
+        GameRunner.cpp
+        HandReader.cpp
+        AIModel.cpp
+
+)
+
+# Ensure the compiler can find the Catch2 header in src
+target_include_directories(tests PRIVATE ${CMAKE_SOURCE_DIR})
+
+# Register the test with CTest
+add_test(NAME PokerTests COMMAND tests)
+
