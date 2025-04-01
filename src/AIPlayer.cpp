@@ -136,7 +136,19 @@ std::pair<double, std::vector<std::string> > AIPlayer::tieBreaker(double matchin
     return result;
 }
 
+int AIPlayer::getAction(std::vector<std::unique_ptr<Player>> &players) {
 
+    std::vector<double> state ={
+        findHandState(),
+        findPotRatio(),
+        findPositionState(players),
+    };
+
+    return aiModel.selectAction(state);
+
+
+
+}
 
 
 

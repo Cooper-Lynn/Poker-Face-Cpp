@@ -60,6 +60,7 @@ public:
   std::vector<std::string> getValuedHand();
   double getHandStrength();
   std::pair<double, std::vector<std::string>> tieBreaker(double matching);
+  int getAction(std::vector<std::unique_ptr<Player>> &players);
 
 
 };

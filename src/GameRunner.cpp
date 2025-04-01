@@ -220,6 +220,7 @@ bool GameRunner::bettingCycle() {
         }
 
         else {
+            int action = players[i]->getAction(players);
             chipPot+=30;
             players[i]->changeChips(-30);
             if (30>highestBet) {
