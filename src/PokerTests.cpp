@@ -139,8 +139,50 @@ TEST_CASE("HandReader, test for every strength", "[HAND LOGIC]") {
         auto result = handReader.valueHand();
         REQUIRE(result.first == 1);
     }
+
+
 }
 
+TEST_CASE("HandReader, test for every prediction", "[HAND LOGIC]") {
+    SECTION("Royal Flush") {
+        std::vector<std::string> playerHand = {"s10", "s1"};
+        std::vector<std::string> communityCards = {"s11", "s12"};
+        HandReader handReader(playerHand, communityCards);
+        auto result = handReader.predictWorth();
+        REQUIRE(result == 10);
+    }
+
+    SECTION("Straight Flush") {
+        std::vector<std::string> playerHand = {"d8", "d9"};
+        std::vector<std::string> communityCards = {"d7"};
+        HandReader handReader(playerHand, communityCards);
+        auto result = handReader.predictWorth();
+        REQUIRE(result == 9);
+    }
+
+
+    SECTION("Flush") {
+        std::vector<std::string> playerHand = {"s2"};
+        std::vector<std::string> communityCards = {"s11", "s7"};
+        HandReader handReader(playerHand, communityCards);
+        auto result = handReader.predictWorth();
+        REQUIRE(result == 6);
+    }
+
+    SECTION("Straight") {
+        std::vector<std::string> playerHand = {"c4", "s5"};
+        std::vector<std::string> communityCards = {"h6", "d7"};
+        HandReader handReader(playerHand, communityCards);
+        auto result = handReader.predictWorth();
+        REQUIRE(result == 5);
+    }
+
+
+}
+
+TEST_CASE("", "") {
+
+}
 
 
 
