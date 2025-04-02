@@ -59,7 +59,7 @@ class Player {
         virtual double getHandStrength() = 0;
         virtual std::vector<std::string> getValuedHand() = 0;
         virtual std::pair<double, std::vector<std::string>> tieBreaker(double matching) = 0;
-        virtual int getAction (std::vector<std::unique_ptr<Player>> &players);
+        virtual int getAction (std::vector<std::unique_ptr<Player>> &players) = 0;
 
 };
 

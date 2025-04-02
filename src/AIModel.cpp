@@ -218,13 +218,13 @@ double AIModel::simHand(std::vector<double> &state, int action) {
      switch(action) {
          case 2: // FOLD
              if (handStrength < 0.2) {
-                 baseReward = 0.1;
+                 baseReward = 0.7;
                  }
              else if (handStrength > 0.4) {
                 baseReward = -1.0;
              }
              else if (position < 0.3 && potRatio < 0.3) {
-                baseReward = 0.05;
+                baseReward = 0.2;
              }
              else {
                  baseReward = -0.3;
@@ -246,7 +246,7 @@ double AIModel::simHand(std::vector<double> &state, int action) {
                  baseReward = 0.2;
              }
              else {
-                 baseReward = -1.0;
+                 baseReward = -2.0;
              }
 
              break;
