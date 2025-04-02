@@ -9,6 +9,8 @@
 #include <random>
 #include <fstream>
 #include <iostream>
+#include <algorithm>
+#include <fstream>
 #include <ctime>
 
 class AIModel {
@@ -21,17 +23,20 @@ private:
     double baseReward;
     std::mt19937 rng;
     int games_played;
-    int position;
-    int handStrength;
-    int potRatio;
+    double position;
+    double handStrength;
+    double potRatio;
     std::string fileName = "src/aiModel.csv";
     int getStateID(std::vector<double>& state);
     double simHand(std::vector<double>& state, int action);
+
+
     enum actions {
         CHECK,
         RAISE,
         FOLD,
     };
+
 public:
     AIModel(double learn, double discount, double explore);
     ~AIModel();
@@ -44,6 +49,7 @@ public:
     double getLearningRate();
     double getDiscount();
     double getExploration();
+    void addExperience(std::vector<double> &state, int action, double reward, std::vector<double> &nextState);
 };
 
 

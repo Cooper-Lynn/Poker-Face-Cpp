@@ -49,9 +49,6 @@ void AIModel::quickTrain(int episodes = 5000) {
 
         std::max(epsilon * 0.999, 0.05);
 
-        if ((episode + 1) % 100 == 0) {
-            std::cout << "Training episode " << episode + 1 << "/" << episodes << "\n";
-        }
 
     }
 }
@@ -262,7 +259,7 @@ double AIModel::simHand(std::vector<double> &state, int action) {
                  baseReward = 0.4;
              }
              else {
-
+                baseReward = -0.3;
              }
              break;
          default:
@@ -274,8 +271,3 @@ double AIModel::simHand(std::vector<double> &state, int action) {
      return baseReward + ((static_cast<double>(rand()) / RAND_MAX) - 0.5) * 0.1;
 
 }
-
-
-
-
-
