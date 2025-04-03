@@ -171,11 +171,9 @@ bool GameRunner::bettingCycle() {
             false) {
             std::cout<<"USER INPUT";
             emit userInputRequired();
-            //QEventLoop loop;
-
-
-
-            //loop.exec();
+            QEventLoop loop;
+            auto conn = connect(this, &GameRunner::userInputProcessed, &loop, &QEventLoop::quit, Qt::UniqueConnection);
+            loop.exec();
         } else if (players[i]->getTag() == false) {
             std::cout << "Error: before player action." << std::endl;
             int action = players[i]->getAction(players);
@@ -184,7 +182,6 @@ bool GameRunner::bettingCycle() {
                 case 0:
                     chipInput = highestBet - players[i]->getCurrentBet();
                     if (chipInput >= players[i]->getChips()) {
-
                         break;
                     }
                     chipPot += chipInput;
@@ -397,10 +394,6 @@ void GameRunner::setUserInput(int action, int chips) {
             }
         }
     }
-    //emit userInputProcessed();
+    emit userInputProcessed();
 }
 
-void GameRunner::setGameBaseView() {
-    //GameBaseView *gameBaseView) {
-    //this->gameBaseView= gameBaseView;
-}

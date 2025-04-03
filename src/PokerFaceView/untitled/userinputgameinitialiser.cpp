@@ -64,6 +64,7 @@ void userInputGameInitialiser::on_confirmPush_clicked()
         }
         else {
             if (gameView) {
+                this->hide();
                 gameView->passUserInput(userInput);
             } else {
                 QMessageBox::critical(this, "Error", "GameView is not initialized.");
