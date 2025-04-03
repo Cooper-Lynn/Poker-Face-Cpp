@@ -3,9 +3,9 @@ project(Poker_Face_C_)
 
 # -----------------------------------------------------------
 # Set the path to static Qt installation
-# This enables CMake to locate the Qt libraries in the repo (or on disk).
+# This enables CMake to locate the Qt libraries on disk).
 # -----------------------------------------------------------
-set(CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}/qt-static-install")
+set(CMAKE_PREFIX_PATH "D:/Qt-framework")
 # -----------------------------------------------------------
 # Enable automatic handling for Qt’s meta-object features:
 # - AUTOMOC: Processes Q_OBJECT macros.
@@ -23,12 +23,12 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # -----------------------------------------------------------
-# Define static linking for Qt: this allows you to compile Qt into your executable.
+# Define static linking for Qt
 # -----------------------------------------------------------
 add_definitions(-DQT_STATICPLUGIN)
 
 # -----------------------------------------------------------
-# Locate Qt components. This will work for both Qt6 and Qt5.
+# Locate Qt components.
 # -----------------------------------------------------------
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
@@ -63,12 +63,12 @@ add_executable(Poker_Face_C_
 )
 
 # -----------------------------------------------------------
-# Link the found Qt static libraries to the main executable.
+# Link the found Qt libraries to the main executable.
 # -----------------------------------------------------------
 target_link_libraries(Poker_Face_C_ PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
 # -----------------------------------------------------------
-# Installation Rules: Useful if you need to install the executable.
+# Installation Rules
 # -----------------------------------------------------------
 include(GNUInstallDirs)
 install(TARGETS Poker_Face_C_
@@ -76,8 +76,7 @@ install(TARGETS Poker_Face_C_
 )
 
 # -----------------------------------------------------------
-# Finalize the executable for Qt 6:
-# This ensures proper packaging of Qt dependencies in your static build.
+# Finalize the executable for Qt 6
 # -----------------------------------------------------------
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(Poker_Face_C_)
