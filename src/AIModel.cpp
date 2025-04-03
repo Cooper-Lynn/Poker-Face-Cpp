@@ -173,7 +173,7 @@ int AIModel::getStateID(std::vector<double> &state) {
 }
 
 int AIModel::selectAction(std::vector<double> &state, bool training) {
-    int stateID = getStateID(state)-1;
+    int stateID = getStateID(state);
 
     if (training) {
         explorationRate = std::max(getExploration() * 0.99999, 0.005);
