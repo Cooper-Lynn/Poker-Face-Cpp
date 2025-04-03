@@ -7,10 +7,13 @@
 #include <memory>
 #include <random>
 #include "Player.hpp"
+#include <QObject>
+
 #include "UserPlayer.hpp"
 #include "AIPlayer.hpp"
 
-class GameRunner {
+class GameRunner : public QObject {
+    Q_OBJECT
 private:
     bool roundFinished;
     int dealerPosition;
@@ -38,6 +41,8 @@ private:
         "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"
     };
 
+
+
 public:
     GameRunner(int dealerPosition, std::vector<std::unique_ptr<Player> > &players,
                std::vector<std::string> &currentDeck);
@@ -55,6 +60,8 @@ public:
     void finalRound();
 
     std::vector<std::unique_ptr<Player> > getPlayers();
+
+    void setUserInput(int action, int chips);
 
     int getDealerPosition();
 
@@ -81,6 +88,17 @@ public:
     std::string dealCard(std::vector<std::string> &deck);
 
     std::vector<std::string> createDeck();
+
+    void setGameBaseView();//GameBaseView* gameBaseView);
+
+    void setUserInput();
+
+    signals:
+    void userInputRequired();
+    void userInputProcessed();
+
+
+
 };
 
 #endif //GAMERUNNER_HPP

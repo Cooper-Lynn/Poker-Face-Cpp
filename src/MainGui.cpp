@@ -15,6 +15,9 @@ MainGui::MainGui(int argc, char *argv[], PokerFace &main) : pokerFace(main) {
     this->mainWindow = std::make_unique<MainWindow>();
     QObject::connect(this->mainWindow.get(), &MainWindow::startGameSignal,
                      this, &MainGui::onStartGameRequest);
+
+
+
     startGUI();
 };
 
@@ -63,5 +66,18 @@ void MainGui::passUserInputToPoker(std::vector<std::string> &userInput) {
 void MainGui::setGameRunnerPointer(GameRunner *gameRunner) {
     std::cout << "Setting GameRunnerPointer" << std::endl;
     this->gameRunner = gameRunner;
+    auto conn = QObject::connect(gameRunner, &GameRunner::userInputRequired,
+            this, &MainGui::showUserGameInputDialogue);
+    qDebug() << "Connection established:" << (conn ? "yes" : "no");
     gameView->setGameRunner(*this->gameRunner);
+
+
+}
+
+void MainGui::showUserGameInputDialogue() {
+    gameView->userInput();
+}
+
+void MainGui::getUserGameInput(int action, int chips) {
+    gameRunner->setUserInput(action, chips);
 }

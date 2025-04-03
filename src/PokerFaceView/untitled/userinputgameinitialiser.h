@@ -18,6 +18,7 @@ public:
 
     ~userInputGameInitialiser();
 
+
 private slots:
     void on_confirmPush_clicked();
 

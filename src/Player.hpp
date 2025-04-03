@@ -22,7 +22,7 @@ protected:
     std::pair<double, std::vector<std::string> > evaluatedHand;
     std::vector<std::string> valuedHand;
     double handStrength;
-    std::string tag;
+    bool tag = false;
     int currentBet = 0;
     int highestBet = 0;
     int highestPlayedBet = 0;
@@ -85,6 +85,12 @@ public:
     virtual std::pair<double, std::vector<std::string> > tieBreaker(double matching) = 0;
 
     virtual int getAction(std::vector<std::unique_ptr<Player> > &players) = 0;
+
+    virtual void setTag(bool folded) = 0;
+
+    virtual bool getTag() = 0;
+
+    virtual std::unique_ptr<Player> clone() = 0;
 };
 
 

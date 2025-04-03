@@ -145,3 +145,16 @@ int AIPlayer::getAction(std::vector<std::unique_ptr<Player> > &players) {
 
     return aiModel.selectAction(state);
 }
+
+void AIPlayer::setTag(bool folded) {
+    tag = folded;
+}
+
+
+bool AIPlayer::getTag() {
+    return tag;
+}
+
+std::unique_ptr<Player> AIPlayer::clone() {
+    return std::make_unique<AIPlayer>(*this);
+}

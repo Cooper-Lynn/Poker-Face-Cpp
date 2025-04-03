@@ -121,3 +121,16 @@ std::vector<std::string> UserPlayer::getCommunityHand() {
 int UserPlayer::getAction(std::vector<std::unique_ptr<Player> > &players) {
     return 0;
 }
+
+void UserPlayer::setTag(bool folded) {
+    tag = folded;
+}
+
+bool UserPlayer::getTag() {
+    return tag;
+}
+
+std::unique_ptr<Player> UserPlayer::clone() {
+    return std::make_unique<UserPlayer>(*this);
+}
+

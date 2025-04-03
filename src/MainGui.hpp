@@ -10,6 +10,7 @@
 #include "PokerFace.hpp"
 
 
+
 class MainGui : public QObject {
     Q_OBJECT
 
@@ -37,6 +38,11 @@ public:
     void passUserInputToPoker(std::vector<std::string> &userInput);
 
     void setGameRunnerPointer(GameRunner *gameRunner);
+
+public slots:
+    void showUserGameInputDialogue();
+
+    void getUserGameInput(int action, int chips);
 };
 
 

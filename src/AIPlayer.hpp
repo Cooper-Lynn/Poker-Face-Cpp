@@ -88,6 +88,12 @@ public:
     std::pair<double, std::vector<std::string> > tieBreaker(double matching);
 
     int getAction(std::vector<std::unique_ptr<Player> > &players);
+
+    void setTag(bool folded);
+
+    bool getTag();
+
+    std::unique_ptr<Player> clone();
 };
 
 #endif // AIPLAYER_HPP

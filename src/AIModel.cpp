@@ -173,7 +173,7 @@ int AIModel::getStateID(std::vector<double> &state) {
 }
 
 int AIModel::selectAction(std::vector<double> &state, bool training) {
-    int stateID = getStateID(state);
+    int stateID = getStateID(state)-1;
 
     if (training) {
         explorationRate = std::max(getExploration() * 0.99999, 0.005);
@@ -189,7 +189,8 @@ int AIModel::selectAction(std::vector<double> &state, bool training) {
     auto &qValues = qTable[stateID];
     int bestAction = 0;
     double bestValue = qValues[0];
-    for (int i = 1; i < qValues.size(); i++) {
+    for (int i = 0; i < qValues.size(); i++) {
+        std::cout<<stateID<<" "<<qValues[i]<<" "<< i<<std::endl;
         if (qValues[i] > bestValue) {
             bestValue = qValues[i];
             bestAction = i;

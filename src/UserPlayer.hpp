@@ -59,7 +59,11 @@ public:
 
     int getAction(std::vector<std::unique_ptr<Player> > &players);
 
+    void setTag(bool folded);
 
+    bool getTag();
+
+    std::unique_ptr<Player> clone();
 };
 
 #endif //USERPLAYER_HPP

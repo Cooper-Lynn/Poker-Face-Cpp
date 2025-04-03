@@ -29,7 +29,7 @@
     <set>QDialogButtonBox::StandardButton::Ok</set>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton">
+  <widget class="QRadioButton" name="callCheckRButton">
    <property name="geometry">
     <rect>
      <x>40</x>
@@ -42,7 +42,7 @@
     <string>Call</string>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton_2">
+  <widget class="QRadioButton" name="raiseRButton">
    <property name="geometry">
     <rect>
      <x>40</x>
@@ -55,7 +55,7 @@
     <string>Raise</string>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton_3">
+  <widget class="QRadioButton" name="foldRButton">
    <property name="geometry">
     <rect>
      <x>40</x>
@@ -68,7 +68,7 @@
     <string>Fold</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="cashLabel">
    <property name="geometry">
     <rect>
      <x>260</x>
@@ -81,7 +81,7 @@
     <string>Cash:</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_2">
+  <widget class="QLabel" name="raiseByLabel">
    <property name="geometry">
     <rect>
      <x>190</x>
@@ -94,7 +94,7 @@
     <string>Raise By:</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit">
+  <widget class="QLineEdit" name="raiseEdit">
    <property name="geometry">
     <rect>
      <x>250</x>

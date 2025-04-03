@@ -5,6 +5,7 @@
 #ifndef POKERFACE_HPP
 #define POKERFACE_HPP
 
+#include <GameRunner.hpp>
 #include <iostream>
 #include <MainGui.hpp>
 #include <vector>
@@ -41,6 +42,6 @@ public:
 
     std::string checkOrCall(int maxBet);
 
-    void passGameRunner(std::unique_ptr<GameRunner> &gameRunner);
+    void passGameRunner(std::unique_ptr<GameRunner>& gameRunner);
 };
 #endif // POKERFACE_HPP //POKERFACE_HPP
