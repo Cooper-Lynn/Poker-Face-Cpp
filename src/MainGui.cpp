@@ -10,14 +10,12 @@
 #include <QPushButton>
 
 
-MainGui::MainGui(int argc, char *argv[], PokerFace& main) : pokerFace(main) {
+MainGui::MainGui(int argc, char *argv[], PokerFace &main) : pokerFace(main) {
     this->a = new QApplication(argc, argv);
     this->mainWindow = std::make_unique<MainWindow>();
     QObject::connect(this->mainWindow.get(), &MainWindow::startGameSignal,
-                 this ,&MainGui::onStartGameRequest);
+                     this, &MainGui::onStartGameRequest);
     startGUI();
-
-
 };
 
 MainGui::~MainGui() = default;
@@ -29,12 +27,9 @@ int MainGui::startGUI() {
 }
 
 void MainGui::onStartGameRequest() {
-
     mainWindow->hide();
     startGameView();
-
 }
-
 
 
 void MainGui::startConfirmed() {
@@ -42,7 +37,6 @@ void MainGui::startConfirmed() {
 }
 
 void MainGui::startGameView() {
-
     std::vector<std::string> userInputSetup;
 
     gameView = std::make_unique<GameBaseView>(nullptr, this);
@@ -59,22 +53,15 @@ void MainGui::startGameView() {
 
     gameView->activateWindow();
     userInputSetup = gameView->allowUserSetup();
-
-
 }
 
 void MainGui::passUserInputToPoker(std::vector<std::string> &userInput) {
-    qDebug() <<"Within MainGui";
+    qDebug() << "Within MainGui";
     pokerFace.gameStarted(userInput, this);
-
 }
 
-void MainGui::setGameRunnerPointer(GameRunner* gameRunner) {
+void MainGui::setGameRunnerPointer(GameRunner *gameRunner) {
     std::cout << "Setting GameRunnerPointer" << std::endl;
     this->gameRunner = gameRunner;
     gameView->setGameRunner(*this->gameRunner);
 }
-
-
-
-

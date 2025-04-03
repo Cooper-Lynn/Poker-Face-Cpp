@@ -7,21 +7,20 @@
 class GameBaseView;
 
 namespace Ui {
-class userInputGameInitialiser;
+    class userInputGameInitialiser;
 }
 
-class userInputGameInitialiser : public QDialog
-{
+class userInputGameInitialiser : public QDialog {
     Q_OBJECT
 
 public:
-    explicit userInputGameInitialiser(QWidget *parent = nullptr, GameBaseView* gameBaseView = nullptr);
+    explicit userInputGameInitialiser(QWidget *parent = nullptr, GameBaseView *gameBaseView = nullptr);
+
     ~userInputGameInitialiser();
-
-
 
 private slots:
     void on_confirmPush_clicked();
+
     void on_quitPush_clicked();
 
     std::vector<std::string> getUserInput();
@@ -31,7 +30,7 @@ private:
     std::vector<std::string> userInput;
     QLineEdit *userLineEdit;
     QLineEdit *aiNumLineEdit;
-    GameBaseView* gameView = nullptr;
+    GameBaseView *gameView = nullptr;
 
     void findLineEdits();
 };

@@ -274,7 +274,7 @@ double HandReader::predictWorth() {
     totalCards.insert(totalCards.end(), playerHand.begin(), playerHand.end());
     countCards(totalCards);
 
-    for (auto &[suit, cards] : suitToCard) {
+    for (auto &[suit, cards]: suitToCard) {
         flushCards = cards;
         std::sort(flushCards.begin(), flushCards.end(),
                   [this](std::string &card1, std::string &card2) {
@@ -305,7 +305,7 @@ double HandReader::predictWorth() {
                     startRank = 14;
                 }
                 straightCards.clear();
-                for (auto &card : totalCards) {
+                for (auto &card: totalCards) {
                     int rank = getRank(card);
                     if ((rank >= startRank && rank <= endRank) || (rank == 14 && endRank == 5)) {
                         straightCards.push_back(card);
@@ -324,18 +324,16 @@ double HandReader::predictWorth() {
 
     std::unordered_set<int> uniqueRoyalCards;
 
-    for (auto ranks : rankCount) {
-        if(ranks.first >=10 && ranks.second >=1) {
+    for (auto ranks: rankCount) {
+        if (ranks.first >= 10 && ranks.second >= 1) {
             uniqueRoyalCards.insert(ranks.first);
         }
-
     }
     int predRoyalCount = uniqueRoyalCards.size();
 
-    if (predRoyalCount >= 3  && predStraightFlush) {
+    if (predRoyalCount >= 3 && predStraightFlush) {
         predRoyal = true;
     }
-
 
 
     if (predRoyal) {
@@ -353,7 +351,6 @@ double HandReader::predictWorth() {
 
     return 0;
 }
-
 
 
 std::pair<double, std::vector<std::string> > HandReader::tieBreaker(double matching) {

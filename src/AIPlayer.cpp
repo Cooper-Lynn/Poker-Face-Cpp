@@ -13,15 +13,17 @@ AIPlayer::AIPlayer(std::string userName): Player(std::move(userName)), aiModel(0
 AIPlayer::~AIPlayer() = default;
 
 
-std::string AIPlayer::getName() const {return name;};
-int AIPlayer::getChips() const {return chips;};
-int AIPlayer::getWins() const  {return wins;};
-void AIPlayer::changeChips(int newChips) {chips = newChips;}
-void AIPlayer::incWins() {++wins;};
+std::string AIPlayer::getName() const { return name; };
+int AIPlayer::getChips() const { return chips; };
+int AIPlayer::getWins() const { return wins; };
+void AIPlayer::changeChips(int newChips) { chips = newChips; }
+void AIPlayer::incWins() { ++wins; };
+
 std::vector<std::string> AIPlayer::getHand() const {
     return playerHand;
 }
-void AIPlayer::addCard(std::string card)  {
+
+void AIPlayer::addCard(std::string card) {
     playerHand.push_back(card);
 }
 
@@ -42,7 +44,7 @@ void AIPlayer::clearCurrentBet() {
 }
 
 void AIPlayer::clearHighestBet() {
-    highestBet=0;
+    highestBet = 0;
 }
 
 int AIPlayer::getHighestBet() {
@@ -58,24 +60,23 @@ void AIPlayer::setCurrentPosition(int position) {
 }
 
 
-double AIPlayer::findPositionState(std::vector<std::unique_ptr<Player>> &players) {
-    relativePosition = (currentPosition - dealerPosition + players.size() ) % players.size();
+double AIPlayer::findPositionState(std::vector<std::unique_ptr<Player> > &players) {
+    relativePosition = (currentPosition - dealerPosition + players.size()) % players.size();
 
     return static_cast<double>(relativePosition) / players.size();
 }
 
 double AIPlayer::findHandState() {
     handReader.updateHands(playerHand, communityHand);
-    evaluatedHand  = handReader.valueHand();
+    evaluatedHand = handReader.valueHand();
     evaluatedWorth = evaluatedHand.first;
     predictedWorth = handReader.predictWorth();
 
 
     if (predictedWorth > evaluatedWorth) {
-        return static_cast<double>(predictedWorth)/10;
+        return static_cast<double>(predictedWorth) / 10;
     }
-    return static_cast<double>(evaluatedWorth)/10;
-
+    return static_cast<double>(evaluatedWorth) / 10;
 }
 
 double AIPlayer::findPotRatio() {
@@ -87,16 +88,15 @@ double AIPlayer::findPotRatio() {
     validChips = std::max(getChips(), 1);
     validPot = std::max(currentPot, 1);
 
-    RatioBetReserve = 1-(static_cast<double>(currentBet)/validChips);
-    RatioHighPot = 1-(static_cast<double>(highestPlayedBet)/validPot);
-    RatioHighReserve = 1-(static_cast<double>(highestPlayedBet)/validChips);
+    RatioBetReserve = 1 - (static_cast<double>(currentBet) / validChips);
+    RatioHighPot = 1 - (static_cast<double>(highestPlayedBet) / validPot);
+    RatioHighReserve = 1 - (static_cast<double>(highestPlayedBet) / validChips);
 
-    return (0.5*RatioBetReserve)+(0.3*RatioHighPot)+(0.2*RatioHighReserve);
-
+    return (0.5 * RatioBetReserve) + (0.3 * RatioHighPot) + (0.2 * RatioHighReserve);
 }
 
 
-void AIPlayer::updateCommunityHand(std::vector<std::string>& communityHand) {
+void AIPlayer::updateCommunityHand(std::vector<std::string> &communityHand) {
     this->communityHand = communityHand;
 }
 
@@ -136,27 +136,12 @@ std::pair<double, std::vector<std::string> > AIPlayer::tieBreaker(double matchin
     return result;
 }
 
-int AIPlayer::getAction(std::vector<std::unique_ptr<Player>> &players) {
-
-    std::vector<double> state ={
+int AIPlayer::getAction(std::vector<std::unique_ptr<Player> > &players) {
+    std::vector<double> state = {
         findHandState(),
         findPotRatio(),
         findPositionState(players),
     };
 
     return aiModel.selectAction(state);
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-

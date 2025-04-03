@@ -8,7 +8,7 @@
 #include "Player.hpp"
 
 TEST_CASE("GameRunner, Card Detail gives correct card details", "[CARD LOGIC]") {
-    std::vector<std::unique_ptr<Player>> players;
+    std::vector<std::unique_ptr<Player> > players;
     std::string name = "player1";
     players.push_back(std::make_unique<UserPlayer>(name));
     std::vector<std::string> currentDeck;
@@ -18,11 +18,10 @@ TEST_CASE("GameRunner, Card Detail gives correct card details", "[CARD LOGIC]") 
 
     REQUIRE(result.first == "Spades");
     REQUIRE(result.second == "Ace");
-
 }
 
 TEST_CASE("GameRunner, Hand Detail gives correct hand details", "[CARD LOGIC]") {
-    std::vector<std::unique_ptr<Player>> players;
+    std::vector<std::unique_ptr<Player> > players;
     std::string name = "player1";
     players.push_back(std::make_unique<UserPlayer>(name));
 
@@ -38,11 +37,10 @@ TEST_CASE("GameRunner, Hand Detail gives correct hand details", "[CARD LOGIC]") 
     std::vector<std::string> detailHand = gameRunner->handDetail(hand);
 
     REQUIRE(detailHand.size() == 2);
-
 }
 
 TEST_CASE("GameRunner, Give 2 cards to a player using .giveHandsToPlayer", "[CARD LOGIC]") {
-    std::vector<std::unique_ptr<Player>> players;
+    std::vector<std::unique_ptr<Player> > players;
     std::vector<std::string> currentDeck;
     std::string name = "player1";
     players.push_back(std::make_unique<UserPlayer>(name));
@@ -54,7 +52,7 @@ TEST_CASE("GameRunner, Give 2 cards to a player using .giveHandsToPlayer", "[CAR
     game_runner.giveHandsToPlayers();
     players = game_runner.getPlayers();
 
-    std::vector<std::string> playerHand =  players[0]->getHand();
+    std::vector<std::string> playerHand = players[0]->getHand();
 
     REQUIRE(playerHand.size() == 2);
 }
@@ -78,7 +76,7 @@ TEST_CASE("HandReader, test for every strength", "[HAND LOGIC]") {
 
     SECTION("Four of a Kind") {
         std::vector<std::string> playerHand = {"h7", "s7"};
-        std::vector<std::string> communityCards = {"d7", "c7", "h9" , "d2", "s3"};
+        std::vector<std::string> communityCards = {"d7", "c7", "h9", "d2", "s3"};
         HandReader handReader(playerHand, communityCards);
         auto result = handReader.valueHand();
         REQUIRE(result.first == 8);
@@ -139,8 +137,6 @@ TEST_CASE("HandReader, test for every strength", "[HAND LOGIC]") {
         auto result = handReader.valueHand();
         REQUIRE(result.first == 1);
     }
-
-
 }
 
 TEST_CASE("HandReader, test for every prediction", "[HAND LOGIC]") {
@@ -176,13 +172,7 @@ TEST_CASE("HandReader, test for every prediction", "[HAND LOGIC]") {
         auto result = handReader.predictWorth();
         REQUIRE(result == 5);
     }
-
-
 }
 
 TEST_CASE("", "") {
-
 }
-
-
-

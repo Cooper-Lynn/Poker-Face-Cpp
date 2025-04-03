@@ -15,7 +15,7 @@
 
 class AIModel {
 private:
-    std::vector<std::vector<double>> qTable;
+    std::vector<std::vector<double> > qTable;
     double alpha;
     double gamma;
     double epsilon;
@@ -27,9 +27,10 @@ private:
     double handStrength;
     double potRatio;
     std::string fileName = "src/aiModel.csv";
-    int getStateID(std::vector<double>& state);
-    double simHand(std::vector<double>& state, int action);
 
+    int getStateID(std::vector<double> &state);
+
+    double simHand(std::vector<double> &state, int action);
 
     enum actions {
         CHECK,
@@ -39,17 +40,25 @@ private:
 
 public:
     AIModel(double learn, double discount, double explore);
+
     ~AIModel();
+
     void quickTrain(int episodes);
-    void learn(std::vector<double>& state, int action, double reward,
-                std::vector<double>& nextState);
-    int selectAction(std::vector<double>& state, bool training = false);
+
+    void learn(std::vector<double> &state, int action, double reward,
+               std::vector<double> &nextState);
+
+    int selectAction(std::vector<double> &state, bool training = false);
+
     void saveFile();
+
     void loadFile();
+
     double getLearningRate();
+
     double getDiscount();
+
     double getExploration();
-    void addExperience(std::vector<double> &state, int action, double reward, std::vector<double> &nextState);
 };
 
 

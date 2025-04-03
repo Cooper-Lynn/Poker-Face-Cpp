@@ -10,32 +10,34 @@
 #include "PokerFace.hpp"
 
 
-
 class MainGui : public QObject {
-
     Q_OBJECT
 
 private:
     QApplication *a;
     std::unique_ptr<MainWindow> mainWindow;
-    PokerFace& pokerFace;
+    PokerFace &pokerFace;
     std::unique_ptr<GameBaseView> gameView;
-    GameRunner* gameRunner = nullptr;
+    GameRunner *gameRunner = nullptr;
 
 private slots:
     void onStartGameRequest();
+
     void startConfirmed();
 
 public:
-    MainGui(int argc, char *argv[], PokerFace& main);
+    MainGui(int argc, char *argv[], PokerFace &main);
+
     ~MainGui();
+
     int startGUI();
+
     void startGameView();
+
     void passUserInputToPoker(std::vector<std::string> &userInput);
 
-    void setGameRunnerPointer(GameRunner* gameRunner);
+    void setGameRunnerPointer(GameRunner *gameRunner);
 };
-
 
 
 #endif //MAINGUI_HPP

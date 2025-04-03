@@ -108,8 +108,6 @@ std::string PokerFace::checkOrCall(int maxBet) {
 }
 
 void PokerFace::gameStarted(std::vector<std::string> userInputSetup, MainGui *gui) {
-
-
     std::vector<std::string> suits = {"s", "h", "d", "c"}; // spades, hearts, diamonds, clubs
     std::vector<std::string> ranks = {
         "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"
@@ -134,7 +132,6 @@ void PokerFace::gameStarted(std::vector<std::string> userInputSetup, MainGui *gu
     int numPlayer;
 
     mainGui = gui;
-
 
 
     playerName = userInputSetup[0];
@@ -170,26 +167,17 @@ void PokerFace::gameStarted(std::vector<std::string> userInputSetup, MainGui *gu
     gameRunner->sortBlinds();
     gameRunner->giveHandsToPlayers();
     passGameRunner(gameRunner);
-
-
-
 }
 
 
-void PokerFace::passGameRunner(std::unique_ptr<GameRunner>&gameRunner) {
-    std::cout<<"passing game runner"<<std::endl;
+void PokerFace::passGameRunner(std::unique_ptr<GameRunner> &gameRunner) {
+    std::cout << "passing game runner" << std::endl;
     mainGui->setGameRunnerPointer(gameRunner.get());
 }
 
 
-
-
-
 int main(int argc, char *argv[]) {
-    AIModel model(0.12,0.8 ,1);
-    model.quickTrain(500000);
     PokerFace poker_face;
     MainGui gui(argc, argv, poker_face);
     return 0;
 }
-

@@ -60,6 +60,7 @@ add_executable(Poker_Face_C_
         PokerFaceView/untitled/userinputgameinitialiser.h
         PokerFaceView/untitled/userinputgameinitialiser.cpp
         PokerFaceView/untitled/userinputgameinitialiser.ui
+        PokerFaceView/untitled/usergameinputdialogue.h PokerFaceView/untitled/usergameinputdialogue.cpp PokerFaceView/untitled/usergameinputdialogue.ui
 )
 
 # -----------------------------------------------------------

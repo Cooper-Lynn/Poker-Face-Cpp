@@ -9,9 +9,10 @@
 #include <array>
 
 
-
 // Constructor: Pass userName to the base class constructor
-UserPlayer::UserPlayer(std::string& userName) : Player(std::move(userName)) {}
+UserPlayer::UserPlayer(std::string &userName) : Player(std::move(userName)) {
+}
+
 UserPlayer::~UserPlayer() = default;
 
 
@@ -43,9 +44,7 @@ std::vector<std::string> UserPlayer::getHand() const {
 }
 
 void UserPlayer::addCard(std::string card) {
-
     playerHand.push_back(card);
-
 }
 
 void UserPlayer::clearHand() {
@@ -55,6 +54,7 @@ void UserPlayer::clearHand() {
 void UserPlayer::setCurrentBet(int bet) {
     currentBet += bet;
 }
+
 void UserPlayer::setHighestBet(int bet) {
     highestBet = bet;
 }
@@ -64,7 +64,7 @@ void UserPlayer::clearCurrentBet() {
 }
 
 void UserPlayer::clearHighestBet() {
-    highestBet=0;
+    highestBet = 0;
 }
 
 int UserPlayer::getCurrentBet() {
@@ -110,7 +110,7 @@ void UserPlayer::setCurrentPosition(int position) {
     currentPosition = position;
 }
 
-void UserPlayer::updateCommunityHand(std::vector<std::string>& communityHand) {
+void UserPlayer::updateCommunityHand(std::vector<std::string> &communityHand) {
     this->communityHand = communityHand;
 }
 
@@ -121,11 +121,3 @@ std::vector<std::string> UserPlayer::getCommunityHand() {
 int UserPlayer::getAction(std::vector<std::unique_ptr<Player> > &players) {
     return 0;
 }
-
-
-
-
-
-
-
-

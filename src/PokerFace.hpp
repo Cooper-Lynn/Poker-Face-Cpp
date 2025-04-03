@@ -16,29 +16,31 @@
 #include "GameRunner.hpp"
 #include "MainGui.hpp"
 
-class PokerFace{
-
-
+class PokerFace {
 private:
     std::vector<std::string> suits = {"s", "h", "d", "c"};
     std::vector<std::string> ranks = {
         "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"
     };
-    MainGui* mainGui;
-
-
+    MainGui *mainGui;
 
 public:
     PokerFace();
+
     void gameStarted(std::vector<std::string> userInputSetup, MainGui *gui);
-    std::vector<std::string> createDeck(std::vector<std::string>& suits, std::vector<std::string>& ranks);
-    std::string dealCard(std::vector<std::string>& deck);
-    std::vector<std::string> giveHands(std::vector<std::string>& deck, int numOfPlayers);
-    std::pair<std::string, std::string> cardDetail(std::string& card);
-    std::vector<std::string> handDetail(std::vector<std::string>& hand);
+
+    std::vector<std::string> createDeck(std::vector<std::string> &suits, std::vector<std::string> &ranks);
+
+    std::string dealCard(std::vector<std::string> &deck);
+
+    std::vector<std::string> giveHands(std::vector<std::string> &deck, int numOfPlayers);
+
+    std::pair<std::string, std::string> cardDetail(std::string &card);
+
+    std::vector<std::string> handDetail(std::vector<std::string> &hand);
+
     std::string checkOrCall(int maxBet);
-    void passGameRunner(std::unique_ptr<GameRunner>& gameRunner);
 
-
+    void passGameRunner(std::unique_ptr<GameRunner> &gameRunner);
 };
 #endif // POKERFACE_HPP //POKERFACE_HPP
