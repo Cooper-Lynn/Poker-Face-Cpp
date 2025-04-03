@@ -169,6 +169,9 @@ void PokerFace::gameStarted(std::vector<std::string> userInputSetup, MainGui *gu
     passGameRunner(gameRunner);
 
     gameRunner->round1();
+    gameRunner->midRounds();
+    gameRunner->midRounds();
+    gameRunner->finalRound();
 }
 
 

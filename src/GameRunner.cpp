@@ -21,7 +21,6 @@ GameRunner::GameRunner(int dealerPosition, std::vector<std::unique_ptr<Player> >
     this->currentDeck = std::move(currentDeck);
     highestBet = 0;
     chipPot = 0;
-
 }
 
 GameRunner::~GameRunner() {
@@ -166,10 +165,10 @@ std::vector<std::string> GameRunner::getCommunityCards() {
 bool GameRunner::bettingCycle() {
     for (int count = 0, i = (dealerPosition + 1) % players.size(); count < players.size();
          count++, i = (i + 1) % players.size()) {
-        std::cout<<players.size()<<std::endl;
+        std::cout << players.size() << std::endl;
         if (dynamic_cast<UserPlayer *>(players[i].get()) && players[i]->getChips() != 0 && players[i]->getTag() ==
             false) {
-            std::cout<<"USER INPUT";
+            std::cout << "USER INPUT";
             emit userInputRequired();
             QEventLoop loop;
             auto conn = connect(this, &GameRunner::userInputProcessed, &loop, &QEventLoop::quit, Qt::UniqueConnection);
@@ -177,7 +176,7 @@ bool GameRunner::bettingCycle() {
         } else if (players[i]->getTag() == false) {
             std::cout << "Error: before player action." << std::endl;
             int action = players[i]->getAction(players);
-            std::cout<<"ACTION: "<<action<<std::endl;
+            std::cout << "ACTION: " << action << std::endl;
             switch (action) {
                 case 0:
                     chipInput = highestBet - players[i]->getCurrentBet();
@@ -212,7 +211,7 @@ bool GameRunner::bettingCycle() {
                 highestBet = chipInput;
             }
 
-            std::cout << chipPot<<" poopbutt but without butt\n";
+            std::cout << chipPot << " poopbutt but without butt\n";
         }
     }
 
@@ -241,10 +240,10 @@ void GameRunner::round1() {
         players[i]->setCurrentPosition((i - dealerPosition + players.size()) % players.size());
     }
 
-        while (!roundFinished) {
-            roundFinished = false;
-            bettingCycle();
-        }
+    while (!roundFinished) {
+        roundFinished = false;
+        bettingCycle();
+    }
 
     for (int i = 0; i < 3; i++) {
         std::string tempCard = dealCard(currentDeck);
@@ -260,7 +259,12 @@ void GameRunner::round1() {
 }
 
 void GameRunner::midRounds() {
+    std::cout<<"midRounds\n";
+    std::cout<<"midRounds\n";
     roundFinished = false;
+    std::cout<<currentDeck.size();
+    std::string tempCard = dealCard(currentDeck);
+    communityCards.push_back(tempCard);
 
     while (!roundFinished) {
         bettingCycle();
@@ -396,4 +400,3 @@ void GameRunner::setUserInput(int action, int chips) {
     }
     emit userInputProcessed();
 }
-
