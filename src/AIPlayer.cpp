@@ -16,7 +16,7 @@ AIPlayer::~AIPlayer() = default;
 std::string AIPlayer::getName() const { return name; };
 int AIPlayer::getChips() const { return chips; };
 int AIPlayer::getWins() const { return wins; };
-void AIPlayer::changeChips(int newChips) { chips = newChips; }
+void AIPlayer::changeChips(int newChips) { chips += newChips; }
 void AIPlayer::incWins() { ++wins; };
 
 std::vector<std::string> AIPlayer::getHand() const {

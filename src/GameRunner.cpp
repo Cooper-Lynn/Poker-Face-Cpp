@@ -8,8 +8,7 @@
 #include <random>
 #include <algorithm>
 #include <qeventloop.h>
-#include <QMessageBox>
-
+#include <QObject>
 #include "Player.hpp"
 #include "UserPlayer.hpp"
 #include "AIPlayer.hpp"
@@ -149,6 +148,11 @@ std::string GameRunner::checkOrCall() {
 int GameRunner::getDealerPosition() {
     return dealerPosition;
 }
+
+int GameRunner::getChipPot() {
+    return chipPot;
+}
+
 
 int GameRunner::getHighestBet() {
     return highestBet;

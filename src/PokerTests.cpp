@@ -171,8 +171,60 @@ TEST_CASE("HandReader, test for every prediction", "[HAND LOGIC]") {
         HandReader handReader(playerHand, communityCards);
         auto result = handReader.predictWorth();
         REQUIRE(result == 5);
+
     }
 }
 
-TEST_CASE("", "") {
+TEST_CASE("User Input - Raise will affect chip reserves", "[USER LOGIC]") {
+    std::vector<std::unique_ptr<Player> > players;
+    std::string name = "player1";
+    players.push_back(std::make_unique<UserPlayer>(name));
+
+    players[0]->changeChips(-10);
+
+    REQUIRE(players[0]->getChips() == 90);
+
 }
+
+TEST_CASE("sortBlinds applies blinds correctly for a 2-player game", "[sortBlinds]") {
+
+    std::vector<std::unique_ptr<Player>> players;
+    std::string name1 = "player1";
+    players.push_back(std::make_unique<UserPlayer>(name1));
+    players.push_back(std::make_unique<AIPlayer>("Bob"));
+
+
+    std::vector<std::string> currentDeck;
+
+    GameRunner runner(0, players, currentDeck);
+    runner.sortBlinds();
+
+    players = runner.getPlayers();
+
+    REQUIRE(runner.getChipPot() == 15);
+    REQUIRE(players[0]->getChips() == 95);
+    REQUIRE(players[1]->getChips() == 90);
+}
+
+TEST_CASE("sortBlinds applies blinds correctly for a 3-player game", "[sortBlinds]") {
+
+    std::vector<std::unique_ptr<Player>> players;
+    std::string name1 = "player1";
+    players.push_back(std::make_unique<UserPlayer>(name1));
+    players.push_back(std::make_unique<AIPlayer>("Bob"));
+    players.push_back(std::make_unique<AIPlayer>("Alice"));
+
+
+    std::vector<std::string> currentDeck;
+
+    GameRunner runner(0, players, currentDeck);
+    runner.sortBlinds();
+
+    players = runner.getPlayers();
+
+    REQUIRE(runner.getChipPot() == 15);
+    REQUIRE(players[1]->getChips() == 95);
+    REQUIRE(players[2]->getChips() == 90);
+}
+
+

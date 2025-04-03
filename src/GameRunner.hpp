@@ -67,6 +67,8 @@ public:
 
     int getHighestBet();
 
+    int getChipPot();
+
     std::vector<std::string> getCommunityCards();
 
     std::vector<std::string> getCurrentDeck();
@@ -88,8 +90,6 @@ public:
     std::string dealCard(std::vector<std::string> &deck);
 
     std::vector<std::string> createDeck();
-
-    void setGameBaseView();//GameBaseView* gameBaseView);
 
     void setUserInput();
 

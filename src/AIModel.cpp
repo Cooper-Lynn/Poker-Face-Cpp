@@ -190,7 +190,6 @@ int AIModel::selectAction(std::vector<double> &state, bool training) {
     int bestAction = 0;
     double bestValue = qValues[0];
     for (int i = 0; i < qValues.size(); i++) {
-        std::cout<<stateID<<" "<<qValues[i]<<" "<< i<<std::endl;
         if (qValues[i] > bestValue) {
             bestValue = qValues[i];
             bestAction = i;
