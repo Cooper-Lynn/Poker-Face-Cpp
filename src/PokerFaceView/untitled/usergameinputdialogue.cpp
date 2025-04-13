@@ -9,6 +9,9 @@ UserGameInputDialogue::UserGameInputDialogue(QWidget *parent, GameBaseView* game
     : QDialog(parent), gameView(gameView)
       , ui(new Ui::UserGameInputDialogue) {
     ui->setupUi(this);
+
+    raiseLabel = this->findChild<QLabel*>("raiseByLabel");
+    raiseEdit = this->findChild<QLineEdit*>("raiseEdit");
 }
 
 UserGameInputDialogue::~UserGameInputDialogue() {
@@ -17,6 +20,8 @@ UserGameInputDialogue::~UserGameInputDialogue() {
 
 void UserGameInputDialogue::on_callCheckRButton_clicked()
 {
+    raiseLabel->hide();
+    raiseEdit->hide();
     action = 0;
     chips = 0;
 }
@@ -24,6 +29,8 @@ void UserGameInputDialogue::on_callCheckRButton_clicked()
 
 void UserGameInputDialogue::on_raiseRButton_clicked()
 {
+    raiseLabel->show();
+    raiseEdit->show();
     QString chipsString = ui->raiseByLabel->text();
     action = 1;
     try {
@@ -38,6 +45,8 @@ void UserGameInputDialogue::on_raiseRButton_clicked()
 
 void UserGameInputDialogue::on_foldRButton_clicked()
 {
+    raiseLabel->hide();
+    raiseEdit->hide();
     action = 2;
     chips = 0;
 }
@@ -45,7 +54,8 @@ void UserGameInputDialogue::on_foldRButton_clicked()
 
 void UserGameInputDialogue::on_buttonBox_accepted()
 {
-    if (gameView && (action == 1 || action == 2 || action == 0)) {
+    if (gameView) {
+        std::cout<<"You are running in the game! "<<action<<std::endl;
         gameView->passUserChoice(action, chips);
     }
     else {

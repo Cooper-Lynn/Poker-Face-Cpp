@@ -3,6 +3,8 @@
 
 #include <QDialog>
 #include "gamebaseview.h"
+#include <QLabel>
+#include <QLineEdit>
 
 
 class GameBaseView;
@@ -38,6 +40,8 @@ private:
     int maxChips;
     GameBaseView *gameView = nullptr;
     QLabel *cashLabel;
+    QLabel *raiseLabel;
+    QLineEdit *raiseEdit;
 
 private slots:
     void on_buttonBox_accepted();
