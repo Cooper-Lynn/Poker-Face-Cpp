@@ -27,6 +27,10 @@ public:
 
     void updateMaxChips(int chips);
 
+protected:
+    void closeEvent(QCloseEvent *event) override;
+
+
 private:
     Ui::UserGameInputDialogue *ui;
     int action;

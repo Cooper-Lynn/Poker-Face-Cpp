@@ -165,11 +165,11 @@ void AIModel::loadFile() {
 
 
 int AIModel::getStateID(std::vector<double> &state) {
-    position = static_cast<int>(state[0] * 5);
-    handStrength = static_cast<int>(state[1] * 10);
-    potRatio = static_cast<int>(state[2] * 5);
+    int pos = std::min(static_cast<int>(state[0] * 5), 4);
+    int hand = std::min(static_cast<int>(state[1] * 10), 9);
+    int pot = std::min(static_cast<int>(state[2] * 5), 4);
 
-    return position + (handStrength * 5) + (potRatio * 50);
+    return pos + (hand * 5) + (pot * 50);
 }
 
 int AIModel::selectAction(std::vector<double> &state, bool training) {
@@ -188,7 +188,7 @@ int AIModel::selectAction(std::vector<double> &state, bool training) {
     }
     auto &qValues = qTable[stateID];
     int bestAction = 0;
-    double bestValue = qValues[0];
+    double bestValue = qValues[1];
     for (int i = 0; i < qValues.size(); i++) {
         if (qValues[i] > bestValue) {
             bestValue = qValues[i];

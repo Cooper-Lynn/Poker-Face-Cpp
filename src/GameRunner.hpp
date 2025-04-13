@@ -96,6 +96,7 @@ public:
     signals:
     void userInputRequired();
     void userInputProcessed();
+    void updateGUIHidden();
 
 
 

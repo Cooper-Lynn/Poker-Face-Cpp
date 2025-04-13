@@ -156,9 +156,16 @@ void GameBaseView::userInput() {
     }
     userInputDialogue->updateMaxChips(maxChips);
     userInputDialogue->show();
+
+
 }
 
 void GameBaseView::passUserChoice(int action, int chips ){
     mainGui->getUserGameInput(action, chips);
 }
+
+void GameBaseView::closeEvent(QCloseEvent *event) {
+    exit(0);
+}
+
 

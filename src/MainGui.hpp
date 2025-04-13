@@ -39,6 +39,8 @@ public:
 
     void setGameRunnerPointer(GameRunner *gameRunner);
 
+    void updateHiddenGameBaseView();
+
 public slots:
     void showUserGameInputDialogue();
 

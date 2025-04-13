@@ -50,6 +50,9 @@ public:
 
     void updateCardBackPositions();
 
+protected:
+    void closeEvent(QCloseEvent *event) override;
+
 private:
     Ui::GameBaseView *ui;
     std::unique_ptr<userInputGameInitialiser> userInitialiser;
@@ -79,6 +82,8 @@ private:
     std::vector<std::string> userHand;
 
     QPainter qPaint;
+
+    void quit();
 };
 
 #endif // GAMEBASEVIEW_H

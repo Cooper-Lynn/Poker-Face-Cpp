@@ -69,6 +69,9 @@ void MainGui::setGameRunnerPointer(GameRunner *gameRunner) {
     auto conn = QObject::connect(gameRunner, &GameRunner::userInputRequired,
             this, &MainGui::showUserGameInputDialogue);
     qDebug() << "Connection established:" << (conn ? "yes" : "no");
+
+    auto conn2 = QObject::connect(gameRunner, &GameRunner::userInputRequired,
+            this, &MainGui::updateHiddenGameBaseView);
     gameView->setGameRunner(*this->gameRunner);
 
 
@@ -80,4 +83,8 @@ void MainGui::showUserGameInputDialogue() {
 
 void MainGui::getUserGameInput(int action, int chips) {
     gameRunner->setUserInput(action, chips);
+}
+
+void MainGui::updateHiddenGameBaseView() {
+    gameView->updateHiddenView();
 }

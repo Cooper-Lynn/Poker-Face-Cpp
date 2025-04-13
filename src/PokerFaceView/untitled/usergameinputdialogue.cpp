@@ -1,5 +1,6 @@
 #include "usergameinputdialogue.h"
 
+#include <QApplication>
 #include <QMessageBox>
 
 #include "ui_usergameinputdialogue.h"
@@ -59,3 +60,8 @@ std::pair<int, int> UserGameInputDialogue::getUserInput() {
     return std::make_pair(action, chips);
 }
 
+
+void UserGameInputDialogue::closeEvent(QCloseEvent *event) {
+    qDebug() <<"Closing down";
+    exit(0);
+}

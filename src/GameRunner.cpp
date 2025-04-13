@@ -9,6 +9,8 @@
 #include <algorithm>
 #include <qeventloop.h>
 #include <QObject>
+#include <thread>
+
 #include "Player.hpp"
 #include "UserPlayer.hpp"
 #include "AIPlayer.hpp"
@@ -168,8 +170,9 @@ std::vector<std::string> GameRunner::getCommunityCards() {
 
 bool GameRunner::bettingCycle() {
     for (int count = 0, i = (dealerPosition + 1) % players.size(); count < players.size();
-         count++, i = (i + 1) % players.size()) {
+        count++, i = (i + 1) % players.size()) {
         std::cout << players.size() << std::endl;
+        //std::this_thread::sleep_for(std::chrono::seconds(2));
         if (dynamic_cast<UserPlayer *>(players[i].get()) && players[i]->getChips() != 0 && players[i]->getTag() ==
             false) {
             std::cout << "USER INPUT";
@@ -215,7 +218,7 @@ bool GameRunner::bettingCycle() {
                 highestBet = chipInput;
             }
 
-            std::cout << chipPot << " poopbutt but without butt\n";
+            std::cout << chipPot << "\n";
         }
     }
 
@@ -224,7 +227,7 @@ bool GameRunner::bettingCycle() {
         player->setHighestPlayedBet(highestBet);
         roundFinished = true;
         if (player->getHighestBet() != highestBet) {
-            //roundFinished = false;
+            roundFinished = false;
         }
     }
 
@@ -243,6 +246,8 @@ void GameRunner::round1() {
     for (int i = 0; i < players.size(); i++) {
         players[i]->setCurrentPosition((i - dealerPosition + players.size()) % players.size());
     }
+
+    emit updateGUIHidden();
 
     while (!roundFinished) {
         roundFinished = false;
@@ -379,7 +384,7 @@ void GameRunner::setUserInput(int action, int chips) {
                         break;
                     }
                     chipPot += chips;
-                    players[i]->changeChips(chips);
+                    players[i]->changeChips(-chips);
                     players[i]->setCurrentBet(chips);
                     break;
                 case 1:
