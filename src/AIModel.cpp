@@ -175,6 +175,8 @@ int AIModel::getStateID(std::vector<double> &state) {
 int AIModel::selectAction(std::vector<double> &state, bool training) {
     int stateID = getStateID(state);
 
+    //std::cout<<"State: "<<stateID<<std::endl;
+
     if (training) {
         explorationRate = std::max(getExploration() * 0.99999, 0.005);
     } else {
@@ -188,12 +190,15 @@ int AIModel::selectAction(std::vector<double> &state, bool training) {
     }
     auto &qValues = qTable[stateID];
     int bestAction = 0;
-    double bestValue = qValues[1];
+    double bestValue = qValues[0];
+    //std::cout<<bestValue<<std::endl;
     for (int i = 0; i < qValues.size(); i++) {
         if (qValues[i] > bestValue) {
+            //std::cout<<"Value "<<i<<" :"<<bestValue<<std::endl;
             bestValue = qValues[i];
             bestAction = i;
         }
+        //std::cout<<"Action "<<i<<" :"<<qValues[i]<<std::endl;
     }
 
     return bestAction;
@@ -220,15 +225,15 @@ double AIModel::simHand(std::vector<double> &state, int action) {
 
         case 1: // RAISE
             if (handStrength > 0.6) {
-                baseReward = 1.0;
+                baseReward = 0.7;
             } else if (handStrength > 0.4 && potRatio > 0.5) {
-                baseReward = 0.5;
+                baseReward = 0.6;
             } else if (handStrength > 0.3 && potRatio > 0.4) {
                 baseReward = 0.3;
             } else if (handStrength > 0.3 && position > 0.4) {
                 baseReward = 0.2;
             } else {
-                baseReward = -2.0;
+                baseReward = -3.0;
             }
 
             break;

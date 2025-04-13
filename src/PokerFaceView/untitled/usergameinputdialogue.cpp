@@ -45,8 +45,12 @@ void UserGameInputDialogue::on_foldRButton_clicked()
 
 void UserGameInputDialogue::on_buttonBox_accepted()
 {
-    if (gameView) {
+    if (gameView && (action == 1 || action == 2 || action == 0)) {
         gameView->passUserChoice(action, chips);
+    }
+    else {
+        QMessageBox::information(this, "Error", "You need to choose an action");
+        this->show();
     }
 }
 

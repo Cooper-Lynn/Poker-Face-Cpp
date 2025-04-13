@@ -209,7 +209,7 @@ bool GameRunner::bettingCycle() {
                     if (rand() % 100 < 10) {
                         chipInput = players[i]->getChips() * 0.05;
                     } else {
-                        auto mult = players[i]->getHandStrength();
+                        auto mult = players[i]->getHandStrength()/10;
                         chipInput = players[i]->getChips() * mult;
                     }
                     break;
