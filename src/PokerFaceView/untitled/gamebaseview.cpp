@@ -47,13 +47,32 @@ void GameBaseView::updateHiddenView() {
     players = std::move(gameRunner->getPlayers());
     currentDeck = std::move(gameRunner->getCurrentDeck());
     updateCardBackPositions();
+    updateCommunityCards();
     updateAIGui();
     updatePlayerGui();
+    this->update();
 }
 
 void GameBaseView::updateShownView() {
     updateCardShownPositions();
     updatePlayerGui();
+}
+
+void GameBaseView::updateCommunityCards() {
+    communityCards = std::move(gameRunner->getCommunityCards());
+    for (auto *label: cardCommunityLabels) {
+        label->deleteLater();
+    }
+    for (int i = 0; i < communityCards.size(); i++) {
+        auto *communityCardLabel = new QLabel(this);
+
+        QPixmap communityCard(QString("src/PokerFaceView/untitled/playingCards/%1.png").arg(communityCards[i].data()));
+
+        communityCardLabel->setPixmap(communityCard);
+        communityCardLabel->setGeometry(communityCardsPositions[i].first, communityCardsPositions[i].second, communityCard.width(), communityCard.height());
+        communityCardLabel->show();
+        cardCommunityLabels.push_back(communityCardLabel);
+    }
 }
 
 

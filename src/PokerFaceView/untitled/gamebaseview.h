@@ -50,6 +50,8 @@ public:
 
     void updateCardBackPositions();
 
+    void updateCommunityCards();
+
 protected:
     void closeEvent(QCloseEvent *event) override;
 
@@ -61,6 +63,7 @@ private:
     GameRunner *gameRunner = nullptr;
     std::vector<std::unique_ptr<Player> > players;
     std::vector<std::string> currentDeck;
+    std::vector<std::string> communityCards;
     std::vector<std::pair<int, int> > aiPlayerCardPositions = {
         {110, 23},
         {286, 23},
@@ -78,7 +81,16 @@ private:
         {1112, 194}
     };
 
+    std::vector<std::pair<int, int> > communityCardsPositions = {
+        {420, 235},
+        {520, 235},
+        {620, 235},
+        {720, 235},
+        {820, 235}
+    };
+
     std::vector<QLabel *> cardLabels;
+    std::vector<QLabel *> cardCommunityLabels;
     std::vector<std::string> userHand;
 
     QPainter qPaint;

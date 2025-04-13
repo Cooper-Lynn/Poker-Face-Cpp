@@ -162,16 +162,18 @@ void PokerFace::gameStarted(std::vector<std::string> userInputSetup, MainGui *gu
         std::cout << "Player: ";
         std::cout << player->getName() << "\n";
     }
+    while (true) {
+        std::unique_ptr<GameRunner> gameRunner = std::make_unique<GameRunner>(1, players, deck);
+        gameRunner->sortBlinds();
+        gameRunner->giveHandsToPlayers();
+        passGameRunner(gameRunner);
+        gameRunner->round1();
+        gameRunner->midRounds();
+        gameRunner->midRounds();
+        gameRunner->finalRound();
+        gameRunner->~GameRunner();
+    }
 
-    std::unique_ptr<GameRunner> gameRunner = std::make_unique<GameRunner>(1, players, deck);
-    gameRunner->sortBlinds();
-    gameRunner->giveHandsToPlayers();
-    passGameRunner(gameRunner);
-
-    gameRunner->round1();
-    gameRunner->midRounds();
-    gameRunner->midRounds();
-    gameRunner->finalRound();
 }
 
 

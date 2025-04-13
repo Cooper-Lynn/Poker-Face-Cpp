@@ -44,4 +44,4 @@ public:
 
     void passGameRunner(std::unique_ptr<GameRunner>& gameRunner);
 };
-#endif // POKERFACE_HPP //POKERFACE_HPP
+#endif // POKERFACE_HPP

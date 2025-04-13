@@ -7,6 +7,7 @@
 #include <vector>
 #include <random>
 #include <algorithm>
+#include <qcoreapplication.h>
 #include <qeventloop.h>
 #include <QObject>
 #include <thread>
@@ -161,18 +162,29 @@ int GameRunner::getHighestBet() {
 }
 
 std::vector<std::string> GameRunner::getCurrentDeck() {
-    return currentDeck;
+    std::vector<std::string> deck;
+    deck = currentDeck;
+    return deck;
 }
 
 std::vector<std::string> GameRunner::getCommunityCards() {
-    return communityCards;
+    std::vector<std::string> community;
+    community = communityCards;
+    return community;
 }
 
 bool GameRunner::bettingCycle() {
     for (int count = 0, i = (dealerPosition + 1) % players.size(); count < players.size();
         count++, i = (i + 1) % players.size()) {
-        std::cout << players.size() << std::endl;
-        //std::this_thread::sleep_for(std::chrono::seconds(2));
+
+
+        QCoreApplication::processEvents();
+        QElapsedTimer timer;
+        timer.start();
+        while (timer.elapsed() < 2000) {
+            QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+        }
+
         if (dynamic_cast<UserPlayer *>(players[i].get()) && players[i]->getChips() != 0 && players[i]->getTag() ==
             false) {
             std::cout << "USER INPUT";
@@ -181,7 +193,6 @@ bool GameRunner::bettingCycle() {
             auto conn = connect(this, &GameRunner::userInputProcessed, &loop, &QEventLoop::quit, Qt::UniqueConnection);
             loop.exec();
         } else if (players[i]->getTag() == false) {
-            std::cout << "Error: before player action." << std::endl;
             int action = players[i]->getAction(players);
             std::cout << "ACTION: " << action << std::endl;
             switch (action) {
@@ -236,8 +247,11 @@ bool GameRunner::bettingCycle() {
 
 
 void GameRunner::round1() {
+    std::cout << "round1" << std::endl;
+    roundCounter++;
     hand = players[0]->getHand();
     handToShow = handDetail(hand);
+    std::cout<<"Hand to show:";
     for (auto &cards: handToShow) {
         std::cout << cards << std::endl;
     }
@@ -248,6 +262,13 @@ void GameRunner::round1() {
     }
 
     emit updateGUIHidden();
+
+    QCoreApplication::processEvents();
+    QElapsedTimer timer;
+    timer.start();
+    while (timer.elapsed() < 2000) {
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+    }
 
     while (!roundFinished) {
         roundFinished = false;
@@ -268,16 +289,17 @@ void GameRunner::round1() {
 }
 
 void GameRunner::midRounds() {
-    std::cout<<"midRounds\n";
-    std::cout<<"midRounds\n";
+    std::cout<<"Round: "<<roundCounter<<" Community Cards size:"<<communityCards.size()<<"\n";
+
     roundFinished = false;
     std::cout<<currentDeck.size();
-    std::string tempCard = dealCard(currentDeck);
-    communityCards.push_back(tempCard);
 
     while (!roundFinished) {
         bettingCycle();
     }
+
+    std::string tempCard = dealCard(currentDeck);
+    communityCards.push_back(tempCard);
 
     std::cout << "End of Round 2\n";
     std::cout << chipPot;

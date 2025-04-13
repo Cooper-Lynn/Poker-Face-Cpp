@@ -21,6 +21,7 @@ private:
     int chipPot;
     int chipInput;
     int playerRoundChoice;
+    int roundCounter=1;
     double highestStrength;
     double tempStrength;
     double tieStrength;
