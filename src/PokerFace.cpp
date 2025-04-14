@@ -188,7 +188,7 @@ int main(int argc, char *argv[]) {
 
     //Uncomment for training
     AIModel model(0.12, 0.94, 0.5);
-    model.quickTrain(3000);
+    model.quickTrain(6000);
 
 
     MainGui gui(argc, argv, poker_face);

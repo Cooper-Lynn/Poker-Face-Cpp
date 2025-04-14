@@ -225,15 +225,13 @@ double AIModel::simHand(std::vector<double> &state, int action) {
 
         case 1: // RAISE
             if (handStrength > 0.6) {
-                baseReward = 0.7;
+                baseReward = 1;
             } else if (handStrength > 0.4 && potRatio > 0.5) {
                 baseReward = 0.6;
-            } else if (handStrength > 0.3 && potRatio > 0.4) {
+            } else if (handStrength > 0.3 && potRatio > 0.6) {
                 baseReward = 0.3;
-            } else if (handStrength > 0.3 && position > 0.4) {
-                baseReward = 0.2;
             } else {
-                baseReward = -3.0;
+                baseReward = -7.0;
             }
 
             break;

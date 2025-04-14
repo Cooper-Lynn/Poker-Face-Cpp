@@ -54,11 +54,45 @@ void UserGameInputDialogue::on_foldRButton_clicked()
 
 void UserGameInputDialogue::on_buttonBox_accepted()
 {
-    if (gameView) {
-        std::cout<<"You are running in the game! "<<action<<std::endl;
-        gameView->passUserChoice(action, chips);
+    if (gameView){
+        action = -1;
+        if (ui->foldRButton -> isChecked()) {
+            action = 2;
+            chips = 0;
+            std::cout<<action<<"\n";
+            gameView->passUserChoice(action, chips);
+        }
+        else if (ui ->raiseRButton -> isChecked()) {
+            raiseLabel->show();
+            raiseEdit->show();
+            QString chipsString = ui->raiseEdit->text();
+            action = 1;
+            std::cout<<action<<"\n";
+            chips = chipsString.toInt();
+            qDebug()<<chips;
+            try {
+                chips = chipsString.toInt();
+                qDebug()<<chips;
+                gameView->passUserChoice(action, chips);
+            }
+            catch (...) {
+                QMessageBox::information(this, "Error", "Invalid Chips");
+            }
+        }
+        else if (ui->callCheckRButton -> isChecked()) {
+            raiseLabel->hide();
+            raiseEdit->hide();
+            action = 0;
+            chips = 0;
+            std::cout<<action<<"\n";
+            gameView->passUserChoice(action, chips);
+        }
+        else if (action == -1) {
+            QMessageBox::information(this, "Error", "You need to choose an action");
+            this->show();
+        }
     }
-    else {
+    else{
         QMessageBox::information(this, "Error", "You need to choose an action");
         this->show();
     }

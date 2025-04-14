@@ -403,7 +403,13 @@ void GameRunner::setUserInput(int action, int chips) {
                     chips = highestBet - players[i]->getCurrentBet();
                     if (chips >= players[i]->getChips()) {
                         std::cout << "Incorrect amount of chips available";
+                        action = 2;
                         break;
+                    }
+                    else {
+                        std::cout<< "chips to bet: " << chips << std::endl;
+                        std::cout<< "highest bet: " << highestBet << std::endl;
+                        std::cout<< "Player chips before: " << players[i]->getChips() << std::endl;
                     }
                     chipPot += chips;
                     players[i]->changeChips(-chips);
