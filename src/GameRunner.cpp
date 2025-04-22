@@ -196,35 +196,39 @@ bool GameRunner::bettingCycle() {
             int action = players[i]->getAction(players);
             std::cout << "ACTION: " << action << std::endl;
             switch (action) {
+
                 case 0:
                     chipInput = highestBet - players[i]->getCurrentBet();
                     if (chipInput >= players[i]->getChips()) {
                         break;
                     }
-                    chipPot += chipInput;
-                    players[i]->changeChips(chipInput);
-                    players[i]->setCurrentBet(chipInput);
+                    action = 2;
                     break;
+
                 case 1:
+                    std::cout<<players[i]->getName()<<" "<<players[i]->getChips();
                     if (rand() % 100 < 10) {
                         chipInput = players[i]->getChips() * 0.05;
                     } else {
-                        auto mult = players[i]->getHandStrength()/10;
+                        auto mult = players[i]->getHandStrength()/25;
                         chipInput = players[i]->getChips() * mult;
                     }
+                std::cout << " chipInput: " << chipInput << std::endl;
                     break;
+
                 case 2:
                     players[i]->setTag(true);
                     chipInput = 0;
                     break;
+
                 default:
                     players[i]->setTag(true);
-
                     chipInput = 0;
                     break;
             }
             chipPot += chipInput;
             players[i]->changeChips(-chipInput);
+            players[i]->setCurrentBet(chipInput);
             if (chipInput > highestBet) {
                 highestBet = chipInput;
             }
@@ -237,7 +241,7 @@ bool GameRunner::bettingCycle() {
         player->setPot(chipPot);
         player->setHighestPlayedBet(highestBet);
         roundFinished = true;
-        if (player->getHighestBet() != highestBet) {
+        if (player->getHighestBet() != highestBet && player->getTag() == false) {
             roundFinished = false;
         }
     }
