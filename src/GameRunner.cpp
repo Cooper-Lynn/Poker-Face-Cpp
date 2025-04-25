@@ -195,6 +195,7 @@ bool GameRunner::bettingCycle() {
         } else if (players[i]->getTag() == false) {
             int action = players[i]->getAction(players);
             std::cout << "ACTION: " << action << std::endl;
+            std::cout << "PLAYER NAME:" <<players[i]->getName() << std::endl;
             switch (action) {
 
                 case 0:
@@ -208,10 +209,10 @@ bool GameRunner::bettingCycle() {
                 case 1:
                     std::cout<<players[i]->getName()<<" "<<players[i]->getChips();
                     if (rand() % 100 < 10) {
-                        chipInput = players[i]->getChips() * 0.05;
+                        chipInput = highestBet+players[i]->getChips() * 0.05;
                     } else {
                         auto mult = players[i]->getHandStrength()/25;
-                        chipInput = players[i]->getChips() * mult;
+                        chipInput = highestBet+players[i]->getChips() * mult;
                     }
                 std::cout << " chipInput: " << chipInput << std::endl;
                     break;
@@ -273,9 +274,10 @@ void GameRunner::round1() {
     while (timer.elapsed() < 2000) {
         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
     }
+    highestBet = 0;
+    roundFinished = false;
 
     while (!roundFinished) {
-        roundFinished = false;
         bettingCycle();
     }
 
@@ -296,6 +298,7 @@ void GameRunner::midRounds() {
     std::cout<<"Round: "<<roundCounter<<" Community Cards size:"<<communityCards.size()<<"\n";
 
     roundFinished = false;
+    highestBet = 0;
     std::cout<<currentDeck.size();
 
     while (!roundFinished) {
@@ -317,13 +320,13 @@ void GameRunner::midRounds() {
 
 void GameRunner::finalRound() {
     roundFinished = false;
+    highestBet = 0;
 
     while (!roundFinished) {
         bettingCycle();
     }
 
 
-    highestStrength = 0;
 
     for (auto &player: players) {
         std::vector<std::string> theHand = player->getHand();
@@ -337,15 +340,20 @@ void GameRunner::finalRound() {
 
     tempLeaderName = "";
     tieStrength = 0;
+    highestStrength = 0;
 
     for (auto &player: players) {
         tempStrength = player->getHandStrength();
+        std::cout << "Player Name: " << player->getName() << std::endl;
+        std::cout << "Temp Strength: " << tempStrength << std::endl;
         if (tempStrength > highestStrength && tempStrength > tieStrength) {
+            std::cout << player->getName() << " has progressed\n";
             tempLeaderName = player->getName();
             tieStrength = 0;
             playerTies.clear();
         }
         if (tempStrength == highestStrength) {
+            std::cout << player->getName() << " has a tie\n";
             playerTies.push_back(std::move(player));
             tieStrength = tempStrength;
         }
@@ -353,8 +361,10 @@ void GameRunner::finalRound() {
 
     tieBreaker = 0;
     tieBroken = false;
+    std::cout<<"pties "<<playerTies.size()<<std::endl;
     while (!tieBroken) {
         if (playerTies.size() != 0) {
+            std::cout << "TieNotBroken\n";
             for (auto &player: playerTies) {
                 auto result = player->tieBreaker(tieStrength);
                 if (result.first > tieBreaker) {

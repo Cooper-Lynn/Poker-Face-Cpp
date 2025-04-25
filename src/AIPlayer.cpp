@@ -128,6 +128,9 @@ double AIPlayer::getHandStrength() {
     auto result = handReader.valueHand();
     handStrength = result.first;
     valuedHand = result.second;
+    for (auto card : valuedHand) {
+        std::cout<<card<<std::endl;
+    }
     return handStrength;
 }
 
