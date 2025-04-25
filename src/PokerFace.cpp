@@ -187,8 +187,8 @@ int main(int argc, char *argv[]) {
     PokerFace poker_face;
 
     //Uncomment for training
-    AIModel model(0.12, 0.94, 0.5);
-    model.quickTrain(6000);
+    //AIModel model(0.12, 0.94, 0.9);
+    //model.quickTrain(100000);
 
 
     MainGui gui(argc, argv, poker_face);

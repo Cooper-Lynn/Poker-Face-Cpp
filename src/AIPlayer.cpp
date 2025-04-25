@@ -71,7 +71,12 @@ double AIPlayer::findHandState() {
     evaluatedHand = handReader.valueHand();
     evaluatedWorth = evaluatedHand.first;
     predictedWorth = handReader.predictWorth();
+    std::cout<<evaluatedWorth<<std::endl;
+    std::cout<<predictedWorth<<std::endl;
 
+    for (auto card: playerHand) {
+        std::cout<<card<<std::endl;
+    }
 
     if (predictedWorth > evaluatedWorth) {
         return static_cast<double>(predictedWorth) / 10;
@@ -138,8 +143,8 @@ std::pair<double, std::vector<std::string> > AIPlayer::tieBreaker(double matchin
 
 int AIPlayer::getAction(std::vector<std::unique_ptr<Player> > &players) {
     std::vector<double> state = {
-        findHandState(),
         findPotRatio(),
+        findHandState(),
         findPositionState(players),
     };
 

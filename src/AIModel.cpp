@@ -168,6 +168,9 @@ int AIModel::getStateID(std::vector<double> &state) {
     int pos = std::min(static_cast<int>(state[0] * 5), 4);
     int hand = std::min(static_cast<int>(state[1] * 10), 9);
     int pot = std::min(static_cast<int>(state[2] * 5), 4);
+    std::cout<<"pos = "<<pos<<" "<<state[0]<<std::endl;
+    std::cout<<"hand = "<<hand<<" "<<state[1]<<std::endl;
+    std::cout<<"pot = "<<pot<<" "<<state[2]<<std::endl;
 
     return pos + (hand * 5) + (pot * 50);
 }
@@ -175,7 +178,7 @@ int AIModel::getStateID(std::vector<double> &state) {
 int AIModel::selectAction(std::vector<double> &state, bool training) {
     int stateID = getStateID(state);
 
-    //std::cout<<"State: "<<stateID<<std::endl;
+    std::cout<<"State: "<<stateID<<std::endl;
 
     if (training) {
         explorationRate = std::max(getExploration() * 0.99999, 0.005);
@@ -214,7 +217,7 @@ double AIModel::simHand(std::vector<double> &state, int action) {
             if (handStrength < 0.2) {
                 baseReward = 0.7;
             } else if (handStrength > 0.4) {
-                baseReward = -1.0;
+                baseReward = -7.0;
             } else if (position < 0.3 && potRatio < 0.3) {
                 baseReward = 0.2;
             } else {
@@ -225,24 +228,24 @@ double AIModel::simHand(std::vector<double> &state, int action) {
 
         case 1: // RAISE
             if (handStrength > 0.6) {
-                baseReward = 1;
-            } else if (handStrength > 0.4 && potRatio > 0.5) {
+                baseReward = 4;
+            } else if (handStrength > 0.4 && potRatio > 0.4) {
                 baseReward = 0.6;
-            } else if (handStrength > 0.3 && potRatio > 0.6) {
+            } else if (handStrength > 0.3 && potRatio > 0.7) {
                 baseReward = 0.3;
             } else {
-                baseReward = -7.0;
+                baseReward = -12.0;
             }
 
             break;
 
         case 0: // CALL/CHECK
             if (handStrength > 0.3) {
-                baseReward = 0.4;
+                baseReward = 0.8;
             } else if (handStrength > 0.2) {
-                baseReward = 0.2;
+                baseReward = 0.6;
             } else if (handStrength < 0.3 && (potRatio > 0.4 || position > 0.4)) {
-                baseReward = 0.4;
+                baseReward = 0.5;
             } else {
                 baseReward = -0.3;
             }
