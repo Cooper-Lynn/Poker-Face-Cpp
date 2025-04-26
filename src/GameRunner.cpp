@@ -180,10 +180,10 @@ bool GameRunner::bettingCycle() {
     for (int count = 0, i = (dealerPosition + 1) % players.size(); count < players.size();
         count++, i = (i + 1) % players.size()) {
 
-
         QCoreApplication::processEvents();
         QElapsedTimer timer;
         timer.start();
+
         while (timer.elapsed() < 2000) {
             QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
         }
@@ -194,11 +194,14 @@ bool GameRunner::bettingCycle() {
             QEventLoop loop;
             auto conn = connect(this, &GameRunner::userInputProcessed, &loop, &QEventLoop::quit, Qt::UniqueConnection);
             loop.exec();
-        } else if (players[i]->getTag() == false) {
+        }
+
+        else if (players[i]->getTag() == false) {
             int action = players[i]->getAction(players);
             std::cout << "ACTION: " << action << std::endl;
             std::cout << "PLAYER NAME:" <<players[i]->getName() << std::endl;
             switch (action) {
+
                 case 1:
                     std::cout<<players[i]->getName()<<" "<<players[i]->getChips();
                     if (rand() % 100 < 10) {
@@ -213,6 +216,7 @@ bool GameRunner::bettingCycle() {
                     std::cout << " chipInput: " << chipInput << std::endl;
                     break;
 
+
                 case 0:
                     cresult = checkOrCall();
                     if (cresult == "Call") {
@@ -224,6 +228,7 @@ bool GameRunner::bettingCycle() {
                         break;
                     }
                     else {
+                        chipInput = 0;
                         break;
                     }
 
@@ -262,6 +267,9 @@ bool GameRunner::bettingCycle() {
         std::cout<<player->getName()<<" "<<player->getCurrentBet() << "\n";
         if (player->getCurrentBet() != highestBet && player->getTag() == false) {
             roundFinished = false;
+        }
+        if (player->getChips() == 0 && player->getTag() == false) {
+            roundFinished = true;
         }
     }
 
@@ -394,16 +402,20 @@ void GameRunner::finalRound() {
             tieStrength = tempStrength;
         }
     }
-
     tieBreaker = 0;
     tieBroken = false;
+    if (playerTies.empty()) {
+        tieBroken = true;
+    }
     std::cout<<"pties "<<playerTies.size()<<std::endl;
     while (!tieBroken) {
         if (playerTies.size() != 0) {
             std::cout << "TieNotBroken\n";
             for (auto &playerName: playerTies) {
                 auto player = findPlayer(playerName);
+                std::cout<<player->getName()<<"\n";
                 auto result = player->tieBreaker(tieStrength);
+                std::cout<<result.first<<"\n";
                 if (result.first > tieBreaker) {
                     tieBreaker = result.first;
                     tempLeaderName = player->getName();
@@ -425,7 +437,6 @@ void GameRunner::finalRound() {
                 }
             }
         }
-        tieBroken = true;
     }
 
     std::cout<<"Winner Name: "<<tempLeaderName<<std::endl;
