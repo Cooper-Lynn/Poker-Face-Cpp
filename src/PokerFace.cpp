@@ -115,7 +115,7 @@ void PokerFace::gameStarted(std::vector<std::string> userInputSetup, MainGui *gu
     // Create the deck
     std::vector<std::string> deck = createDeck(suits, ranks);
     std::vector<std::string> riverCards;
-    std::vector<std::string> aiNames = {"Bert", "Ruben", "Chanel", "Dimitri", "Gary", "Steve"};
+    std::vector<std::string> aiNames = {"Bert", "Ruben", "Chanel", "Dimitri", "Gary", "Steve", "Tegan", "Kian", "Sam", "Bea", "Olivia"};
     std::vector<std::string> handToShow;
     std::vector<std::string> hand;
     std::vector<std::unique_ptr<Player> > players;
