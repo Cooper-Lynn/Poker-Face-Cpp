@@ -66,6 +66,8 @@ bool HandReader::isStraightFlush() {
 bool HandReader::isFlush(std::vector<std::string> &flushCards) {
     for (auto &[suit, cards]: suitToCard) {
         if (cards.size() >= 5) {
+            std::cout<<"in flush"<<std::endl;
+            std::cout<<"suit "<<suit<<std::endl;
             flushCards = cards;
             std::sort(flushCards.begin(), flushCards.end(),
                       [this](std::string &card1, std::string &card2) {
@@ -98,6 +100,7 @@ bool HandReader::isStraight(std::vector<int> &ranks) {
 
 
             if (consecutive == 5) {
+                std::cout<<"5 consec"<<std::endl;
                 int startRank = compareRanks[i] - 4;
                 int endRank = compareRanks[i];
 
@@ -128,6 +131,8 @@ void HandReader::countCards(std::vector<std::string> &totalCards) {
     ranks.clear();
     rankCount.clear();
     suitCount.clear();
+    suitToCard.clear();
+    ranks.clear();
     tempConsecCards.clear();
     pairReturnCards.clear();
     tripReturnCards.clear();
@@ -142,8 +147,9 @@ void HandReader::countCards(std::vector<std::string> &totalCards) {
     straight = false;
     flush = false;
 
-
+    std::cout<<"In total cards"<<std::endl;
     for (auto &card: totalCards) {
+        std::cout<<card<<std::endl;
         int rank = getRank(card);
         char suit = getSuit(card);
         rankCount[rank]++;
@@ -217,14 +223,11 @@ std::pair<double, std::vector<std::string> > HandReader::valueHand() {
             return std::make_pair(5, returnCards);
         }
     }
-
-
     if (fourKind) {
         if (std::find(skipStrength.begin(), skipStrength.end(), 8) == skipStrength.end()) {
             return std::make_pair(8, quadReturnCards); // Four of a Kind
         }
     }
-
     if (threeKind && pairs) {
         returnCards = tripReturnCards;
         returnCards.insert(returnCards.end(), pairReturnCards.begin(), pairReturnCards.end());
@@ -232,13 +235,11 @@ std::pair<double, std::vector<std::string> > HandReader::valueHand() {
             return std::make_pair(7, returnCards); // Full House
         }
     }
-
     if (threeKind) {
         if (std::find(skipStrength.begin(), skipStrength.end(), 4) == skipStrength.end()) {
             return std::make_pair(4, tripReturnCards); // Three of a Kind
         }
     }
-
     if (pairs >= 2) {
         if (std::find(skipStrength.begin(), skipStrength.end(), 3) == skipStrength.end()) {
             return std::make_pair(3, pairReturnCards); // Two Pair

@@ -274,7 +274,7 @@ void GameRunner::round1() {
     while (timer.elapsed() < 2000) {
         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
     }
-    highestBet = 0;
+    highestBet = 10; //Big blind
     roundFinished = false;
 
     while (!roundFinished) {
