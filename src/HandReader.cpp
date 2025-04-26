@@ -7,6 +7,8 @@
 #include <unordered_set>
 
 HandReader::HandReader(std::vector<std::string> playerHand, std::vector<std::string> communityCards) {
+    this->playerHand.clear();
+    this->communityCards.clear();
     this->playerHand = playerHand;
     this->communityCards = communityCards;
 }
