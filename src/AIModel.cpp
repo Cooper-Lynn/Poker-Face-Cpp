@@ -168,9 +168,7 @@ int AIModel::getStateID(std::vector<double> &state) {
     int pos = std::min(static_cast<int>(state[0] * 5), 4);
     int hand = std::min(static_cast<int>(state[1] * 10), 9);
     int pot = std::min(static_cast<int>(state[2] * 5), 4);
-    std::cout<<"pos = "<<pos<<" "<<state[0]<<std::endl;
-    std::cout<<"hand = "<<hand<<" "<<state[1]<<std::endl;
-    std::cout<<"pot = "<<pot<<" "<<state[2]<<std::endl;
+
 
     return pos + (hand * 5) + (pot * 50);
 }

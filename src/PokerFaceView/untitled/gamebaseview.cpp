@@ -168,12 +168,15 @@ void GameBaseView::userInput() {
     std::cout<<"gamebaseview"<<std::endl;
     userInputDialogue = std::make_unique<UserGameInputDialogue>(this, this);
     int maxChips = 0;
+    updateHiddenView();
     for (auto &player: players) {
         if (dynamic_cast<UserPlayer *>(player.get())) {
             maxChips = player->getChips();
+            qDebug() << "maxChips: " << maxChips << "\n";
         }
     }
     userInputDialogue->updateMaxChips(maxChips);
+    userInputDialogue->update();
     userInputDialogue->show();
 
 

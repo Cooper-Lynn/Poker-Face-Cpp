@@ -24,6 +24,7 @@ void UserGameInputDialogue::on_callCheckRButton_clicked()
     raiseEdit->hide();
     action = 0;
     chips = 0;
+
 }
 
 
@@ -54,6 +55,7 @@ void UserGameInputDialogue::on_foldRButton_clicked()
 
 void UserGameInputDialogue::on_buttonBox_accepted()
 {
+    qDebug() << maxChips;
     if (gameView){
         action = -1;
         if (ui->foldRButton -> isChecked()) {

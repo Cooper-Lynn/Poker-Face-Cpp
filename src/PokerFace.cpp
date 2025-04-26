@@ -164,7 +164,6 @@ void PokerFace::gameStarted(std::vector<std::string> userInputSetup, MainGui *gu
     }
     while (true) {
         std::unique_ptr<GameRunner> gameRunner = std::make_unique<GameRunner>(1, players, deck);
-        gameRunner->sortBlinds();
         gameRunner->giveHandsToPlayers();
         passGameRunner(gameRunner);
         gameRunner->round1();

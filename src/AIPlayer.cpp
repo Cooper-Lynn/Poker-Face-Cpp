@@ -61,7 +61,8 @@ void AIPlayer::setCurrentPosition(int position) {
 
 
 double AIPlayer::findPositionState(std::vector<std::unique_ptr<Player> > &players) {
-    relativePosition = (currentPosition - dealerPosition + players.size()) % players.size();
+
+    relativePosition = (currentPosition - dealerPosition) % players.size();
 
     return static_cast<double>(relativePosition) / players.size();
 }
@@ -71,12 +72,7 @@ double AIPlayer::findHandState() {
     evaluatedHand = handReader.valueHand();
     evaluatedWorth = evaluatedHand.first;
     predictedWorth = handReader.predictWorth();
-    std::cout<<evaluatedWorth<<std::endl;
-    std::cout<<predictedWorth<<std::endl;
 
-    for (auto card: playerHand) {
-        std::cout<<card<<std::endl;
-    }
 
     if (predictedWorth > evaluatedWorth) {
         return static_cast<double>(predictedWorth) / 10;
@@ -93,9 +89,20 @@ double AIPlayer::findPotRatio() {
     validChips = std::max(getChips(), 1);
     validPot = std::max(currentPot, 1);
 
-    RatioBetReserve = 1 - (static_cast<double>(currentBet) / validChips);
+    RatioBetReserve = 1 - (static_cast<double>(highestBet) / validChips);
+
     RatioHighPot = 1 - (static_cast<double>(highestPlayedBet) / validPot);
+
     RatioHighReserve = 1 - (static_cast<double>(highestPlayedBet) / validChips);
+    if (RatioHighPot<0) {
+        RatioHighPot = 0;
+    }
+    if (RatioBetReserve<0) {
+        RatioBetReserve = 0;
+    }
+    if (RatioHighReserve<0) {
+        RatioHighReserve = 0;
+    }
 
     return (0.5 * RatioBetReserve) + (0.3 * RatioHighPot) + (0.2 * RatioHighReserve);
 }
@@ -128,9 +135,6 @@ double AIPlayer::getHandStrength() {
     auto result = handReader.valueHand();
     handStrength = result.first;
     valuedHand = result.second;
-    for (auto card : valuedHand) {
-        std::cout<<card<<std::endl;
-    }
     return handStrength;
 }
 
@@ -146,9 +150,9 @@ std::pair<double, std::vector<std::string> > AIPlayer::tieBreaker(double matchin
 
 int AIPlayer::getAction(std::vector<std::unique_ptr<Player> > &players) {
     std::vector<double> state = {
-        findPotRatio(),
-        findHandState(),
         findPositionState(players),
+        findHandState(),
+        findPotRatio(),
     };
 
     return aiModel.selectAction(state);

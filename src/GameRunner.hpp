@@ -28,7 +28,9 @@ private:
     double tieBreaker;
     bool tieBroken;
 
+
     std::string tempLeaderName;
+    std::string cresult;
 
     std::vector<std::string> communityCards;
     std::vector<std::unique_ptr<Player> > players;
@@ -36,7 +38,7 @@ private:
     std::vector<std::string> handsToGive;
     std::vector<std::string> handToShow;
     std::vector<std::string> hand;
-    std::vector<std::unique_ptr<Player> > playerTies;
+    std::vector<std::string> playerTies;
     std::vector<std::string> suits = {"s", "h", "d", "c"};
     std::vector<std::string> ranks = {
         "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"
@@ -91,6 +93,8 @@ public:
     std::string dealCard(std::vector<std::string> &deck);
 
     std::vector<std::string> createDeck();
+
+    std::unique_ptr<Player> findPlayer(std::string name);
 
     void setUserInput();
 
