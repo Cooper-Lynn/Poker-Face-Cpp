@@ -402,13 +402,14 @@ void GameRunner::finalRound() {
             tieStrength = tempStrength;
         }
     }
-    tieBreaker = 0;
+    tieBreaker = 10;
+    officialTieRank = 0;
     tieBroken = false;
     if (playerTies.empty()) {
         tieBroken = true;
     }
     std::cout<<"pties "<<playerTies.size()<<std::endl;
-    while (!tieBroken) {
+    while (!tieBroken && playerTies.size() > 0) {
         if (playerTies.size() != 0) {
             std::cout << "TieNotBroken\n";
             for (auto &playerName: playerTies) {
@@ -416,26 +417,46 @@ void GameRunner::finalRound() {
                 std::cout<<player->getName()<<"\n";
                 auto result = player->tieBreaker(tieStrength);
                 std::cout<<result.first<<"\n";
-                if (result.first > tieBreaker) {
+                if (result.first < tieBreaker) {
                     tieBreaker = result.first;
                     tempLeaderName = player->getName();
                     tieStrength = 0;
                     tieBroken = true;
                 }
-                if (result.first == tieBreaker && tieBreaker != 0) {
+                if (result.first == tieBreaker && tieBreaker != 10) {
                     tieStrength = result.first;
                     tieBroken = false;
-                } else {
+
+                }
+                if (result.first == 1) {
+                    tieInboundCounter++;
+                    officialTieRankString = result.second[0];
+                    officialTieRankString = officialTieRankString.substr(1);
+                    if (officialTieRankString == "1") {
+                        officialTieRankString = "14";
+                    }
+                    temporaryTieRank = std::stoi(officialTieRankString);
+
+                    if (temporaryTieRank > officialTieRank) {
+                        tempLeaderName = player->getName();
+                    }
+
+                }
+                else {
                     auto tieBrokePlayer = std::find_if(playerTies.begin(), playerTies.end(),
-                                                       [&player](std::string &playerToRemoveName) {
-                                                           return playerToRemoveName == player->getName(); //
-                                                       });
+                                                                        [&player](std::string &playerToRemoveName) {
+                                                                            return playerToRemoveName == player->getName(); //
+                                                                            });
 
                     if (tieBrokePlayer != playerTies.end()) {
                         playerTies.erase(tieBrokePlayer);
                     }
                 }
             }
+        }
+        if (tieInboundCounter == playerTies.size()) {
+            tieBroken = true;
+            officialTie = true;
         }
     }
 

@@ -22,13 +22,19 @@ private:
     int chipInput;
     int playerRoundChoice;
     int roundCounter=1;
+    int tieInboundCounter;
+    int officialTieRank;
+    int temporaryTieRank;
     double highestStrength;
     double tempStrength;
     double tieStrength;
     double tieBreaker;
     bool tieBroken;
+    bool officialTie;
 
 
+
+    std::string officialTieRankString;
     std::string tempLeaderName;
     std::string cresult;
 
