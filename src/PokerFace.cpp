@@ -118,7 +118,7 @@ void PokerFace::gameStarted(std::vector<std::string> userInputSetup, MainGui *gu
     std::vector<std::string> aiNames = {"Bert", "Ruben", "Chanel", "Dimitri", "Gary", "Steve", "Tegan", "Kian", "Sam", "Bea", "Olivia"};
     std::vector<std::string> handToShow;
     std::vector<std::string> hand;
-    std::vector<std::unique_ptr<Player> > players;
+    std::vector<std::unique_ptr< Player> > players;
     std::vector<std::string> handsToGive;
     std::string playerName;
 
@@ -178,9 +178,9 @@ void PokerFace::gameStarted(std::vector<std::string> userInputSetup, MainGui *gu
         deck = createDeck(suits, ranks);
 
         for (auto &player: players) {
-            if (player->getChips() <=0 ) {
+            if (player->getChips() < 500 ) {
                 player->resetPlayer();
-                player->changeChips(100);
+                player->changeChips(500);
             }
             else {
                 player->resetPlayer();
