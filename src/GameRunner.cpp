@@ -146,8 +146,10 @@ void GameRunner::setCurrentDeck(std::vector<std::string> &newDeck) {
 }
 
 
-std::string GameRunner::checkOrCall() {
-    if (highestBet == 0) return "Check";
+std::string GameRunner::checkOrCall(int currentbet) {
+    std::cout << currentbet<<std::endl;
+    std::cout << highestBet<<std::endl;
+    if (highestBet == currentbet) return "Check";
     return "Call";
 }
 
@@ -177,9 +179,9 @@ std::vector<std::string> GameRunner::getCommunityCards() {
 }
 
 bool GameRunner::bettingCycle() {
-    for (int count = 0, i = (dealerPosition + 1) % players.size(); count < players.size();
+    for (int count = 0, i = (dealerPosition + 2) % players.size(); count < players.size();
         count++, i = (i + 1) % players.size()) {
-
+        emit updateGUIHidden();
         QCoreApplication::processEvents();
         QElapsedTimer timer;
         timer.start();
@@ -203,6 +205,7 @@ bool GameRunner::bettingCycle() {
             switch (action) {
 
                 case 1:
+
                     std::cout<<players[i]->getName()<<" "<<players[i]->getChips();
                     if (rand() % 100 < 10) {
                         chipInput = highestBet+players[i]->getChips() * 0.05;
@@ -210,15 +213,16 @@ bool GameRunner::bettingCycle() {
                         auto mult = players[i]->getHandStrength()/25;
                         chipInput = highestBet+players[i]->getChips() * mult;
                     }
+
                     if (chipInput >= players[i]->getChips()) {
                         chipInput = players[i]->getChips();
                     }
-                    std::cout << " chipInput: " << chipInput << std::endl;
+
                     break;
 
 
                 case 0:
-                    cresult = checkOrCall();
+                    cresult = checkOrCall(players[i]->getChips());
                     if (cresult == "Call") {
                         chipInput = highestBet - players[i]->getCurrentBet();
                         if (chipInput >= players[i]->getChips()) {
@@ -243,11 +247,15 @@ bool GameRunner::bettingCycle() {
                     chipInput = 0;
                     break;
             }
+
+            std::cout<<"Highest Bet "<< highestBet<<std::endl;
+            std::cout<<players[i]->getName()<<" "<<players[i]->getChips() << std::endl;
+            std::cout<<"Chip Input "<< chipInput<<std::endl;
             chipPot += chipInput;
             players[i]->changeChips(-chipInput);
             players[i]->setCurrentBet(chipInput);
-            if (chipInput > highestBet) {
-                highestBet = chipInput;
+            if (players[i]->getCurrentBet() > highestBet) {
+                highestBet = players[i]->getCurrentBet();
             }
 
             std::cout << chipPot << "\n";
@@ -324,14 +332,13 @@ void GameRunner::midRounds() {
     std::cout<<"Round: "<<roundCounter<<" Community Cards size:"<<communityCards.size()<<"\n";
 
     roundFinished = false;
-    highestBet = 0;
+
 
     for (auto& player: players) {
         player->updateCommunityHand(communityCards);
         auto tempBet = player->getCurrentBet();
-        player->setCurrentBet(-tempBet);
         player->setHighestPlayedBet(highestBet);
-        player->setHighestBet(0);
+        player->setHighestBet(highestBet);
     }
 
     while (!roundFinished) {
@@ -353,13 +360,12 @@ void GameRunner::midRounds() {
 
 void GameRunner::finalRound() {
     roundFinished = false;
-    highestBet = 0;
+
 
     for (auto& player: players) {
         player->updateCommunityHand(communityCards);
-        player->setCurrentBet(0);
         player->setHighestPlayedBet(highestBet);
-        player->setHighestBet(0);
+        player->setHighestBet(highestBet);
     }
 
     while (!roundFinished) {
@@ -409,47 +415,50 @@ void GameRunner::finalRound() {
         tieBroken = true;
     }
     std::cout<<"pties "<<playerTies.size()<<std::endl;
-    while (!tieBroken && playerTies.size() > 0) {
+    while (!tieBroken && playerTies.size() > 1) {
         if (playerTies.size() != 0) {
             std::cout << "TieNotBroken\n";
             for (auto &playerName: playerTies) {
-                auto player = findPlayer(playerName);
-                std::cout<<player->getName()<<"\n";
-                auto result = player->tieBreaker(tieStrength);
-                std::cout<<result.first<<"\n";
-                if (result.first < tieBreaker) {
-                    tieBreaker = result.first;
-                    tempLeaderName = player->getName();
-                    tieStrength = 0;
-                    tieBroken = true;
-                }
-                if (result.first == tieBreaker && tieBreaker != 10) {
-                    tieStrength = result.first;
-                    tieBroken = false;
+                for (auto &player : players) {
+                    if (player->getName() == playerName) {
+                        std::cout<<player->getName()<<"\n";
+                        auto result = player->tieBreaker(tieStrength);
+                        std::cout<<result.first<<"\n";
+                        if (result.first < tieBreaker) {
+                            tieBreaker = result.first;
+                            tempLeaderName = player->getName();
+                            tieStrength = 0;
+                            tieBroken = true;
+                        }
+                        if (result.first == tieBreaker && tieBreaker != 10) {
+                            tieStrength = result.first;
+                            tieBroken = false;
 
-                }
-                if (result.first == 1) {
-                    tieInboundCounter++;
-                    officialTieRankString = result.second[0];
-                    officialTieRankString = officialTieRankString.substr(1);
-                    if (officialTieRankString == "1") {
-                        officialTieRankString = "14";
-                    }
-                    temporaryTieRank = std::stoi(officialTieRankString);
+                        }
+                        if (result.first == 1) {
+                            tieInboundCounter++;
+                            officialTieRankString = result.second[0];
+                            officialTieRankString = officialTieRankString.substr(1);
+                            if (officialTieRankString == "1") {
+                                officialTieRankString = "14";
+                            }
+                            temporaryTieRank = std::stoi(officialTieRankString);
 
-                    if (temporaryTieRank > officialTieRank) {
-                        tempLeaderName = player->getName();
-                    }
+                            if (temporaryTieRank > officialTieRank) {
+                                tempLeaderName = player->getName();
+                            }
 
-                }
-                else {
-                    auto tieBrokePlayer = std::find_if(playerTies.begin(), playerTies.end(),
-                                                                        [&player](std::string &playerToRemoveName) {
-                                                                            return playerToRemoveName == player->getName(); //
-                                                                            });
+                        }
+                        else {
+                            auto tieBrokePlayer = std::find_if(playerTies.begin(), playerTies.end(),
+                                                                                [&player](std::string &playerToRemoveName) {
+                                                                                    return playerToRemoveName == player->getName(); //
+                                                                                    });
 
-                    if (tieBrokePlayer != playerTies.end()) {
-                        playerTies.erase(tieBrokePlayer);
+                            if (tieBrokePlayer != playerTies.end()) {
+                                playerTies.erase(tieBrokePlayer);
+                            }
+                        }
                     }
                 }
             }
@@ -462,6 +471,22 @@ void GameRunner::finalRound() {
 
     std::cout<<"Winner Name: "<<tempLeaderName<<std::endl;
     std::cout<<"Winner Strength: "<<tieStrength<<std::endl;
+    for (auto &player : players) {
+            if (player->getName() == tempLeaderName) {
+                player->changeChips(chipPot);
+            }
+    }
+
+    emit updateGUIUnhidden();
+
+    QCoreApplication::processEvents();
+    QElapsedTimer timer;
+    timer.start();
+
+    while (timer.elapsed() < 5000) {
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+    }
+
 
     handToShow = handDetail(communityCards);
     std::cout << "\nCommunity Cards: " << std::endl;
@@ -486,11 +511,31 @@ void GameRunner::setUserInput(int action, int chips) {
         if (dynamic_cast<UserPlayer *>(players[i].get()) && players[i]->getChips() != 0 && players[i]->getTag() ==
             false) {
             switch (action) {
+                case 1:
+                    if (chips >= players[i]->getChips()) {
+                        std::cout << "Incorrect amount of chips available, call/check instead";
+                        action = 0;
+                        break;
+                    }
+                    if (chips< highestBet ) {
+                        chips = highestBet - players[i]->getCurrentBet();
+                    }
+                    chipPot += chips;
+                    players[i]->changeChips(-chips);
+                    players[i]->setCurrentBet(chips);
+                    if (chips > players[i]->getHighestBet()) {
+                        players[i]->setHighestBet(chips);
+                    }
+                    if (chips > highestBet) {
+                        highestBet = chips;
+                    }
+                    break;
+
                 case 0:
                     chips = highestBet - players[i]->getCurrentBet();
                     if (chips >= players[i]->getChips()) {
-                        std::cout << "Incorrect amount of chips available";
-                        action = 2;
+                        std::cout << "Incorrect amount of chips available, so betting remaining";
+                        chips = players[i]->getChips();
                         break;
                     }
                     else {
@@ -502,24 +547,17 @@ void GameRunner::setUserInput(int action, int chips) {
                     players[i]->changeChips(-chips);
                     players[i]->setCurrentBet(chips);
                     break;
-                case 1:
-                    if (chips >= players[i]->getChips()) {
-                        std::cout << "Incorrect amount of chips available";
-                        break;
-                    }
-                    chipPot += chips;
-                    players[i]->changeChips(-chips);
-                    players[i]->setCurrentBet(chips);
-                    if (chips > players[i]->getHighestBet()) {
-                        players[i]->setHighestBet(chips);
-                    }
-                    break;
+
                 case 2:
                     players[i]->setTag(true);
                     break;
                 default:
                     break;
+
             }
+            std::cout<<"After user action chips bet: " << chips << std::endl;
+            std::cout<<"After user action current bet: "<< players[i]->getCurrentBet() << std::endl;
+            std::cout<<"After user action highest bet: "<< players[i]->getHighestBet() << std::endl;
         }
     }
     emit userInputProcessed();

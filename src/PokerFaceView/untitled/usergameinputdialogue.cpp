@@ -12,6 +12,7 @@ UserGameInputDialogue::UserGameInputDialogue(QWidget *parent, GameBaseView* game
 
     raiseLabel = this->findChild<QLabel*>("raiseByLabel");
     raiseEdit = this->findChild<QLineEdit*>("raiseEdit");
+    callCheckButton = this->findChild<QPushButton*>("callCheckRButton");
 }
 
 UserGameInputDialogue::~UserGameInputDialogue() {
@@ -114,4 +115,8 @@ std::pair<int, int> UserGameInputDialogue::getUserInput() {
 void UserGameInputDialogue::closeEvent(QCloseEvent *event) {
     qDebug() <<"Closing down";
     exit(0);
+}
+
+void UserGameInputDialogue::updateCheckOrCall(std::string result) {
+    ui->callCheckRButton->setText(result.data());
 }

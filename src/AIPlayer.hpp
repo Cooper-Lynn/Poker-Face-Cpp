@@ -94,6 +94,8 @@ public:
     bool getTag();
 
     std::unique_ptr<Player> clone();
+
+    void resetPlayer() override;
 };
 
 #endif // AIPLAYER_HPP

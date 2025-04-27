@@ -15,7 +15,7 @@
 class Player {
 protected:
     std::string name;
-    int chips = 100;
+    int chips = 500;
     int wins = 0;
     std::vector<std::string> playerHand;
     std::vector<std::string> communityHand;
@@ -32,7 +32,7 @@ protected:
     HandReader handReader;
 
 public:
-    explicit Player(std::string name): name(std::move(name)), chips(100), wins(0),
+    explicit Player(std::string name): name(std::move(name)), chips(500), wins(0),
                                        handReader(playerHand, communityHand) {
     };
 
@@ -91,6 +91,8 @@ public:
     virtual bool getTag() = 0;
 
     virtual std::unique_ptr<Player> clone() = 0;
+
+    virtual void resetPlayer() = 0;
 };
 
 

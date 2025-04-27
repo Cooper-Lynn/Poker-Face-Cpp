@@ -77,5 +77,7 @@ public:
     double predictWorth();
 
     std::pair<double, std::vector<std::string> > tieBreaker(double matching);
+
+    void reset();
 };
 #endif //HANDREADER_HPP

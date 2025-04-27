@@ -44,6 +44,14 @@ void GameBaseView::setGameRunner(GameRunner &gameRunner) {
 }
 
 void GameBaseView::updateHiddenView() {
+    for (auto card: cardLabels) {
+        delete card;
+    }
+    for (auto card: cardCommunityLabels) {
+        delete card;
+    }
+    cardLabels.clear();
+    cardCommunityLabels.clear();
     players = std::move(gameRunner->getPlayers());
     currentDeck = std::move(gameRunner->getCurrentDeck());
     updateCardBackPositions();
@@ -54,8 +62,21 @@ void GameBaseView::updateHiddenView() {
 }
 
 void GameBaseView::updateShownView() {
+    for (auto card: cardLabels) {
+        delete card;
+    }
+    for (auto card: cardCommunityLabels) {
+        delete card;
+    }
+    cardLabels.clear();
+    cardCommunityLabels.clear();
+    players = std::move(gameRunner->getPlayers());
+    currentDeck = std::move(gameRunner->getCurrentDeck());
     updateCardShownPositions();
+    updateCommunityCards();
     updatePlayerGui();
+    updateAIGui();
+    this->update();
 }
 
 void GameBaseView::updateCommunityCards() {
@@ -112,9 +133,27 @@ void GameBaseView::updateCardBackPositions() {
 }
 
 void GameBaseView::updateCardShownPositions() {
+    int i = 0;
     for (auto &player: players) {
         if (dynamic_cast<AIPlayer *>(player.get())) {
             std::vector<std::string> currentHand = player->getHand();
+            auto card1 = currentHand[0];
+            auto card2 = currentHand[1];
+            QLabel *cardLabel = new QLabel(this);
+            QLabel *cardLabel2 = new QLabel(this);
+            QPixmap cardPixmap((("src/PokerFaceView/untitled/playingCards/"+card1+".png").data()));
+            QPixmap cardPixmap2((("src/PokerFaceView/untitled/playingCards/"+card1+".png").data()));
+            cardLabel->setPixmap(cardPixmap);
+            cardLabel2->setPixmap(cardPixmap2);
+            auto pixelPair = aiPlayerCardPositions[i];
+            cardLabel->setGeometry(pixelPair.first, pixelPair.second, cardPixmap.width(), cardPixmap.height());
+            cardLabel2->setGeometry(pixelPair.first + 5, pixelPair.second + 5, cardPixmap.width(), cardPixmap.height());
+            cardLabel->show();
+            cardLabel2->show();
+            cardLabels.push_back(cardLabel);
+            cardLabels.push_back(cardLabel2);
+            std::cout << "AIPlayer " << player->getName() << "\n";
+            i++;
         }
     }
 }
@@ -123,16 +162,12 @@ void GameBaseView::updatePlayerGui() {
     for (auto &player: players) {
         if (dynamic_cast<UserPlayer *>(player.get())) {
             QLabel *playerNameLabel = new QLabel(this);
-            playerNameLabel->setGeometry(631, 480, 50, 30);
+            playerNameLabel->setGeometry(631, 480, 150, 30);
             playerNameLabel->setText(player->getName().data());
             playerNameLabel->show();
 
             userHand = player->getHand();
         }
-
-        std::cout << userHand.size() << "\n";
-        std::cout << userHand[0] << "BOO\n";
-        std::cout << userHand[1] << "BOO\n";
 
         QLabel *playerCardLabel = new QLabel(this);
         QLabel *playerCardLabel2 = new QLabel(this);
@@ -147,6 +182,8 @@ void GameBaseView::updatePlayerGui() {
         playerCardLabel2->setGeometry(660, 543, cardPixmap.width(), cardPixmap.height());
         playerCardLabel->show();
         playerCardLabel2->show();
+        cardLabels.push_back(playerCardLabel);
+        cardLabels.push_back(playerCardLabel2);
     }
 }
 
@@ -157,7 +194,7 @@ void GameBaseView::updateAIGui() {
             QLabel *nameLabel = new QLabel(this);
             auto pixelPair = aiPlayerNamePositions[i];
             nameLabel->setText(player->getName().data());
-            nameLabel->setGeometry(pixelPair.first, pixelPair.second, 50, 30);
+            nameLabel->setGeometry(pixelPair.first, pixelPair.second, 150, 30);
             nameLabel->show();
             i++;
         }
@@ -168,14 +205,18 @@ void GameBaseView::userInput() {
     std::cout<<"gamebaseview"<<std::endl;
     userInputDialogue = std::make_unique<UserGameInputDialogue>(this, this);
     int maxChips = 0;
+    int currentbet = 0;
     updateHiddenView();
     for (auto &player: players) {
         if (dynamic_cast<UserPlayer *>(player.get())) {
             maxChips = player->getChips();
+            currentbet = player->getCurrentBet();
             qDebug() << "maxChips: " << maxChips << "\n";
         }
     }
+    std::string result = gameRunner->checkOrCall(currentbet);
     userInputDialogue->updateMaxChips(maxChips);
+    userInputDialogue->updateCheckOrCall(result);
     userInputDialogue->update();
     userInputDialogue->show();
 

@@ -64,6 +64,8 @@ public:
     bool getTag();
 
     std::unique_ptr<Player> clone();
+
+    void resetPlayer();
 };
 
 #endif //USERPLAYER_HPP

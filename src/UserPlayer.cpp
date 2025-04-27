@@ -134,3 +134,17 @@ std::unique_ptr<Player> UserPlayer::clone() {
     return std::make_unique<UserPlayer>(*this);
 }
 
+void UserPlayer::resetPlayer() {
+    playerHand.clear();
+    communityHand.clear();
+    valuedHand.clear();
+    handStrength = 0;
+    tag = false;
+    currentBet = 0;
+    highestBet = 0;
+    highestPlayedBet = 0;
+    currentPot = 0;
+    handReader.reset();
+}
+
+

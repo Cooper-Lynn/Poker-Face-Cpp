@@ -356,3 +356,20 @@ std::pair<double, std::vector<std::string> > HandReader::tieBreaker(double match
     skipStrength.push_back(matching);
     return valueHand();
 }
+
+void HandReader::reset() {
+    returnCards.clear();
+    ranks.clear();
+    rankCount.clear();
+    suitCount.clear();
+    suitToCard.clear();
+    ranks.clear();
+    tempConsecCards.clear();
+    pairReturnCards.clear();
+    tripReturnCards.clear();
+    quadReturnCards.clear();
+    flushCards.clear();
+    straightCards.clear();
+    straightFlushCards.clear();
+    skipStrength.clear();
+}

@@ -84,7 +84,7 @@ public:
 
     int getWinnerPos();
 
-    std::string checkOrCall();
+    std::string checkOrCall(int bet);
 
     std::vector<std::string> handDetail(std::vector<std::string> &hand);
 
@@ -108,6 +108,7 @@ public:
     void userInputRequired();
     void userInputProcessed();
     void updateGUIHidden();
+    void updateGUIUnhidden();
 
 
 

@@ -5,6 +5,7 @@
 #include "gamebaseview.h"
 #include <QLabel>
 #include <QLineEdit>
+#include <QPushButton>
 
 
 class GameBaseView;
@@ -29,6 +30,8 @@ public:
 
     void updateMaxChips(int chips);
 
+    void updateCheckOrCall(std::string result);
+
 protected:
     void closeEvent(QCloseEvent *event) override;
 
@@ -42,6 +45,7 @@ private:
     QLabel *cashLabel;
     QLabel *raiseLabel;
     QLineEdit *raiseEdit;
+    QPushButton *callCheckButton;
 
 private slots:
     void on_buttonBox_accepted();

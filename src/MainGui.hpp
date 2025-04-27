@@ -41,6 +41,8 @@ public:
 
     void updateHiddenGameBaseView();
 
+    void updateUnhiddenGameBaseView();
+
 public slots:
     void showUserGameInputDialogue();
 
