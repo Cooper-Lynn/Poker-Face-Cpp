@@ -210,13 +210,20 @@ void GameBaseView::userInput() {
     for (auto &player: players) {
         if (dynamic_cast<UserPlayer *>(player.get())) {
             maxChips = player->getChips();
+
             currentbet = player->getCurrentBet();
             qDebug() << "maxChips: " << maxChips << "\n";
         }
     }
     std::string result = gameRunner->checkOrCall(currentbet);
+    int pot = gameRunner->getChipPot();
+    int highestbet = gameRunner->getHighestBet();
     userInputDialogue->updateMaxChips(maxChips);
     userInputDialogue->updateCheckOrCall(result);
+    userInputDialogue->updatePot(pot);
+    if(result=="Call") {
+        userInputDialogue->setCall(highestbet-currentbet);
+    }
     userInputDialogue->update();
     userInputDialogue->show();
 

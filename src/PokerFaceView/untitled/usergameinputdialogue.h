@@ -32,6 +32,10 @@ public:
 
     void updateCheckOrCall(std::string result);
 
+    void updatePot(int pot);
+
+    void setCall(int howMuch);
+
 protected:
     void closeEvent(QCloseEvent *event) override;
 
@@ -43,6 +47,7 @@ private:
     int maxChips;
     GameBaseView *gameView = nullptr;
     QLabel *cashLabel;
+    QLabel *potLabel;
     QLabel *raiseLabel;
     QLineEdit *raiseEdit;
     QPushButton *callCheckButton;

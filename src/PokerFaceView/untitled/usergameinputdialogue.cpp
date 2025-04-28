@@ -120,3 +120,13 @@ void UserGameInputDialogue::closeEvent(QCloseEvent *event) {
 void UserGameInputDialogue::updateCheckOrCall(std::string result) {
     ui->callCheckRButton->setText(result.data());
 }
+
+void UserGameInputDialogue::updatePot(int pot) {
+    potLabel = this->findChild<QLabel*>("potLabel");
+    potLabel->setText("Pot: "+QString::number(pot));
+}
+
+void UserGameInputDialogue::setCall(int howMuch) {
+    ui->callCheckRButton->setText("Call by: "+QString::number(howMuch));
+}
+
