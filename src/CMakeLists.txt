@@ -5,7 +5,8 @@ project(Poker_Face_C_)
 # Set the path to static Qt installation
 # This enables CMake to locate the Qt libraries on disk).
 # -----------------------------------------------------------
-set(CMAKE_PREFIX_PATH "D:/Qt-framework;C:/Qt-framework")
+set(CMAKE_PREFIX_PATH "C:/Qt;D:/Qt-framework")
+message(STATUS "CMAKE_PREFIX_PATH is:  ${CMAKE_PREFIX_PATH}")
 # -----------------------------------------------------------
 # Enable automatic handling for Qt’s meta-object features:
 # - AUTOMOC: Processes Q_OBJECT macros.
@@ -23,20 +24,18 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # -----------------------------------------------------------
-# Define static linking for Qt
-# -----------------------------------------------------------
-add_definitions(-DQT_STATICPLUGIN)
-
-# -----------------------------------------------------------
 # Locate Qt components.
 # -----------------------------------------------------------
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(Qt6 6.9.0 REQUIRED COMPONENTS Widgets)
+message(STATUS "QT6Core include dirs: ${QtCore_INCLUDE_DIRS}")
 
 # -----------------------------------------------------------
 # Include current source directory
 # -----------------------------------------------------------
 include_directories(${CMAKE_SOURCE_DIR})
+
+
 
 # -----------------------------------------------------------
 # Define the main executable
@@ -67,6 +66,7 @@ add_executable(Poker_Face_C_
 # Link the found Qt libraries to the main executable.
 # -----------------------------------------------------------
 target_link_libraries(Poker_Face_C_ PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+message(STATUS "QT6Core include dirs: ${QtCore_INCLUDE_DIRS}")
 
 # -----------------------------------------------------------
 # Installation Rules
