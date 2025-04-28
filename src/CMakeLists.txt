@@ -5,7 +5,7 @@ project(Poker_Face_C_)
 # Set the path to static Qt installation
 # This enables CMake to locate the Qt libraries on disk).
 # -----------------------------------------------------------
-set(CMAKE_PREFIX_PATH "D:/Qt-framework")
+set(CMAKE_PREFIX_PATH "D:/Qt-framework;C:/Qt-framework")
 # -----------------------------------------------------------
 # Enable automatic handling for Qt’s meta-object features:
 # - AUTOMOC: Processes Q_OBJECT macros.
