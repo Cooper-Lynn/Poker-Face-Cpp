@@ -1,5 +1,6 @@
 // Poker Face.cpp
 #include <iostream>
+#include <QtPlugin>
 #include "UserPlayer.hpp"
 #include "AIPlayer.hpp"
 #include "GameRunner.hpp"
@@ -180,6 +181,7 @@ void PokerFace::gameStarted(std::vector<std::string> userInputSetup, MainGui *gu
         for (auto &player: players) {
             if (player->getChips() < 500 ) {
                 player->resetPlayer();
+                player->changeChips(-player->getChips());
                 player->changeChips(500);
             }
             else {
@@ -200,6 +202,7 @@ void PokerFace::passGameRunner(std::unique_ptr<GameRunner> &gameRunner) {
 
 
 int main(int argc, char *argv[]) {
+    std::cout<<"at least getting here";
     PokerFace poker_face;
 
     //Uncomment for training

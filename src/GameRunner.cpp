@@ -42,9 +42,11 @@ void GameRunner::sortBlinds() {
         int bigBlindPos = (dealerPosition + 2) % numPlayers;
 
         players[smallBlindPos]->changeChips(-5);
+        players[smallBlindPos]->setCurrentBet(5);
         players[smallBlindPos]->setHighestBet(5);
 
         players[bigBlindPos]->changeChips(-10);
+        players[bigBlindPos]->setCurrentBet(10);
         players[bigBlindPos]->setHighestBet(10);
     }
 
@@ -208,10 +210,10 @@ bool GameRunner::bettingCycle() {
 
                     std::cout<<players[i]->getName()<<" "<<players[i]->getChips();
                     if (rand() % 100 < 10) {
-                        chipInput = highestBet+players[i]->getChips() * 0.05;
+                        chipInput = (highestBet-players[i]->getCurrentBet())+players[i]->getChips() * 0.05;
                     } else {
                         auto mult = players[i]->getHandStrength()/25;
-                        chipInput = highestBet+players[i]->getChips() * mult;
+                        chipInput = (highestBet-players[i]->getCurrentBet())+players[i]->getChips() * mult;
                     }
 
                     if (chipInput >= players[i]->getChips()) {
@@ -255,7 +257,7 @@ bool GameRunner::bettingCycle() {
             players[i]->changeChips(-chipInput);
             players[i]->setCurrentBet(chipInput);
             if (players[i]->getCurrentBet() > highestBet) {
-                highestBet = players[i]->getCurrentBet();
+                highestBet += players[i]->getCurrentBet()-highestBet;
             }
 
             std::cout << chipPot << "\n";
@@ -510,6 +512,7 @@ void GameRunner::setUserInput(int action, int chips) {
          count++, i = (i + 1) % players.size()) {
         if (dynamic_cast<UserPlayer *>(players[i].get()) && players[i]->getChips() != 0 && players[i]->getTag() ==
             false) {
+            std::cout<<"Action: "<<action<<std::endl;
             switch (action) {
                 case 1:
                     if (chips >= players[i]->getChips()) {
@@ -517,19 +520,25 @@ void GameRunner::setUserInput(int action, int chips) {
                         action = 0;
                         break;
                     }
-                    if (chips< highestBet ) {
+
+
+                    if (chips< players[i]->getCurrentBet()-highestBet ) {
+                        std::cout<<"chip lower then the difference";
                         chips = highestBet - players[i]->getCurrentBet();
                     }
-                    chipPot += chips;
+
+                    std::cout<<"Chips to take: "<<chips<<std::endl;
                     players[i]->changeChips(-chips);
                     players[i]->setCurrentBet(chips);
-                    if (chips > players[i]->getHighestBet()) {
-                        players[i]->setHighestBet(chips);
+                    chipPot += chips;
+                    std::cout<<"difference between curr and hig: "<<players[i]->getCurrentBet()-highestBet<<std::endl;
+                    if (players[i]->getCurrentBet()-highestBet > 0) {
+                        highestBet += players[i]->getCurrentBet()-highestBet;
                     }
-                    if (chips > highestBet) {
-                        highestBet = chips;
+                    if (players[i]->getCurrentBet()-highestBet != players[i]->getCurrentBet() - players[i]->getHighestBet()) {
+                        players[i]->setHighestBet(highestBet);
                     }
-                    break;
+                break;
 
                 case 0:
                     chips = highestBet - players[i]->getCurrentBet();
@@ -558,7 +567,8 @@ void GameRunner::setUserInput(int action, int chips) {
             std::cout<<"After user action chips bet: " << chips << std::endl;
             std::cout<<"After user action current bet: "<< players[i]->getCurrentBet() << std::endl;
             std::cout<<"After user action highest bet: "<< players[i]->getHighestBet() << std::endl;
-        }
+            std::cout<<"After user action the gamerunner highest bet: "<< highestBet << std::endl;
+            }
     }
     emit userInputProcessed();
 }
