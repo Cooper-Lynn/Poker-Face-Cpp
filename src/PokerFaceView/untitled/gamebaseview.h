@@ -52,6 +52,8 @@ public:
 
     void updateCommunityCards();
 
+    void updateAction(std::string actionMessage);
+
 protected:
     void closeEvent(QCloseEvent *event) override;
 
@@ -92,6 +94,7 @@ private:
     std::vector<QLabel *> cardLabels;
     std::vector<QLabel *> cardCommunityLabels;
     std::vector<std::string> userHand;
+    std::vector<QLabel *> actionLabels;
 
     QPainter qPaint;
 

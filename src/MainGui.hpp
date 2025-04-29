@@ -43,6 +43,8 @@ public:
 
     void updateUnhiddenGameBaseView();
 
+    void updateActionMessage(std::string actionMessage);
+
 public slots:
     void showUserGameInputDialogue();
 

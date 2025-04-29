@@ -238,4 +238,18 @@ void GameBaseView::closeEvent(QCloseEvent *event) {
     exit(0);
 }
 
+void GameBaseView::updateAction(std::string actionMessage) {
+    for(auto action: actionLabels) {
+        delete action;
+    }
+    actionLabels.clear();
+    QLabel *actionLabel = new QLabel(this);
+    actionLabel->setText(actionMessage.data());
+    auto pixelPair = aiPlayerNamePositions[0];
+    actionLabel->setGeometry(pixelPair.first, 400, 150, 30);
+    actionLabel->show();
+    actionLabels.push_back(actionLabel);
+
+}
+
 

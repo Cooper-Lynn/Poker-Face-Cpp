@@ -77,6 +77,9 @@ void MainGui::setGameRunnerPointer(GameRunner *gameRunner) {
     auto conn3 = QObject::connect(gameRunner, &GameRunner::updateGUIUnhidden,
         this, &MainGui::updateUnhiddenGameBaseView);
 
+    auto conn4 = QObject::connect(gameRunner, &GameRunner::updateActionMessage,
+        this, &MainGui::updateActionMessage);
+
 
 }
 
@@ -96,4 +99,8 @@ void MainGui::updateUnhiddenGameBaseView() {
     qDebug() << "Within MainGui, updating unhidden";
     gameView->updateShownView();
 
+}
+
+void MainGui::updateActionMessage(std::string actionMessage) {
+    gameView->updateAction(actionMessage);
 }

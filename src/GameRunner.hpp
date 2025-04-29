@@ -109,6 +109,7 @@ public:
     void userInputProcessed();
     void updateGUIHidden();
     void updateGUIUnhidden();
+    void updateActionMessage(std::string actionMessage);
 
 
 

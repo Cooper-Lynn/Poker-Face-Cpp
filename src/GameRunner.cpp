@@ -259,7 +259,17 @@ bool GameRunner::bettingCycle() {
             if (players[i]->getCurrentBet() > highestBet) {
                 highestBet += players[i]->getCurrentBet()-highestBet;
             }
-
+            std::string actionMessage;
+            if(action == 0) {
+                actionMessage+=players[i]->getName()+" has "+ cresult+"ed";
+            }
+            else if(action == 1) {
+                actionMessage+=players[i]->getName()+" has raised b: "+std::to_string(chipInput);
+            }
+            else {
+                actionMessage+=players[i]->getName()+" has folded";
+            }
+            emit updateActionMessage(actionMessage);
             std::cout << chipPot << "\n";
         }
     }
@@ -473,6 +483,11 @@ void GameRunner::finalRound() {
 
     std::cout<<"Winner Name: "<<tempLeaderName<<std::endl;
     std::cout<<"Winner Strength: "<<tieStrength<<std::endl;
+
+    std::string actionMessage = "Winner: "+tempLeaderName+" has won: "+std::to_string(chipPot);
+
+    emit updateActionMessage(actionMessage);
+
     for (auto &player : players) {
             if (player->getName() == tempLeaderName) {
                 player->changeChips(chipPot);
